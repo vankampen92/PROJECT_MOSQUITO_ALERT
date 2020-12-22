@@ -14,7 +14,7 @@ You can git clone the CPGPLOT library from my repository.
 
 ### What is this repository for? ###
 
-* This repository sets up a number of dynamic models of consumer-resource interactions distributed across a network metatapopulation structure. Individual movement is implemented as a random walk betweeen connected patches. Both ODEs and Gillespie simulations are implemented.
+* This repository sets up a number of mathematical models to understand the participation dynamics in the Mosquito Alert App and Project, on how participants help understand the mosquito dynamics and potential vector-borne disease risk across a network metatapopulation structure. Individual movement is implemented as a random walk betweeen connected patches. Both ODEs and Gillespie simulations are implemented.
 
 * Version: 0.0.0.999
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
@@ -35,7 +35,7 @@ When you git clone the repository on your machine, you should do it from your ho
 If graphic libraries have been correctly installed, this should be enough to make all makefiles work out of the box. Remember though you require to have also git cloned my CPGPLOT repository on your machine. To be clear, you should end up with two directories:
 
 * -$ ./CPGPLOT
-* -$ ./PROJECT_STOCHASTIC_DIFFUSION
+* -$ ./PROJECT_MOSQUITO_ALERT
 
 both in you home directory.
 
@@ -63,9 +63,9 @@ both in you home directory.
 	+ #### 7. Examples:
 	See, for instance, ./MODEL_CALCULATIONS/TEMPORAL_EVOLUTION_STOCHASTICS/main.c, and follow the directions to compile and run the code:
 
-		+ ~$ make MODEL=DIFFUSION
+		+ ~$ make MODEL=MADMODEL
 
-		+ ~$ ./DIFFUSION -y0 0 -y2 1 -HS 1 -HM 10000 -HX 100 -HY 100 -Hu 0.5 -n 1 -v0 10105 -G0 1 -G1 1 -tn 100 -t0 0.0 -t1 30.0 -t4 0 -tR 2 -xn 0 -xN 1000 -HN 1000 -G2 1 -G3 0.0 -G4 30.0 -G5 1 -G6 0.0 -G7 1100.0
+		+ ~$ ./MADMODEL -y0 0 -n 1 -v0 4 -G0 1 -G1 1 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tR 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 
 
 	The code depends on some auxiliary libraries in ./Library  and ./Definition_Error_Model subdirectories. You may notice that you need to generate these libraries before, and then execute the command 'make MODEL=DIFFUSION'. In principle, a recursive makefile does this job for you. However, if gcc does not find these libraries, they may have been accidentally deleted and you should build them back up again. Also, the code is linked against R libraries.  You may remove these R links or install R in your system. I recommend this 2n option. This will allow you to create shared libraries that, then, can be called as standard R funcions from RStudio, for example.
 
