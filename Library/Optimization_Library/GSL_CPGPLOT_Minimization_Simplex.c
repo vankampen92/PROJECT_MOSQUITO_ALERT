@@ -24,10 +24,10 @@ void GSL_CPGPLOT_Minimization_Simplex (Parameter_Fitting * F,
     char * Title_Parameters = (char *)calloc(2000, sizeof(char) );
     Title_Parameters[0]='\0';
     pTitle = strcat(Title_Parameters, F->Data->Name);
-    pTitle = strcat(Title_Parameters, ", ");
+    pTitle = strcat(Title_Parameters, ": ");
     pValue[0]='\0'; sprintf(pValue, "%zu", iter);
     pTitle = strcat(Title_Parameters, pValue);
-    pTitle = strcat(Title_Parameters, ": ");
+    pTitle = strcat(Title_Parameters, " : ");
     for(i=0; i<Space->No_of_PARAMETERS; i++) {
       key = Space->Parameter_Index[i];
       pTitle = strcat(Title_Parameters, Table->Symbol_Parameters_Greek_CPGPLOT[key]);

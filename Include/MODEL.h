@@ -14,6 +14,8 @@
 
 #define MODEL_PARAMETER_SPACE_MAXIMUM 17  /* Maximum Dimension for Parameter Space */
 
+#define No_of_GROUPS_MAXIMUM 5
+
 #define No_of_CELLS_MAXIMUM 1             /* M *//* Number of localities  */
 
 #define No_of_CELLS_X_MAXIMUM 1
@@ -58,6 +60,8 @@ typedef struct totalRateinfo
 #include "MODEL_Parameter_Fitting_STRUCT_DEF.h"
 
 #include <Time_Control.h>
+
+#include <Observed_Data.h>
 
 #include <Parameter_Model.h>
 

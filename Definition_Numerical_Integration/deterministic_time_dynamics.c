@@ -13,7 +13,8 @@
    which is a generic common function which is always called
    for any implemented particular model
 */
-// #define VERBOSE
+
+// #define EVOLUTION_AGE_DISTRIBUTION (usually controlled now through a makefile)      
 
 int D_E_T_E_R_M_I_N_I_S_T_I_C___T_I_M_E___D_Y_N_A_M_I_C_S( Parameter_Table * Table )
 {
@@ -150,10 +151,12 @@ int D_E_T_E_R_M_I_N_I_S_T_I_C___T_I_M_E___D_Y_N_A_M_I_C_S( Parameter_Table * Tab
     /* This should be only activated in case we want to animate ODE time evolution by
        representing the age distribution as time progresses
     */
+#if defined EVOLUTION_AGE_DISTRIBUTION    
     if (j%10 == 0) {
       Evolution_Age_Distribution_Plot( Table, j );
       Press_Key();
     }
+#endif    
     /*   END: Grafical Representation per time step */
 #endif    
     /* BEGIN : Writing a costumized file ... */
@@ -164,14 +167,14 @@ int D_E_T_E_R_M_I_N_I_S_T_I_C___T_I_M_E___D_Y_N_A_M_I_C_S( Parameter_Table * Tab
       // }
       // fprintf(FP,"\n");
 #if defined VERBOSE
-    printf("Model Variables at time t=%g\n", Time_Current);
-    char * Label = (char *)calloc( 20, sizeof(char) );
-    for (k=0; k < Table->MODEL_STATE_VARIABLES; k++) {
-      AssignLabel_to_Model_Variables(k, Label, Table);
-      printf("y[%s] = %g\n", Label, Table->Vector_Model_Variables[k]);
-    }
-    printf("\n");
-    free(Label);
+    // printf("Model Variables at time t=%g\n", Time_Current);
+    // char * Label = (char *)calloc( 20, sizeof(char) );
+    // for (k=0; k < Table->MODEL_STATE_VARIABLES; k++) {
+    //   AssignLabel_to_Model_Variables(k, Label, Table);
+    //   printf("y[%s] = %g\n", Label, Table->Vector_Model_Variables[k]);
+    // }
+    // printf("\n");
+    // free(Label);
 #endif
     /*   END: Writing costumized file        */
 

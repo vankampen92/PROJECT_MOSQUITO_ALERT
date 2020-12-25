@@ -58,7 +58,6 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
     }
   }
   
-  
   if (NAMES == 1) {
     n=0;
     while ( fscanf(fp, "%s\t", Name_Dummy) != EOF ){

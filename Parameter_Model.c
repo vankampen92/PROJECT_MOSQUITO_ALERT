@@ -36,6 +36,7 @@ void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_
 
   P_Destination->Error_Parameter_0 = P_Source->Error_Parameter_0;
   P_Destination->Error_Parameter_1 = P_Source->Error_Parameter_1;
+  P_Destination->Error_Parameter_2 = P_Source->Error_Parameter_2;
 
   P_Destination->Err_0 = P_Source->Err_0;
   P_Destination->Err_1 = P_Source->Err_1;
@@ -73,6 +74,8 @@ void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_
   /* Ex: 8 (without acummulating variables) */
   P_Destination->No_of_NEIGHBORS            = P_Source->No_of_NEIGHBORS;
   P_Destination->TYPE_of_NETWORK            = P_Source->TYPE_of_NETWORK;
+
+  P_Destination->TOTAL_No_of_MODEL_PARAMETERS = P_Source->TOTAL_No_of_MODEL_PARAMETERS; 
   
   P_Destination->TOTAL_No_of_EVENTS         = P_Source->TOTAL_No_of_EVENTS;
   /* Total Number of Events within a patch, i.e., 25 * 4 = 100 */
@@ -80,6 +83,9 @@ void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_
 
   P_Destination->Metapop_Connectivity_Matrix = P_Source->Metapop_Connectivity_Matrix;
 
+  P_Destination->Mu_Vector    = P_Source->Mu_Vector;
+  P_Destination->Gamma_Vector = P_Source->Gamma_Vector; 
+  P_Destination->K_Vector     = P_Source->K_Vector; 
 }
 
 void  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( Parameter_Table * Table,
@@ -120,8 +126,10 @@ void  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( Parameter_Table * Table,
 
   P->TYPE_of_ERROR_FUNCTION = Table->TYPE_of_ERROR_FUNCTION;
   P->No_of_ERROR_PARAMETERS = Table->No_of_ERROR_PARAMETERS;
+  
   P->Error_Parameter_0 = Table->Error_Parameter_0;
   P->Error_Parameter_1 = Table->Error_Parameter_1;
+  P->Error_Parameter_2 = Table->Error_Parameter_2;
   
   P->Err_0 = Table->Err_0;
   P->Err_1 = Table->Err_1;
@@ -159,12 +167,15 @@ void  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( Parameter_Table * Table,
   P->No_of_NEIGHBORS            = Table->No_of_NEIGHBORS;
   P->TYPE_of_NETWORK            = Table->TYPE_of_NETWORK;
   P->TOTAL_No_of_EVENTS         = Table->TOTAL_No_of_EVENTS;
-  /* Total Number of Events within a patch, i.e., 18 * 4 = 72 */
-  P->No_of_EVENTS               = Table->No_of_EVENTS;
-  /* Number of Events within an age class, i.e., 18           */
-
+  P->No_of_EVENTS               = Table->No_of_EVENTS;        
+  
+  P->TOTAL_No_of_MODEL_PARAMETERS = Table->TOTAL_No_of_MODEL_PARAMETERS; 
+  
   P->Metapop_Connectivity_Matrix = Table->Metapop_Connectivity_Matrix;
-
+  
+  P->Mu_Vector    = Table->Mu_Vector;
+  P->Gamma_Vector = Table->Gamma_Vector; 
+  P->K_Vector     = Table->K_Vector;
 }
 
 void Parameter_Model_Copy_into_Parameter_Table (Parameter_Table * P_Destination, Parameter_Model * P_Source)
@@ -200,8 +211,10 @@ void Parameter_Model_Copy_into_Parameter_Table (Parameter_Table * P_Destination,
 
   P_Destination->TYPE_of_ERROR_FUNCTION = P_Source->TYPE_of_ERROR_FUNCTION;
   P_Destination->No_of_ERROR_PARAMETERS = P_Source->No_of_ERROR_PARAMETERS;
+
   P_Destination->Error_Parameter_0 = P_Source->Error_Parameter_0;
   P_Destination->Error_Parameter_1 = P_Source->Error_Parameter_1;
+  P_Destination->Error_Parameter_2 = P_Source->Error_Parameter_2;
   
   P_Destination->Err_0 = P_Source->Err_0;
   P_Destination->Err_1 = P_Source->Err_1;
@@ -243,8 +256,13 @@ void Parameter_Model_Copy_into_Parameter_Table (Parameter_Table * P_Destination,
   P_Destination->No_of_EVENTS               = P_Source->No_of_EVENTS;
   /* Number of Events within an age class, i.e., 18           */
 
+  P_Destination->No_of_EVENTS               = P_Source->No_of_EVENTS;
+  
   P_Destination->Metapop_Connectivity_Matrix = P_Source->Metapop_Connectivity_Matrix;
 
+  P_Destination->Mu_Vector    = P_Source->Mu_Vector;
+  P_Destination->Gamma_Vector = P_Source->Gamma_Vector; 
+  P_Destination->K_Vector     = P_Source->K_Vector;
 }
 
 void Parameter_Table_Copy_into_Parameter_Model (Parameter_Model * P_Destination, Parameter_Table * P_Source)
@@ -279,8 +297,10 @@ void Parameter_Table_Copy_into_Parameter_Model (Parameter_Model * P_Destination,
 
   P_Destination->TYPE_of_ERROR_FUNCTION = P_Source->TYPE_of_ERROR_FUNCTION;
   P_Destination->No_of_ERROR_PARAMETERS = P_Source->No_of_ERROR_PARAMETERS;
+
   P_Destination->Error_Parameter_0 = P_Source->Error_Parameter_0;
   P_Destination->Error_Parameter_1 = P_Source->Error_Parameter_1;
+  P_Destination->Error_Parameter_2 = P_Source->Error_Parameter_2;
 
   P_Destination->Err_0 = P_Source->Err_0;
   P_Destination->Err_1 = P_Source->Err_1;
@@ -321,9 +341,14 @@ void Parameter_Table_Copy_into_Parameter_Model (Parameter_Model * P_Destination,
   /* Total Number of Events within a patch, i.e., 18 * 4 = 72 */
   P_Destination->No_of_EVENTS               = P_Source->No_of_EVENTS;
   /* Number of Events within an age class, i.e., 18           */
+
+  P_Destination->No_of_EVENTS               = P_Source->No_of_EVENTS;
   
   P_Destination->Metapop_Connectivity_Matrix = P_Source->Metapop_Connectivity_Matrix;
 
+  P_Destination->Mu_Vector    = P_Source->Mu_Vector;
+  P_Destination->Gamma_Vector = P_Source->Gamma_Vector; 
+  P_Destination->K_Vector     = P_Source->K_Vector;
 }
 
 void Vector_Entries_into_Parameter_Model ( const gsl_vector * X, Parameter_Model * P,
@@ -345,36 +370,35 @@ void Vector_Entry_into_Parameter_Model ( double value, int key, Parameter_Model 
 
   switch (key)
     {
-
-    case  0:  P->Mu_0 = value;    
+    case  0:  P->Mu_0 = value;       
       break;
-    case  1:  P->Gamma_0 = value; 
+    case  1:  P->Gamma_0 = value;    
       break;
-    case  2:  P->k_0 = value; 
+    case  2:  P->k_0 = value;        
       break;
-    case  3:  P->Mu_1 = value; 
+    case  3:  P->Mu_1 = value;       
       break;
-    case  4:  P->Gamma_1 = value; 
+    case  4:  P->Gamma_1 = value;    
       break;
-    case  5:  P->k_1 = value; 
+    case  5:  P->k_1 = value;        
       break;
-    case  6:  P->Mu_2 = value;    
+    case  6:  P->Mu_2 = value;       
       break;
-    case  7:  P->Gamma_2 = value; 
+    case  7:  P->Gamma_2 = value;    
       break;
-    case  8:  P->k_2 = value; 
+    case  8:  P->k_2 = value;        
       break;
-    case  9:  P->Mu_3 = value; 
+    case  9:  P->Mu_3 = value;       
       break;
-    case 10:  P->Gamma_3 = value; 
+    case 10:  P->Gamma_3 = value;    
       break;
-    case 11:  P->k_3 = value; 
+    case 11:  P->k_3 = value;        
       break;
-    case 12:  P->Mu_4 = value;    
+    case 12:  P->Mu_4 = value;       
       break;
-    case 13:  P->Gamma_4 = value; 
+    case 13:  P->Gamma_4 = value;    
       break;
-    case 14:  P->k_4 = value; 
+    case 14:  P->k_4 = value;        
       break;
     case 15:  P->No_of_GROUPS = (int)value; 
       break;

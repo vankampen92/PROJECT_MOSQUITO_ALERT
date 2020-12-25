@@ -51,15 +51,24 @@ double GSL_Function_to_Minimize( const gsl_vector * x, void * Par )
       }
     }
 
-    int State = M_O_D_E_L(Table);
+    int State = 0;
+
+    State = M_O_D_E_L(Table);
 
     assert(State == GSL_SUCCESS);
 
+    
     Value = 0.0;
     for( i=0; i<No_of_VARIABLES; i++ )
       for( j=0; j<No_of_POINTS; j++ )
-	Value += (Data[i][j] - Theory[i][j]) * (Data[i][j] - Theory[i][j]) / Theory[i][j];
+	/* Least square minimization function: */
+	// Value += (Data[i][j] - Theory[i][j]) * (Data[i][j] - Theory[i][j]); 
 
+	/* Chi^2 minimization (notice possible division by zero if Theory prediction is zero): */
+	if( Theory[i][j] > 0.0 ) 
+	  Value += (Data[i][j] - Theory[i][j]) * (Data[i][j] - Theory[i][j]) / Theory[i][j];
+	
+    
     Value = sqrt(Value);
 
   }

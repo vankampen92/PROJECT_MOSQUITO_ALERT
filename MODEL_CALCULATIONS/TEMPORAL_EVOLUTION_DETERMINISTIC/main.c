@@ -31,6 +31,9 @@ gsl_rng * r; /* Global generator defined in main.c */
    Execution (with time-dependence -t4 1):
 
    .~$ ./MADMODEL -y0 0 -n 1 -v0 4 -G0 1 -G1 1 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tR 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 
+
+   (with generation of 4 output variables: Ages 0, 1, 2, and 3)
+   .~$ ./MADMODEL -y0 0 -n 4 -v0 3 -v1 4 -v2 5 -v3 6 -G0 2 -G1 2 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tR 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0
 */
 
 int main(int argc, char **argv)
@@ -58,7 +61,6 @@ int main(int argc, char **argv)
   Parameter_Space_Alloc( Space, No_of_PARAMETERS, d);
   Parameter_Space_Initialization( Space, No_of_PARAMETERS, TOLERANCE, MAX_No_of_ITERATIONS,
     d, Index, Ranges, Acc);
-  Parameter_Table_Index_Update(Index, No_of_PARAMETERS, &Table);
   Table.S = Space;
   printf(" Parameter_Space structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
@@ -124,24 +126,10 @@ int main(int argc, char **argv)
   /* Deterministic Time Dynamics */
   M_O_D_E_L( &Table );
 
-  /* BEGIN : -------------------------------------------------------------------------
-   *  You may need to redimension Index vector to include and save the full list of
-   *  model parameters.
-   *  Redefinition of Parameter Space structure to allocate the whole parameter space
-   *  Important note:
-   *  This operation can only be done at the end of a main file before freeing all mem-
-   *  mory and ending.
-   *  (See also ./TEMPORAL_EVOLUTION_DETERMINISTIC/main.c)
-   */
-  char boundary_File[80];
-  sprintf(boundary_File, "boundary_Model_Parameter.c");
-  write_Parameter_Table___RANGES___VALUES___LATEX ( "Latex_Parameter_Table.tex",
-                                                    boundary_File,
-                                                    &Table,
-                                                    Space->P_MAX->data,
-                                                    Space->P_min->data, Space->No_of_PARAMETERS);
-  /*  END : ------------------------------------------------------------------------*/
+  Gaussian_Pseudo_Data_Creation ( &Table ); 
 
+  Model_Parameters_into_Latex_Table("Latex_Parameter_Table.tex", &Table);
+  
   /* BEGIN : Freeing All Memmory * * * * * * * * * * * * * * */
 #if defined CPGPLOT_REPRESENTATION
   P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( Table.CPG, SUB_OUTPUT_VARIABLES );

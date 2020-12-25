@@ -1,7 +1,30 @@
 #include <MODEL.h>
 
-void write_Parameter_Table___RANGES___VALUES___LATEX ( char * File_Model_Parameters,
-						       char * Type_of_Boundary_Parameter_Space,
+#include <include.Parameter_Space.extern.h>
+
+void Model_Parameters_into_Latex_Table(char * File_Tex, Parameter_Table * Table)
+{
+  /* B E G I N : Reserving memmory for Parameter Space */
+#include <include.Parameter_Space.default.aux.c>
+  Parameter_Space * Space = (Parameter_Space *)calloc(1, sizeof(Parameter_Space));
+  Parameter_Space_Alloc( Space, Table->TOTAL_No_of_MODEL_PARAMETERS, d);
+  Parameter_Space_Initialization( Space, Table->TOTAL_No_of_MODEL_PARAMETERS,
+				  TOLERANCE, MAX_No_of_ITERATIONS,
+				  d, Table->Index, Ranges, Acc);
+  printf(" Parameter_Space structure has been correctly allocated and initiated\n");
+  /*     E N D : ------------------------------------- */
+  
+  Write_Parameter_Table___RANGES___VALUES___LATEX ( File_Tex, 
+                                                    Table,
+                                                    Space->P_MAX->data,
+                                                    Space->P_min->data,
+						    Table->TOTAL_No_of_MODEL_PARAMETERS);
+  
+  Parameter_Space_Free(Space, Table->TOTAL_No_of_MODEL_PARAMETERS);
+  free(Space); 
+}
+
+void Write_Parameter_Table___RANGES___VALUES___LATEX ( char * File_Model_Parameters,
 						       Parameter_Table * P,
 						       double * Par_MAX, double * Par_min,
 						       int no_Par )
@@ -12,10 +35,7 @@ void write_Parameter_Table___RANGES___VALUES___LATEX ( char * File_Model_Paramet
   char Parameter_Name[100];
   char Parameter_Symbol[50];
 
-  printf(" Writing latex parameter table in %s\n",
-	 File_Model_Parameters);
-  printf(" Parameter Space Definition Code (Boundary File): %s\n",
-	 Type_of_Boundary_Parameter_Space);
+  printf(" Writing latex parameter table in %s\n", File_Model_Parameters);
   
   fprintf(fp, "\\begin{table}\n");
   // fprintf(fp, "\\noindent\n");
@@ -48,7 +68,7 @@ void write_Parameter_Table___RANGES___VALUES___LATEX ( char * File_Model_Paramet
 
   //fprintf(fp, "\\vspace{1cm}\n");
   //fprintf(fp, "\\noindent");
-  fprintf(fp, "\\caption{Model Parameters for the AIDS-HIV transmission model. Model parameters boundary values defined in a boundary file.}\n");
+  fprintf(fp, "\\caption{Model Parameters for the model}\n");
 
   fprintf(fp, "\\end{table}\n");
   fclose(fp);

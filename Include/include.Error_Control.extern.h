@@ -18,6 +18,8 @@ extern double Err_14;
 extern double Err_15;
 extern double Err_16;
 
+extern double Error_Parameter_2;
+
 extern double Error_Parameter_1;
 
 extern double Error_Parameter_0;

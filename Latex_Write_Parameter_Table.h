@@ -1,5 +1,6 @@
-void write_Parameter_Table___RANGES___VALUES___LATEX ( char * File_Model_Parameters,
-						       char * Type_of_Boundary_Parameter_Space,
+void Model_Parameters_into_Latex_Table(char * File_Tex, Parameter_Table * Table); 
+
+void Write_Parameter_Table___RANGES___VALUES___LATEX ( char * File_Model_Parameters,
 						       Parameter_Table * P,
 						       double * Par_MAX, double * Par_min,
 						       int no_Par ); 

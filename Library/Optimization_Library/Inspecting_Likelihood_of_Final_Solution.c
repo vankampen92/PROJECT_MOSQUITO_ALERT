@@ -21,6 +21,7 @@ double Inspecting_Likelihood_of_Final_Solution( const gsl_vector * x, void * Par
   Parameter_Table * Table  = F->Table;
   Parameter_Space * Space  = F->Space;
   int No_of_PARAMETERS     = F->Space->No_of_PARAMETERS;
+  int iter                 = F->Iteration; 
   int x_is_BOUNDED;
   int P_0, P_1, P_2;
 
@@ -70,14 +71,6 @@ double Inspecting_Likelihood_of_Final_Solution( const gsl_vector * x, void * Par
 							Table->No_of_ERROR_PARAMETERS );
   int State;
 
-  /* These two lines should be activited in case we require a    */
-  /* 2-phase numerical integration (from 2000 to 2016 and from   */
-  /* 2016 to 2033) of the full ODE system. This is sometimes     */
-  /* needed if projected trajectories though extrapolation are   */
-  /* to be calculated.                                           */
-  /* if (F->TWO_PHASES == 1) State = Model_Two_Phases(Table, F); */
-  /* else                    State = M_O_D_E_L(Table);           */
-
   State = M_O_D_E_L(Table); 
 
   assert(State == GSL_SUCCESS);
@@ -90,20 +83,20 @@ double Inspecting_Likelihood_of_Final_Solution( const gsl_vector * x, void * Par
       printf(" %s (%s):\n",
 	     Table->Output_Variable_Name[key], Table->Output_Variable_Symbol[key]);
     
-      Value_j = GSL_neglog_Error_Probability_Model( Data[i], Theory[i],
-						    No_of_POINTS, No_of_VARIABLES, F,
-						    GSL_neglog_Error_Probability_Model_Gaussian );
+    Value_j = GSL_neglog_Error_Probability_Model( Data[i], Theory[i],
+						  No_of_POINTS, No_of_VARIABLES, F,
+						  GSL_neglog_Error_Probability_Model_Gaussian );
     Value += Value_j;
   }
 
   if( x_is_BOUNDED == 1 ) {
-    if (F->Verbose == 1) {
+    // if (F->Verbose == 1) {
       printf("Under Gaussian distributed independent errors, NLL (Data|Theory) = %g\n",
 	     Value);
        #if defined CPGPLOT_REPRESENTATION
-       GSL_CPGPLOT_Minimization_Simplex (F, x, 0, F->Function);
+       GSL_CPGPLOT_Minimization_Simplex (F, x, iter, F->Function);
        #endif
-    }
+    // }
   }
   else {
     if (F->Verbose == 1)  {

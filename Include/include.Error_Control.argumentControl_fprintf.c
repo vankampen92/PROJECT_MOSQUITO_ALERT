@@ -33,6 +33,9 @@
               else if(argv[argcount][2]=='V')
 		fprintf(fp, "-eV  %g  ",Table->Error_Parameter_0);
 
+              else if(argv[argcount][2]=='v')
+		fprintf(fp, "-eV  %g  ",Table->Error_Parameter_2);
+
               else if(argv[argcount][2]=='P') {
 		if(argv[argcount][3]=='0')      fprintf(fp, "-eP0  %d  ", Table->E_Var_0);
 		else if(argv[argcount][3]=='1') {

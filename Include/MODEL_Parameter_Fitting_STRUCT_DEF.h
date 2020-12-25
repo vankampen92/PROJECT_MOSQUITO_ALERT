@@ -9,6 +9,7 @@ typedef struct Parameter_Fittinginfo
   int Minimization; 
   int Bounded_Parameter_Set;
   int TWO_PHASES;
+  int Iteration;
   
 }Parameter_Fitting;
 

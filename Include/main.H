@@ -9,3 +9,6 @@ void Parameters_ModelReport(char *File, Parameter_Table *P);
 int M_O_D_E_L( Parameter_Table * Table );
 
 int M_O_D_E_L___S_T_O( Parameter_Table * Table);
+
+int Gaussian_Pseudo_Data_Creation (Parameter_Table * Table); 
+   

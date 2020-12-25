@@ -40,6 +40,8 @@ int TYPE_of_ERROR_FUNCTION;
 
 int No_of_ERROR_PARAMETERS;
 
+double Error_Parameter_2; 
+
 double Error_Parameter_1;
 
 double Error_Parameter_0;

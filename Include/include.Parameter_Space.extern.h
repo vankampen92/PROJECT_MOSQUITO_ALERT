@@ -243,3 +243,9 @@ extern int No_of_PARAMETERS; /* No of parameters defining the actual dimension o
 
 extern double TOLERANCE;
 extern int MAX_No_of_ITERATIONS;
+
+extern double ** Ranges;
+extern  double * Acc;     //Accuracy for each parameter dimension
+extern  int    * d;       //Discretization for each parameter dimension
+extern  int    * Index;
+

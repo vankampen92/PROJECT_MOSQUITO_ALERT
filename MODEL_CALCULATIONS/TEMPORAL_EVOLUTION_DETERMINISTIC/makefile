@@ -1,6 +1,6 @@
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #/*                                                                           */
-#/*                           David Alonso, 2011 (c)                          */
+#/*                           David Alonso, 2021 (c)                          */
 #/*                                                                           */
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #
@@ -62,6 +62,7 @@ EXTRA_INCLUDE_PATH+=-I${ERROR_DIR}
 NR=NUMERICAL_RECIPES###############################
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   P R O G R A M   O U T P U T
+EVO=EVOLUTION_AGE_DISTRIBUTION######## Possibilites: 'NON_EVO' / 'EVOLUTION_AGE_DISTRIBUTION'
 V=NON_VERBOSE###################################### Possibilities: 'VERBOSE' / 'NON_VERBOSE'
 FILE=FILE_REPRESENTATION###################### Possibilities: 'FILE_REPRESENTATION' / 'NON_FILE_REPRESENTATION'
 CPG=CPGPLOT_REPRESENTATION############## Possibilities: 'CPGPLOT_REPRESENTATION' / 'NON_CPGPLOT_REPRESENTATION'
@@ -69,7 +70,7 @@ STATIONARITY=NON_STATIONARY_POINT_REPRESENTATION# Possibilitites: 'STATIONARY_PO
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   P A R A M E T E R   S P A C E ###############
 TYPE_of_BOUNDARY=###
-TYPE_of_INDEX=_5p#   '_X2-Y_5p' /
+TYPE_of_INDEX=_5p#   '_X2-Y_5p' 
 ##############################################################################################################
 RANDOM_SEED=CURRENT_TIME_RDN_SEED####### 'CURRENT_TIME_RDN_SEED' / 'FILE_RND_SIDE'
 ##############################################################################################################
@@ -105,7 +106,7 @@ EXE=${ODE_MODEL}
 EXTERN=#Possibilities: void (to be locally executed) / -static (to be non-locally executed) #
 ######################################## Possibilities: GA (locally executed) / GA_EXTERN (non-locally executed)
 LDFLAGS+=-lm -lgsl -lgslcblas -lDa_GSL_UTL -lda_IO -lda_Error -lNumRec -lNRUTL  -L${C_NR} -lda_cpgplot_XY_GRID_FILE -lda_cpgplot_BASIC ${EXTRA_LIBRARY_PATH}
-CXXFLAGS+=${EXTRA_INCLUDE_PATH} -D${V} -D${CPG} -D${FILE}  -D${TYPE_NUMERICAL_INTEGRATION} -D${RANDOM_SEED}  -D${MODEL} -D${JACOBIAN} -D${NR} -D${STATIONARITY} -DHAVE_INLINE ${EXTERN} -g #-Wall -D${ERROR}
+CXXFLAGS+=${EXTRA_INCLUDE_PATH} -D${EVO} -D${V} -D${CPG} -D${FILE}  -D${TYPE_NUMERICAL_INTEGRATION} -D${RANDOM_SEED}  -D${MODEL} -D${JACOBIAN} -D${NR} -D${STATIONARITY} -DHAVE_INLINE ${EXTERN} -g #-Wall -D${ERROR}
 ##############################################################################################################
 # either -g or some optimization opiton, for instance, -O3
 # This makefile uses full power of conditional compilation. There is a bunch of variables that control this and
@@ -124,7 +125,7 @@ OBJECTS = main.o report.o argumentControl.o Community.o Community_Scatter_Plot_R
 	Parameter_Model.o Time_Control.o Parameter_Table.o  assignCodes_to_Model_Parameters.o assignLabel_to_Model_Parameters.o assignLabel_to_Model_Variables.o assignLabel_to_Output_Variables.o assignStructValue_to_VectorEntry.o assignSymbol_to_Model_Parameters.o assignSymbol_to_Model_Variables.o assignSymbol_to_Output_Variables.o assignVectorEntry_to_Structure.o Model_Variable_Initial_Condition_into_Vector_Entry.o Vector_Entry_into_Model_Variable_Initial_Condition.o fprintf_Model_Parameters.o fprintf_Output_Variables.o                                                                                                                                                                          \
 	assignLatex_Label_to_Model_Parameters.o  Latex_Write_Parameter_Table.o               \
 	Parameter_Space.o Parameter_Space_Boundary_for_Trends${TYPE_of_BOUNDARY}.o  Initial_Condition_Boundary_Values.o  \
-	MODEL.o deterministic_time_dynamics.o numerical_Integration_Driver.o Initial_Conditions_Numerical_Integration.o Initial_Condition_from_Parameter_Table.o  Random_Initial_Condition.o ODE_sys_${ODE_MODEL}.o JAC_sys_MODEL.o JACOBIAN_Matrix_${ODE_MODEL}.o                                    \
+	MODEL.o deterministic_time_dynamics.o numerical_Integration_Driver.o Initial_Conditions_Numerical_Integration.o Initial_Condition_from_Parameter_Table.o  Random_Initial_Condition.o ODE_sys_${ODE_MODEL}.o JAC_sys_MODEL.o JACOBIAN_Matrix_${ODE_MODEL}.o Gaussian_Pseudo_Data_Creation.o  \
 	Model_Variables_Code.o definition_OutPut_Variables.o definition_OutPut_Variables_Functions.o In_Out_Migration_Functions.o \
 	stat.o                                                                               \
 	CPGPLOT___X_Y___Parameter_Table.o                                                    \
@@ -161,6 +162,9 @@ MODEL_STO.o: MODEL_STO.c ${HEAD.H}
 
 MODEL.o: MODEL.c ${HEAD.H}
 	$(CC) -c MODEL.c $(CXXFLAGS)
+
+Gaussian_Pseudo_Data_Creation.o: Gaussian_Pseudo_Data_Creation.c ${HEAD.H}
+	$(CC) -c Gaussian_Pseudo_Data_Creation.c $(CXXFLAGS)
 
 Community.o: ${PROJECT_DIR}Community.c ${HEAD.H}
 	$(CC) -c ${PROJECT_DIR}Community.c $(CXXFLAGS)

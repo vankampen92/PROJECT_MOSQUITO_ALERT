@@ -12,7 +12,7 @@ typedef struct Parameter_Modelinfo
 
   /* * * Error Model * * * */
 #include "include.Error_Control.global.h"
-
+  
   Trend_Control * Tr;
 
 #if defined CPGPLOT_REPRESENTATION
@@ -20,11 +20,12 @@ typedef struct Parameter_Modelinfo
 #endif
 
   int K;
-
+  
+  int TOTAL_No_of_MODEL_PARAMETERS;
+  
   double * Mu_Vector;
   double * Gamma_Vector;
   int    * K_Vector;
-  
 
   int TOTAL_No_of_EVENTS;
   /* Total Number of Events within a patch, i.e., 25 * 4 = 100 */

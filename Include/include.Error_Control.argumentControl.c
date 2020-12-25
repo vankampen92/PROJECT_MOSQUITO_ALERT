@@ -30,6 +30,9 @@
               else if(argv[argcount][2]=='E')
 		sscanf(argv[argcount+1], "%lf",&Error_Parameter_1);
 
+              else if(argv[argcount][2]=='v')
+		sscanf(argv[argcount+1], "%lf",&Error_Parameter_2);
+
               else if(argv[argcount][2]=='V')
 		sscanf(argv[argcount+1], "%lf",&Error_Parameter_0);
 

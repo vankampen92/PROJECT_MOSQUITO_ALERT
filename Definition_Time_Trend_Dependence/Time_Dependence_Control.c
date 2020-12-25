@@ -184,15 +184,19 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
     }
   }
 
+  /* This is to see if certain parameters that control the way a true model parameter 
+     depends on time have been included in Table->S->Parameter_Index, this is, in the
+     list of parameters to be searched by the optimization algorithm 
+  */
   Function_Parameters[0] = 23;
   Function_Parameters[1] = 24;
-  Function_Parameters[2] = 25;
-  
+  Function_Parameters[2] = 25;  
   Table->x_Bool = isDisjoint(Function_Parameters, 3,
 			     Table->S->Parameter_Index, Table->S->No_of_PARAMETERS);   
-
   free(Function_Parameters);
-  
+  /* Table->x_Bool is true if Function_Parameters and Table->S->Parameter_Index are 
+     disjoint sets */  
+
   Table->TDC = TDC;
 }
 

@@ -22,6 +22,8 @@ TYPE_of_ERROR_FUNCTION = 0;
 
 No_of_ERROR_PARAMETERS = 2;
 
+Error_Parameter_2      = 0.1;
+
 Error_Parameter_1      = 0.1;
 
 Error_Parameter_0      = 0.1;

@@ -5,7 +5,7 @@
 # Gnu C make:
 # Gnu C make cpgplot_GRID UTILS (libda_cpgplot_GRID.a)
 CPGPLOT=${HOME}/CPGPLOT/
-PROJECT_DIR=${HOME}/PROJECT_STOCHASTIC_DIFFUSION/
+PROJECT_DIR=${HOME}/PROJECT_MOSQUITO_ALERT/
 LIB_DIR              = ${PROJECT_DIR}Library/Optimization_Library/
 RANDOM_DIR           = ${PROJECT_DIR}Library/GSL_RANDOM/
 IO_DIR               = ${PROJECT_DIR}Library/IO_Library/

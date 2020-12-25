@@ -13,6 +13,8 @@ int function (double t, const double y[], double dydt[], void *params)
   /* Definition of the state vector numerical order, from 0 to K, of model variables */
   #include <Model_Variables_Code.Include.c>
 
+  Resetting_Mu_Gamma_K_Vectors (Table); 
+  
   dydt[0]     = Table->A_Rate - (Table->Mu_Vector[0]  + Table->Gamma_Vector[0]) * y[0];
 
   n= 1; 

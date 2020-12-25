@@ -37,9 +37,9 @@
         break;
 
         case 'u': //Minimum values 
-              if (TYPE_of_MODEL == 0 ) {
-		
-		if(argv[argcount][2]=='0')         fprintf(fp, "-u0  %g  ", Table->IC_min_0);
+
+                if(argv[argcount][2]=='0')         fprintf(fp, "-u0  %g  ", Table->IC_min_0);
+
 		else{
 		  printf("-u0 to -u9 are the only allowable keys.\n");
 		  printf("Something goes very wrong (in an argumentfprintf function)\n");

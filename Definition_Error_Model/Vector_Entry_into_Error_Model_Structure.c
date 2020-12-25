@@ -30,6 +30,8 @@ void Vector_Entry_into_Error_Model_Table(double value, int j, Parameter_Table * 
         break;
         case  1:  Table->Error_Parameter_1 = value; /*  1 */
         break;
+	case  2:  Table->Error_Parameter_2 = value; /*  1 */
+        break;
         default:
         printf(".... INVALID OUTPUT VARIABLE KEY [key = %d]\n", j);
         printf(".... The permited correspondences are:\n");
@@ -95,6 +97,8 @@ void Vector_Entry_into_Error_Model_Model(double value, int j, Parameter_Model * 
         case  0:  Table->Error_Parameter_0 = value; /*  0 */
         break;
         case  1:  Table->Error_Parameter_1 = value; /*  1 */
+        break;
+	case  2:  Table->Error_Parameter_2 = value; /*  1 */
         break;
         default:
         printf(".... INVALID OUTPUT VARIABLE KEY [key = %d]\n", j);

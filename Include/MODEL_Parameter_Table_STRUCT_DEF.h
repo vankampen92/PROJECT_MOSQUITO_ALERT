@@ -34,21 +34,21 @@ typedef struct Parameter_Tableinfo
   Parameter_Space * E_Space; 
 
   /* * * Parameter_Space * * * */
+  
   /* Total Number of Input Model Parameters (as in assign....c and boundary_*.c functions) */
   int MODEL_INPUT_PARAMETERS;
   char ** Name_Parameters; // Name_Parameters  : Name Model Input Parameters
   char ** Code_Parameters;
   char ** Symbol_Parameters;
   char ** Symbol_Parameters_Greek_CPGPLOT;
-  
   double * Default_Vector_Parameters;
 
-  /* What follows defines a parameter sub-space within
-     the whole parameter space
+  /* Total Number of (Potentially Searcheable) Model Parameters  (of a given model) */
+  int TOTAL_No_of_MODEL_PARAMETERS; 
+  int * Index;                   // Vector defining the parameter indeces */
+  /* What follows defines a parameter sub-space within the whole parameter space
   */
-  int * Index;             // Vector defining the parameter subset to explore   */
   double * Vector_Parameters;
-  //#include <include.PARAMETER_SPACE.global.h>
   Parameter_Space * S;
   /* * * * * * * * * */
 
@@ -70,6 +70,7 @@ typedef struct Parameter_Tableinfo
   char ** Model_Variable_Name;
   char ** Model_Variable_Symbol;
 
+  
   int K;
 
   double * Vector_Model_Variables; 

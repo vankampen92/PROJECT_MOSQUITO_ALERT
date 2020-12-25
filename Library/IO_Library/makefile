@@ -3,7 +3,7 @@
 # =======================
 
 # Gnu C make cpgplot_GRID UTILS (libda_cpgplot_GRID.a)
-PROJECT_DIR=${HOME}/PROJECT_STOCHASTIC_DIFFUSION/
+PROJECT_DIR=${HOME}/PROJECT_MOSQUITO_ALERT/
 LIB_DIR              = $(PROJECT_DIR)Library/IO_Library/
 RANDOM_DIR           = $(PROJECT_DIR)Library/GSL_RANDOM/
 LIB_OPT              = $(PROJECT_DIR)Library/Optimization_Library/
@@ -22,7 +22,7 @@ CFLAGS=-g -Wall -DHAVE_INLINE ${EXTRA_INCLUDE_PATH}
 
 COMPILER=gcc -fPIC -DSHARED_OBJECT
 
-OBJECTS=IO_Procedures_Standard.o IO_Demographic_Parameters.o IO_Model_Parameters.o Uploading_Parameters_into_Parameter_Table.o IO_Observed_Data.o #Build_File_of_Time_Parameters_2000_2016.o
+OBJECTS=IO_Procedures_Standard.o Uploading_Parameters_into_Parameter_Table.o #Build_File_of_Time_Parameters_2000_2016.o
 
 .SUFIXES:       .o .c
 

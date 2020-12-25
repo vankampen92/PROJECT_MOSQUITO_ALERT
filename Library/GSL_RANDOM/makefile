@@ -6,7 +6,7 @@
 # Gnu C make to build GSL-based UTILITY Library 
 # The generated library is libDa_GSL_UTL.a 
 # ==========================================
-PROJECT_DIR=${HOME}/PROJECT_STOCHASTIC_DIFFUSION/
+PROJECT_DIR=${HOME}/PROJECT_MOSQUITO_ALERT/
 GSL_Stat_UTL=$(PROJECT_DIR)/Library/GSL_RANDOM/
 EXTRA_INCLUDE_PATH= -I${GSL_Stat_UTL}
 CFLAGS=-g -fPIE -DHAVE_INLINE ${EXTRA_INCLUDE_PATH}

@@ -98,9 +98,9 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C( Parameter_Table * Table )
     exit(0); 
   }
 
-  Table->Mu_Vector    = (double *)calloc(No_of_GROUPS, sizeof(double) );
-  Table->Gamma_Vector = (double *)calloc(No_of_GROUPS, sizeof(double) );
-  Table->K_Vector     = (int *)calloc(No_of_GROUPS, sizeof(int)); 
+  Table->Mu_Vector    = (double *)calloc(No_of_GROUPS_MAXIMUM, sizeof(double) );
+  Table->Gamma_Vector = (double *)calloc(No_of_GROUPS_MAXIMUM, sizeof(double) );
+  Table->K_Vector     = (int *)calloc(No_of_GROUPS_MAXIMUM, sizeof(int)); 
  
   /* BEGIN: Allocating and Setting up Connectivity Matrix */
   Table->Metapop_Connectivity_Matrix = (double ***)calloc(No_of_AGES_MAXIMUM,
@@ -211,7 +211,9 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( Parameter_Table * Table, int *
 
   /* Type of Model upload  */
   Table->TYPE_of_MODEL = TYPE_of_MODEL;  assert_right_model_definition( Table );
+  /* Model Specific Parameter are defined here (including Table->Index Vector) */
   Model_Variables_Code_into_Parameter_Table (Table);
+
   /* Total number of potential state variables */
   /* Total number of potential state variables */
   Table->MODEL_STATE_VARIABLES = Table->K + 1;
@@ -246,11 +248,6 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( Parameter_Table * Table, int *
     AssignCPGPLOT_Symbol_to_Model_Parameters(i, Table->Symbol_Parameters_Greek_CPGPLOT[i], Table); 
   }
   /*   END: Names and codes for model parameter  */
-
-  /* Default model input parameters */
-  for (i=0; i < MODEL_PARAMETERS_MAXIMUM; i++) Table->Index[i] = i;
-  
-  // This assignation will be overwritten when Parameter_Space structure is setup
 
   /// Setting MODEL STATE VARIABLES up !!!  
   int MODEL_STATE_VARIABLES    = Table->K + 1;
@@ -312,53 +309,61 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( Parameter_Table * Table, int *
   }
   /* END -------------------------------------------------*/
 
-  /// Setting up Mu Gamma and K vectors
+  /* This function should be called always after having called 
+     void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
+  */
+  Resetting_Mu_Gamma_K_Vectors (Table);
+}
+
+void Resetting_Mu_Gamma_K_Vectors (Parameter_Table * Table)
+{
+  int i; 
+  
   for(i=0; i < Table->No_of_GROUPS; i++) {
     
     switch(i)
-    {
-    case  0:
-      Table->Mu_Vector[i]    = Mu_0;
-      Table->Gamma_Vector[i] = Gamma_0;
-      Table->K_Vector[i]     = k_0; 
-      break;
-    case  1:
-      Table->Mu_Vector[i]    = Mu_1;
-      Table->Gamma_Vector[i] = Gamma_1;
-      Table->K_Vector[i]     = k_1; 
-      break;
-    case  2:
-      Table->Mu_Vector[i]    = Mu_2;
-      Table->Gamma_Vector[i] = Gamma_2;
-      Table->K_Vector[i]     = k_2; 
-      break;
-    case  3:
-      Table->Mu_Vector[i]    = Mu_3;
-      Table->Gamma_Vector[i] = Gamma_3;
-      Table->K_Vector[i]     = k_3; 
-      break;
-    case  4:
-      Table->Mu_Vector[i]    = Mu_4;
-      Table->Gamma_Vector[i] = Gamma_4;
-      Table->K_Vector[i]     = k_4; 
-      break;
-
-    default:
-      printf(".... INVALID NUMBER of GROUPS [key = %d]\n", j);
-      printf(".... The permited correspondences are (0 to 4):\n");
-      printf("\n");
-      fprintf_Model_Parameters(stdout, Table);
-      exit(0);
-    }
-  }        
+      {
+      case  0:
+	Table->Mu_Vector[i]    = Table->Mu_0;
+	Table->Gamma_Vector[i] = Table->Gamma_0;
+	Table->K_Vector[i]     = Table->k_0; 
+	break;
+      case  1:
+	Table->Mu_Vector[i]    = Table->Mu_1;
+	Table->Gamma_Vector[i] = Table->Gamma_1;
+	Table->K_Vector[i]     = Table->k_1; 
+	break;
+      case  2:
+	Table->Mu_Vector[i]    = Table->Mu_2;
+	Table->Gamma_Vector[i] = Table->Gamma_2;
+	Table->K_Vector[i]     = Table->k_2; 
+	break;
+      case  3:
+	Table->Mu_Vector[i]    = Table->Mu_3;
+	Table->Gamma_Vector[i] = Table->Gamma_3;
+	Table->K_Vector[i]     = Table->k_3; 
+	break;
+      case  4:
+	Table->Mu_Vector[i]    = Table->Mu_4;
+	Table->Gamma_Vector[i] = Table->Gamma_4;
+	Table->K_Vector[i]     = Table->k_4; 
+	break;
+	
+      default:
+	printf(".... INVALID NUMBER of GROUPS [key = %d]\n", i);
+	printf(".... The permited correspondences are (0 to 4):\n");
+	printf("\n");
+	fprintf_Model_Parameters(stdout, Table);
+	exit(0);
+      }
+  }
 }
 
-
-void Parameter_Table_Index_Update(int * Index, int N, Parameter_Table * P)
-{
-  int i;
-  for(i=0; i<N; i++) P->Index[i] = Index[i];
-}
+/* void Parameter_Table_Index_Update(int * Index, int N, Parameter_Table * P) */
+/* { */
+/*   int i; */
+/*   for(i=0; i<N; i++) P->Index[i] = Index[i]; */
+/* } */
 
 /*
    The purpose of this simple function is just to upload
@@ -404,6 +409,7 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
 
   P->Error_Parameter_0 = Error_Parameter_0;
   P->Error_Parameter_1 = Error_Parameter_1;
+  P->Error_Parameter_2 = Error_Parameter_2;
 
   P->Err_0 = Err_0;
   P->Err_1 = Err_1;
