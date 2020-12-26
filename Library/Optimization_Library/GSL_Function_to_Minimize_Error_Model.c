@@ -2,10 +2,11 @@
 
 double GSL_Function_to_Minimize_Error_Model( const gsl_vector * x, void * Par )
 {
-  /* This GSL function allows an evaluation of function to minimize
-
-     Output value:
-     . Value
+  /* This GSL function allows an evaluation of 'function to minimize' when 
+   * the imput is a gsl_vector initialized with model parameter values 
+   * 
+   * Output value:
+   * . Value
   */
   double Value, t;
   int i,j,k;

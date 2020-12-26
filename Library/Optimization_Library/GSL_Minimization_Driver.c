@@ -97,7 +97,7 @@ double GSL_Minimization_Driver( Parameter_Fitting * F )
      is required                                                                        */
   Value = Inspecting_Likelihood_of_Final_Solution(x, F);
   ///              Otherwise, simply use:                                               */
-  /// Value =  ( * F->Function )( x, F );
+  Value =  ( * F->Function )( x, F );
   /*     E N D :   -------------------------------------------------------------------- */
 
   if (MY_ERROR_HANDLER == 1) {

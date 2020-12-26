@@ -25,7 +25,7 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
   Time_Control * Time = Table->T;
   
   double Sigma_Heuristics;
-  double Sigma_Factor     = 0.01;
+  double Sigma_Factor     = 0.2;
   
   if(Time->TYPE_of_TIME_DEPENDENCE == 1) {
     assert( Table->TDC->TYPE_1_PARAMETERS == 1); 
