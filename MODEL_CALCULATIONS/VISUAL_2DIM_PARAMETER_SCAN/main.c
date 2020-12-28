@@ -21,8 +21,11 @@
                                                        
    . ~$ ./MADMODEL -y0 0 -G0 1 -G1 1 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -iP 0 -en 0 -eV 100.0 -sP 2 -KK 1 -k0 100 -I0 0 -m0 0.2 -M0 1.0 -d0 300 -I1 1 -m1 0.001 -M1 0.05 -d1 300 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate.dat -Y1 12 -G14 "Function:\\(2749)\\gx\\u2\\d"
    
-   -G14 is the title. This input argument only works when you are generating an only plot with 
-   only one panel as the single graphical output over all your code. 
+   -G14 is the title. This input argument only works when you are generating an only final 
+   plot with only one panel as the single graphical output over all your code. What is written 
+   there follows CPGPLOT syntax, for instance, \\(2749) codes for a space, \\gx codes for a
+   the greek letter x (chi), \\u allows the 2 to go up (as a superscript), and \\d returns 
+   level writing back to normal (\\d and \\u or \\u and \\d must be always used in pairs!!!).   
 */
 
 

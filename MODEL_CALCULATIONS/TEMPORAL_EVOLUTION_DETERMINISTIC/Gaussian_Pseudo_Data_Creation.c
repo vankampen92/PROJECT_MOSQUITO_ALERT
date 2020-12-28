@@ -19,23 +19,16 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
   double x;
   int i,j, k, kk, n;
 
-  /* Parameter_Model * P = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );    */
-  /* P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (Table, P);                        */
-  /* Table->P  = P;                                                                     */
-  /* printf(" Parameter_Model structure has been correctly allocated and initiated\n"); */
-
   Time_Control * Time = Table->T;
   
   double Sigma_Heuristics;
-  double Sigma_Factor     = 0.2;
+  double Sigma_Factor     = 0.05;
   
   if(Time->TYPE_of_TIME_DEPENDENCE == 1) {
     assert( Table->TDC->TYPE_1_PARAMETERS == 1); 
     assert( Table->TDC->Index_Dependent_Parameters[0] == 16 ); 
     Sigma_Heuristics = Sigma_Factor *  Average_double_Vector(Table->TDC->Dependent_Parameter[0],
 							     Table->TDC->No_of_EMPIRICAL_TIMES);
-
-    
   }
   else { 
     Sigma_Heuristics = 10.0;
@@ -77,6 +70,7 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
 				       1, Time->Time_Vector);
   free(Name_of_Rows);
   /*     E N D : Saving Pseudo-Data File: */
+
 #if defined CPGPLOT_REPRESENTATION
   /* Parameter Table dependent costumized plotting is defined
      in ~/CPGPLOT/CPGPLOT_Parameter_Table/CPGPLOT___X_Y___Parameter_Table.c 
@@ -120,8 +114,6 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
 						       Table->Matrix_Output_Variables ); 
 #endif
   
-  // free ( P );
-
   printf(" Gaussian Pseudo Data Generation successfully completed!!!\n");
   return(0);
 }
