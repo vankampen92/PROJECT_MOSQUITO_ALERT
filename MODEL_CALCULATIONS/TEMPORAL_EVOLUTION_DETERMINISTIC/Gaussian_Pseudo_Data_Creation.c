@@ -14,6 +14,8 @@ extern double A_Rate;       /* Participate in the defintion Y Axis Range */
 
 int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
 {
+  int key; 
+  bool x_Bool; 
   double x;
   int i,j, k, kk, n;
 
@@ -32,6 +34,8 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
     assert( Table->TDC->Index_Dependent_Parameters[0] == 16 ); 
     Sigma_Heuristics = Sigma_Factor *  Average_double_Vector(Table->TDC->Dependent_Parameter[0],
 							     Table->TDC->No_of_EMPIRICAL_TIMES);
+
+    
   }
   else { 
     Sigma_Heuristics = 10.0;
@@ -39,20 +43,39 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
 
   for(j=0; j < Time->I_Time; j++) { 
     for(k=0; k < Table->SUB_OUTPUT_VARIABLES; k++){
-      
-      Table->Matrix_Output_Variables[k][j] = Table->Matrix_Output_Variables[k][j] + Sigma_Heuristics * gsl_ran_gaussian(r, 1.0) ;
-      
-      if ( Table->Matrix_Output_Variables[k][j] < 0.0 ) Table->Matrix_Output_Variables[k][j] = 0.0; 
+
+      key = Table->OUTPUT_VARIABLE_INDEX[k]-OUTPUT_VARIABLES_GENUINE;
+
+      if (key >= Table->TDC->TIME_DEPENDENT_PARAMETERS) {
+	 
+	Table->Matrix_Output_Variables[k][j] = Table->Matrix_Output_Variables[k][j] + Sigma_Heuristics * gsl_ran_gaussian(r, 1.0) ;
+	
+	if (Table->Matrix_Output_Variables[k][j]< 0.0) Table->Matrix_Output_Variables[k][j] = 0.0;
+      }
     }
   }
+
   /* B E G I N : Saving Pseudo-Data File: */
-  char ** Name_of_Rows; 
+  char ** Name_of_Rows = (char **)calloc(Table->SUB_OUTPUT_VARIABLES, sizeof(char *) ); 
+  for(i=0; i < Table->SUB_OUTPUT_VARIABLES; i++){
+    k = Table->OUTPUT_VARIABLE_INDEX[i];
+    Name_of_Rows[i]  = (char *)calloc( 100, sizeof (char) ); 
+    Name_of_Rows[i]  = Table->Output_Variable_Name[k]; 
+  }
   Writing_Standard_Data_Matrix_to_File("Pseudo_Data_File.dat",
 				       Table->Matrix_Output_Variables,
 				       Table->SUB_OUTPUT_VARIABLES, Time->I_Time, 
 				       0, Name_of_Rows, // 0: not in use
-				                         // 1: Names should be provided!!! 
+				                        // 1: Names should be provided!!! 
 				       1, Time->Time_Vector);
+  
+  Writing_Standard_Data_Matrix_to_File("Pseudo_Data_File_Row_Names.dat",
+				       Table->Matrix_Output_Variables,
+				       Table->SUB_OUTPUT_VARIABLES, Time->I_Time, 
+				       1, Name_of_Rows, // 0: not in use
+				                        // 1: Names should be provided!!! 
+				       1, Time->Time_Vector);
+  free(Name_of_Rows);
   /*     E N D : Saving Pseudo-Data File: */
 #if defined CPGPLOT_REPRESENTATION
   /* Parameter Table dependent costumized plotting is defined

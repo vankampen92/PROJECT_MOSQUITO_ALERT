@@ -254,3 +254,4 @@ void Reading_intVector(char* File, int *mVector, int Sp);
 /* Simple solution of two dimension systems of linear equations */
 void linearEqSystem_2dim(double *p0, double *p1, double *p2, double *Sol);
 
+int Discret_Time_Choice_Interpolation(double xr, double * Time, int N); 

@@ -32,8 +32,12 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    .~$ ./MADMODEL -y0 0 -n 1 -v0 4 -G0 1 -G1 1 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tR 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 
 
-   (with generation of 4 output variables: Ages 0, 1, 2, and 3)
+   (with generation of 4 output variables: A, P[0], P[1], P[2] )
    .~$ ./MADMODEL -y0 0 -n 4 -v0 3 -v1 4 -v2 5 -v3 6 -G0 2 -G1 2 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tR 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0
+
+   (with generation of 4 output variables: P[0], P[1], P[2], P[3] that will become psedodata with
+   additional Gaussian noise in Psedo_Data_File)
+   .~$ ./MADMODEL -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -G0 2 -G1 2 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tR 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0
 */
 
 int main(int argc, char **argv)
@@ -49,7 +53,12 @@ int main(int argc, char **argv)
   /* Command line arguments */
   if(argc>1) ArgumentControl(argc,argv);
 
+  /* This is important to update Output Variable Index vector and dependent parameter 
+     vector according to imput parameter from the command line 
+  */
+#include <include.Time_Dependence_Control.default.aux.c>
 #include "include.Output_Variables.default.aux.c"
+  
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");

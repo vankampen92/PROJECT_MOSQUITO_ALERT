@@ -1,14 +1,27 @@
 #include <MODEL.h>
 
+extern int TIME_DEPENDENT_PARAMETERS;
+extern int * dependent_parameter; 
+
 void AssignLabel_to_Output_Variables(int j, char * Label, Parameter_Table * P)
 {
+  int key, N;
   char * p;
+  
   Label[0] = '\0';
 
-  if (j >= OUTPUT_VARIABLES_GENUINE) {
-    j -= OUTPUT_VARIABLES_GENUINE;
+  N = TIME_DEPENDENT_PARAMETERS; 
+  
+  if (j >= OUTPUT_VARIABLES_GENUINE + N) {
+    j -= (OUTPUT_VARIABLES_GENUINE + N); 
     /* The first output variables are the model variables */
     AssignLabel_to_Model_Variables(j, Label, P);
+  }
+  else if (j >= OUTPUT_VARIABLES_GENUINE ) {
+    j -= OUTPUT_VARIABLES_GENUINE;
+    key = dependent_parameter[j]; 
+    AssignSymbol_to_Model_Parameters(key, Label, P);
+    p = strcat(Label, "[t]");
   }
   else {
 
@@ -35,15 +48,26 @@ void AssignLabel_to_Output_Variables(int j, char * Label, Parameter_Table * P)
 
 void AssignLongLabel_to_Output_Variables(int j, char * Label, Parameter_Table * P)
 {
+  int N, key;
   char * p;
+  
   Label[0] = '\0';
-  if (j >= OUTPUT_VARIABLES_GENUINE) {
-    j -= OUTPUT_VARIABLES_GENUINE;
-    /* The first output variables are the model variables */
+  
+  N = TIME_DEPENDENT_PARAMETERS; 
+ 
+  if (j >= OUTPUT_VARIABLES_GENUINE + N) {
+    j -= (OUTPUT_VARIABLES_GENUINE + N); 
+    /* The last output variables are the dynamic model state variables */
     AssignLabel_to_Model_Variables(j, Label, P);
   }
+  else if (j >= OUTPUT_VARIABLES_GENUINE ) {
+    j -= OUTPUT_VARIABLES_GENUINE;
+    key = dependent_parameter[j]; 
+    AssignSymbol_to_Model_Parameters(key, Label, P);
+    p = strcat(Label, "[t]");
+  }
   else {
-
+    
     switch(j)
       {
       case  0:
@@ -64,3 +88,5 @@ void AssignLongLabel_to_Output_Variables(int j, char * Label, Parameter_Table * 
       }
   }
 }
+
+

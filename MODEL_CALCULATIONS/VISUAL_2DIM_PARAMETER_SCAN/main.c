@@ -5,57 +5,9 @@
 
 #include "global.h"
 
-/* This code scans R_0 as a function depending on model parameters as specified
-   in Parameter_Table Structure.  Parameter ranges are defined in Parameter_Space
-   structure. Parameters to scan are defined as input arguments: 
-
-   -sP 2 -I0 1 -H1 0.005 -m0 0.001  -M0 0.01    -d0 100     // Parameter: p_XY
-         -I1 0 -H0 100.0 -m1 50.0 -M1 200.0     -d1 100     // Parameter: Beta_Y
-
-   / -I0 21  -H21 1.0   -m0 0.0   -M0 2.0     -d0 0.01      // Parameter: r_R
-   / -I1 0   -H0 100.0  -m1 0.0   -M1 200.0   -d1 0.1       // Parameter: Beta_Y
-   / -I2 8   -H8  50.0  -m2 0.0   -M2 100.0   -A2 0.1       // Parameter: Beta_X
-   / -I3 12  -H12   9   -m3 1.0   -M3 20.0    -A3 0.01      // Parameter: Eta
-   / -I4 7   -H7  9.0   -m4 1.0   -M4 99.0    -A4 0.01      // Parameter: mDelta
-   / -I5 16  -H16 0.2   -m5 0.0   -M5 0.99    -A5 0.01      // Parameter: f_W
-   / -I6 17  -H17 0.5   -m6 0.0   -M6 0.99    -A6 0.01      // Parameter: f_0
-   / -I7 1   -H1 0.03   -m7 0.0   -M7 0.10    -A7 0.001     // Parameter: p_XY
-   / -I8 9   -H9 0.01   -m8 0.0   -M8 0.10    -A8 0.001     // Parameter: p_YX
-   / -I9 5   -H5 1.5    -m9 0.0   -M9 10.0    -A9 0.1       // Parameter: Gamma
-   / -I10 6  -H6 0.2    -m10 0.0  -M10 1.0    -A10 0.01     // Parameter: Mu
-   / -I11 15 -H15 10.0  -m11 1.0  -M11 100.0  -A11 0.1      // Parameter: Xhi
-   / -I12 10 -H10  0.01 -m12 0.0  -M12 0.05   -A12 0.01     // Parameter: Sigma_0
-   / -I13 11 -H11  0.01 -m13 0.0  -M13 0.05   -A13 0.01     // Parameter: Sigam_0_r
-   / -I14 18 -H18  0.01 -m14 0.0  -M14 0.05   -A14 0.01     // Parameter: Sigma_1
-   / -I15 19 -H19  0.01 -m15 0.0  -M15 0.05   -A15 0.01     // Parameter: Sigma_1_r
-   / -I16 20 -H20  0.1  -m16 0.08 -M16 0.12   -A16 0.01     // Parameter: Alpha
-
-   -G0 1 -G1 1 -n 1 -v0 0 -en 0 -iP 0 
-
-   Optimal Average Paremters (Noyse Be): 
-   / -H21 1.01   // Parameter: r_R
-   / -H0  108.14 // Parameter: Beta_Y
-   / -H8  108.19 // Parameter: Beta_X
-   / -H12 7.27   // Parameter: Eta
-   / -H7  50.53  // Parameter: mDelta
-   / -H16 0.235  // Parameter: f_W
-   / -H17 0.398  // Parameter: f_0
-   / -H1  0.002  // Parameter: p_XY
-   / -H9  0.001  // Parameter: p_YX
-   / -H5  2.02   // Parameter: Gamma
-   / -H6  0.103  // Parameter: Mu
-   / -H15 36.538 // Parameter: Xhi
-   / -H10 0.040  // Parameter: Sigma_0
-   / -H11 0.021  // Parameter: Sigam_0_r
-   / -H18 0.035  // Parameter: Sigma_1
-   / -H19 0.016  // Parameter: Sigma_1_r
-   / -H20 0.101  // Parameter: Alpha
-   / -H2  717.14 // Parameter: F_Y  at year 2000
-   / -H13 828.07 // Parameter: F_X  at year 2000
-   / -H4 0.01965 // Parameter: Delta_Y at year 2000
-   / -H3 0.01901 // Parameter: Delta_X at year 2000 
-
-   -H21 1.01 -H0 108.14 -H8 108.19 -H12 7.27 -H7 50.53 -H16 0.235 -H17 0.398 -H1 0.002 -H9 0.001 -H5 2.02 -H6 0.103 -H15 36.538 -H10 0.040  -H11 0.021 -H18 0.035 -H19 0.016 -H20 0.101 -H2 717.14 -H13 828.07 -H4 0.01965 -H3 0.01901 
+/* This code scans a function that depends on model parameters as specified
+   in Parameter_Table Structure.  Parameter ranges are defined via Parameter_Space
+   structure. Parameters to scan are defined as input arguments.
 
    Any parametric function should be generically defined as:
    
@@ -67,7 +19,10 @@
    
    Execution:
                                                        
-   . ~$ ./X2W2SILD-YSILD  -y0 1 -H21 1.01 -H0 108.14 -H8 108.19 -H12 7.27 -H7 50.53 -H16 0.235 -H17 0.398 -H1 0.002 -H9 0.001 -H5 2.02 -H6 0.103 -H15 36.538 -H10 0.040  -H11 0.021 -H18 0.035 -H19 0.016 -H20 0.101 -H2 717.14 -H13 828.07 -H4 0.01965 -H3 0.01901 -sP 2 -I0 9 -m0 0.00001 -M0 0.001 -d0 400 -I1 0 -m1 50.0 -M1 120.0 -d1 400 -G0 1 -G1 1 -G14 R\\d\\fs0\\fn\\u -n 1 -v0 0 -en 0 -iP 0
+   . ~$ ./MADMODEL -y0 0 -G0 1 -G1 1 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -iP 0 -en 0 -eV 100.0 -sP 2 -KK 1 -k0 100 -I0 0 -m0 0.2 -M0 1.0 -d0 300 -I1 1 -m1 0.001 -M1 0.05 -d1 300 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate.dat -Y1 12 -G14 "Function:\\(2749)\\gx\\u2\\d"
+   
+   -G14 is the title. This input argument only works when you are generating an only plot with 
+   only one panel as the single graphical output over all your code. 
 */
 
 
@@ -83,17 +38,20 @@ float * customized_contour_levels( Parameter_CPGPLOT * C )
     /* Two contour levels */
     C->NC = 3;
     float * clevels = (float *)calloc( C->NC, sizeof(float) );
-    clevels[0] = 1.0;
-    clevels[1] = 2.5;
-    clevels[2] = 5.0;
+    clevels[0] = 10.0;
+    clevels[1] = 20.0;
+    clevels[2] = 50.0;
     
     return(clevels);
 }
 
 int main(int argc, char **argv)
 {
+  int i, key; 
   Parameter_Table Table;
   double Value_0, Value_1; 
+  Time_Control Time;
+  Time_Dependence_Control Time_Dependence;
   
   P_ARG = &Table;
 
@@ -107,7 +65,11 @@ int main(int argc, char **argv)
 
   /* Command line arguments */
   if(argc>1) ArgumentControl(argc,argv);
-  
+
+  /* This is important to update Output Variable Index vector and dependent parameter 
+     vector according to imput parameters from the command line 
+  */
+  #include <include.Time_Dependence_Control.default.aux.c>
   #include "include.Output_Variables.default.aux.c"
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
@@ -132,7 +94,6 @@ int main(int argc, char **argv)
   Parameter_Space_Alloc( Space, No_of_PARAMETERS, d);
   Parameter_Space_Initialization( Space, No_of_PARAMETERS, TOLERANCE, MAX_No_of_ITERATIONS,
 				  d, Index, Ranges, Acc);
-  Parameter_Table_Index_Update(Index, No_of_PARAMETERS, &Table);
   Table.S = Space;
   printf("Parameter_Space structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
@@ -158,13 +119,107 @@ int main(int argc, char **argv)
   printf("\n"); //Press_Key();
   /*   END: Checking Random Number Generator Setup */
 #endif
+  
+  char   ** Name_of_Rows          = (char **)calloc(SUB_OUTPUT_VARIABLES, sizeof(char *) );
+  double ** Empirical_Data_Matrix = (double **)calloc( SUB_OUTPUT_VARIABLES, sizeof(double *) );
+  for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
+    key = Table.OUTPUT_VARIABLE_INDEX[i];
+    Name_of_Rows[i]         = Table.Output_Variable_Symbol[key];
+    Empirical_Data_Matrix[i] = (double *)calloc( I_Time, sizeof(double) );
+  }
 
+  /* B E G I N : Time Dependent Parameters, Observed Data, and Output files           */
+  char * pF;
+  char * TIME_PARAMETERS_FILE = (char *)calloc(1000, sizeof(char) ); /* Input files   */
+  char * OBSERVED_DATA_FILE   = (char *)calloc(1000, sizeof(char) ); /* Input files   */
+
+  OBSERVED_DATA_FILE[0] = '\0';
+  pF = strcat(OBSERVED_DATA_FILE, "Observed_Data_File.dat");          /* Default Name */
+  if( No_of_FILES > 0) strcpy(OBSERVED_DATA_FILE, Name_of_FILE[0]);   // -Fn 2
+
+  TIME_PARAMETERS_FILE[0] = '\0';
+  pF = strcat(TIME_PARAMETERS_FILE, "Time_Dependent_Parameters.dat"); /* Default Name */
+  if( No_of_FILES > 1) strcpy(TIME_PARAMETERS_FILE, Name_of_FILE[1]);
+  /*     E N D -----------------------------------------------------------------------*/
+
+  if (TYPE_of_TIME_DEPENDENCE == 0) {                                 // -t4 1
+    printf(" No Time Dependence!!!\n");
+    printf(" Check -t4 argument. It should be: -t4 1, but it is: -t4 %d\n",
+	   TYPE_of_TIME_DEPENDENCE);
+    printf(" The program will exit.\n");
+    exit(0);
+  }
+  else {
+#include <include.Time_Dependence_Control.default.aux.c>
+    printf(" Time_Dependence_Control and Time_Control structures will be allocated: \n");
+    printf(" %d output variables of length %d points will be allocated\n",
+	   SUB_OUTPUT_VARIABLES, I_Time);
+    Time_Dependence_Control_Alloc(&Time, &Time_Dependence, &Table,
+				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
+    printf(" Both Time_Control and Time_Dependence_Control structures have been\n");
+    printf(" correctly allocated\n");
+  }
+
+  int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
+  Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
+					  Empirical_Data_Matrix,
+					  &SUB_OUTPUT_VARIABLES,
+					  No_of_COLS, 
+					  0, Name_of_Rows,
+					  1, Time.Time_Vector );
+
+  Writing_Standard_Data_Matrix( Empirical_Data_Matrix,
+				SUB_OUTPUT_VARIABLES, I_Time,
+				1, Name_of_Rows,
+				0, Time.Time_Vector);
+  Press_Key(); 
+  /* B E G I N :   Reserving memmory for Observed Data and Fitting Structure */
+  Observed_Data * Data = (Observed_Data *)calloc(1, sizeof(Observed_Data));
+  Observed_Data_Alloc( Data, SUB_OUTPUT_VARIABLES, I_Time);
+  Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
+				I_Time, Empirical_Data_Matrix,
+				"" );
+  printf(" Observed_Data structure has been correctly allocated and initiated\n");
+  /*     E N D : ------------------------------------- */
+
+  Parameter_Fitting * F = (Parameter_Fitting*)calloc(1,sizeof(Parameter_Fitting));
+  F->Data                  = Data;
+  F->Space                 = Space;
+  F->Table                 = &Table;
+  F->Minimization          = 0;  // 0: Function Evaluation
+  F->Bounded_Parameter_Set = 1;
+  F->Function              = GSL_Function_to_Minimize;
+#if defined VERBOSE
+  F->Verbose               = 1;     // 1: Verbose                // 0: Non Verbose
+#else
+  F->Verbose               = 0;     // 1: Verbose                // 0: Non Verbose
+#endif
+  F->Iteration             = 0;
+  
+  Table.Fitting_Data       = (void *)F;  /* Table and F structures point to each other */
+
+  int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
+                                             // For example, -Y1 12 (see input argument list)
+  Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
+				 I_Time, No_of_EMPIRICAL_TIMES,
+				 TIME_DEPENDENT_PARAMETERS,
+				 TYPE_of_TIME_DEPENDENCE,        // -t4 1
+				 TYPE_0_PARAMETERS,              // -D0 0
+				 TYPE_1_PARAMETERS,              // -D1 1
+				 TYPE_2_PARAMETERS,              // -D2 0
+				 No_of_COVARIATES,               // -DC 0
+				 dependent_parameter, forcing_pattern, // -P0 16
+				 "File_of_Covariates.dat",
+				 TIME_PARAMETERS_FILE); 
+  assert( Time_Dependence.No_of_TIMES == I_Time );
+  assert( TYPE_2_PARAMETERS           == 0);         
+  
   double * W_GRID = (double *)malloc( No_of_POINTS_1 * No_of_POINTS_2 * sizeof(double) );
   int Status =  generic_Function_Parameter_2Dim_Scan(&Table, 
 						     No_of_POINTS_1, Input_Parameter_1,
 						     No_of_POINTS_2, Input_Parameter_2,
-						     R_0_Function, 
-						     W_GRID, "R_0.dat");
+						     Function_to_Minimize, 
+						     W_GRID, "Goodness_of_Fit.dat");
 #if defined CPGPLOT_REPRESENTATION
 /* BEGIN : 2D GRID cpgplot representation */
   /*********************************************************************/
@@ -219,19 +274,16 @@ int main(int argc, char **argv)
     // cpgptxt(float x, float y, float angle, float fjust,  const char *text);
     
     cpgslw(3);
-    cpgptxt(0.00006, 60.0, 0.0, 0.0,  "1.0");
-    cpgptxt(0.0003, 60.0, 0.0, 0.0,   "2.5");
-    cpgptxt(0.00082, 75.0, 0.0, 0.0,   "5.0");
+    cpgptxt(0.00006, 60.0, 0.0, 0.0,  "10.0");
+    cpgptxt(0.0003, 60.0, 0.0, 0.0,   "20.0");
+    cpgptxt(0.00082, 75.0, 0.0, 0.0,  "50.0");
 
-    /* Drawing arrow to emulate 0.6 reduction in 
-       p_YX transmission probability (from infecious female to male)
-    */
-    cpgpt1(0.001, 108, 4);
+    cpgpt1(0.5, 0.01, 4);
     // cpg_XY_same_arrow( N, xs, ys, CPG->color_Index, CPG->type_of_Line, CPG->type_of_Width );
     float * xs = (float *)calloc(2, sizeof(float) );
     float * ys = (float *)calloc(2, sizeof(float) );
-    xs[0] = 0.001;  xs[1] = 0.0004;
-    ys[0] = 108;    ys[1] = 108;
+    xs[0] = 0.5;    xs[1] = 0.5;
+    ys[0] = 0.0;    ys[1] = 0.01;
     cpg_XY_same_arrow( 2, xs, ys, 4, 1, 4);
     free(xs);
     free(ys); 
@@ -239,6 +291,11 @@ int main(int argc, char **argv)
 
   free (W_GRID);
 
+  free(F); 
+  
+  Observed_Data_Free(Data); free(Data);
+  Time_Dependence_Control_Free( &Time_Dependence, &Table );
+  
 #if defined CPGPLOT_REPRESENTATION
   P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( Table.CPG, SUB_OUTPUT_VARIABLES );
   cpgclos();
@@ -251,6 +308,15 @@ int main(int argc, char **argv)
 
   #include <include.Output_Variables.default.free.c>
   free(Initial_Guess);
+
+  #include <include.Time_Dependence_Control.default.free.c>
+  
+  free(Name_of_Rows);
+  for (i=0; i<SUB_OUTPUT_VARIABLES; i++)  free(Empirical_Data_Matrix[i]);
+  free(Empirical_Data_Matrix);
+  
+  free(TIME_PARAMETERS_FILE);
+  free(OBSERVED_DATA_FILE);
   
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( &Table );
   /*  END : Freeing  All Memmory * * * * * * * * * * * * * * */

@@ -4,6 +4,17 @@
 */
 typedef struct Parameter_Tableinfo
 {
+  /* The structure to fit parameters has not been defined yet. 
+     I cannot do: 
+  
+     Parameter_Fitting * Fitting_Data; 
+     
+     I will get the same if I do: 
+  */
+  void * Fitting_Data;    /* When I need this to point to 
+			     a Parameter_Fitting structure, 
+			     I will have to do a cast!!! 
+			  */
   /* Boolean Variable (see Time_Dependence_Control.c) */
   bool x_Bool; 
 

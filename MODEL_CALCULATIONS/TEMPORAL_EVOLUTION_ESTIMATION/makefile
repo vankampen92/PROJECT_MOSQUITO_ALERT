@@ -49,7 +49,7 @@ STATIONARITY=NON_STATIONARY_POINT_REPRESENTATION# Possibilitites: 'STATIONARY_PO
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   P A R A M E T E R   S P A C E ###############
 TYPE_of_BOUNDARY=###
 ##############################################################################################################
-RANDOM_SEED=CURRENT_TIME_RDN_SEED####### 'CURRENT_TIME_RDN_SEED' / 'FILE_RND_SIDE'
+RANDOM_SEED=CURRENT_TIME_RDN_SEED####### 'CURRENT_TIME_RDN_SEED' / 'FILE_RND_SEED'
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   M O D E L   D E F I N I T I O N #############
 ODE_MODEL=MADMODEL####################
@@ -65,6 +65,7 @@ TYPE_NUMERICAL_INTEGRATION=GSL_RKF45#############################
 ######################################## 'GSL_RKF45' is a general purpose integrator.
 ######################################## 'GSL_BSIMP' and GSL_RKF45 uses adaptive steps
 ######################################## 'GSL_RK4' does not uses adaptive steps
+######################################## 'GSL_MARTA' (in progress) 
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   J A C O B I A N   T Y P E   #################
 ## To pass this 'JACOBIAN' variable to the compiling code is necessary whether you need to calculate stationary

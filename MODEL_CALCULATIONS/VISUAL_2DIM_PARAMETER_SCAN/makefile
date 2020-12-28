@@ -1,16 +1,18 @@
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #/*                                                                           */
-#/*                           David Alonso, 2011 (c)                          */
+#/*                           David Alonso, 2020 (c)                          */
 #/*                                                                           */
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-PROJECT_DIR=${HOME}/PROJECT_HIV-AIDS_MADAGASCAR/#########
+CPGPLOT=${HOME}/CPGPLOT/
+PROJECT_DIR=${HOME}/PROJECT_MOSQUITO_ALERT/
+INCLUDE_DIR=${HOME}${PROJECT_DIR}Include/
 TIME_TREND_DIR=${PROJECT_DIR}Definition_Time_Trend_Dependence/
 IO_DIR=${PROJECT_DIR}Library/IO_Library/
 OPT_DIR= ${PROJECT_DIR}Library/Optimization_Library/
 ERROR_DIR=${PROJECT_DIR}Definition_Error_Model/
-WKD=${PROJECT_DIR}MODEL_CALCULATIONS/TEMPORAL_EVOLUTION_PARAMETER_ESTIMATES/
+WKD=${PROJECT_DIR}MODEL_CALCULATIONS/TEMPORAL_EVOLUTION_INI_YEAR_CALCULATION/
 C_NR=${PROJECT_DIR}Library/C_NumRecip/#############
-GSL_DA=${PROJECT_DIR}Library/GSL_RANDOM/##########
+GSL_DA=${PROJECT_DIR}Library/GSL_RANDOM/###########
 HEAD.H =${PROJECT_DIR}Include/MODEL.h##############
 INCLUDE_DIR=${PROJECT_DIR}Include##################
 CPGPLOT = ${HOME}/CPGPLOT/#########################
@@ -50,16 +52,13 @@ TYPE_of_BOUNDARY=###
 RANDOM_SEED=CURRENT_TIME_RDN_SEED####### 'CURRENT_TIME_RDN_SEED' / 'FILE_RND_SIDE'
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   M O D E L   D E F I N I T I O N #############
-X_MODEL=X2W2SILD# 'X2W2' 'XWSILD' 'X_' ######################################
-Y_MODEL=YSILD#    'Y_'                  #######################################
-ODE_MODEL=${X_MODEL}-${Y_MODEL}####################
+ODE_MODEL=MADMODEL####################
 ################################################### (see rainTemperature.c) ##################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   N U M E R I C A L   I N T E G R A T I O N  ##
 ODE_DIR_GENERAL=${PROJECT_DIR}Definition_Numerical_Integration/#########
 ODE_DIR=${ODE_DIR_GENERAL}${ODE_MODEL}/#########
 ODE_DEF=${ODE_DIR_GENERAL}ODE_Definitions/###########################
 ODE_FIXED_POINTS=${PROJECT_DIR}Fixed_Points_Functions/###########
-ODE_R_0=${PROJECT_DIR}R_0_Definition/${ODE_MODEL}/###########
 TYPE_NUMERICAL_INTEGRATION=GSL_RKF45#############################
 ######################################## Possibilities:
 ######################################## 'GSL_BSIMP' uses the Jacobian matrix which has to be provided in JAC_sys${SYS}.c.
@@ -80,7 +79,7 @@ EXE=${ODE_MODEL}
 EXTERN=#Possibilities: void (to be locally executed) / -static (to be non-locally executed) #
 ######################################## Possibilities: GA (locally executed) / GA_EXTERN (non-locally executed)
 LDFLAGS+=-lm -lgsl -lgslcblas -lDa_GSL_UTL -lda_IO -lda_Optimization -lda_Error -lNumRec -lNRUTL -L${C_NR} -lda_cpgplot_XY_GRID_FILE -lda_cpgplot_BASIC ${EXTRA_LIBRARY_PATH}
-CXXFLAGS+=${EXTRA_INCLUDE_PATH} -D${V} -D${CPG} -D${FILE}  -D${TYPE_NUMERICAL_INTEGRATION} -D${RANDOM_SEED}  -D${X_MODEL} -D${Y_MODEL} -D${JACOBIAN} -D${NR} -D${STATIONARITY} -DHAVE_INLINE ${EXTERN} -g #-Wall
+CXXFLAGS+=${EXTRA_INCLUDE_PATH} -D${V} -D${CPG} -D${FILE}  -D${TYPE_NUMERICAL_INTEGRATION} -D${RANDOM_SEED}  -D${ODE_MODEL} -D${JACOBIAN} -D${NR} -D${STATIONARITY} -DHAVE_INLINE ${EXTERN} -g #-Wall
 ##############################################################################################################
 # either -g or some optimization opiton, for instance, -O3
 # This makefile uses full power of conditional compilation. There is a bunch of variables that control this and
@@ -90,17 +89,14 @@ LIBS=-L/usr/lib -lX11
 PGPLOT_LIB=-L/usr/lib -lpgplot -L/usr/lib -lpng
 CPGPLOT_LIB=-L/usr/lib -lcpgplot -lpgplot -L/usr/lib -lpng
 ##############################################################################################################
-OBJECTS = main.o report.o argumentControl.o argumentControl_fprintf.o assert_right_model_definition.o Observed_Data.o                         \
-	Parameter_Model.o Time_Control.o Parameter_Table.o definition_OutPut_Variables.o assignCodes_to_Model_Parameters.o assignLabel_to_Model_Parameters.o assignLabel_to_Model_Variables.o assignLabel_to_Output_Variables.o assignStructValue_to_VectorEntry.o assignSymbol_to_Model_Parameters.o assignSymbol_to_Model_Variables.o assignSymbol_to_Output_Variables.o assignVectorEntry_to_Structure.o fprintf_Model_Parameters.o Model_Variable_Initial_Condition_into_Vector_Entry.o Vector_Entry_into_Model_Variable_Initial_Condition.o fprintf_Output_Variables.o                                                        \
-	Latex_assignLabel_to_Model_Parameters.o  Latex_Write_Parameter_Table.o               \
-	Parameter_Space.o Parameter_Space_Boundary_for_Trends${TYPE_of_BOUNDARY}.o  Initial_Condition_Boundary_Values.o  \
-	deterministic_time_dynamics.o numerical_Integration_Driver.o Initial_Conditions_Numerical_Integration.o Initial_Condition_from_Parameter_Table.o  Random_Initial_Condition.o Random_Initial_Guess_within_Boundaries.o ODE_sys_${ODE_MODEL}.o JAC_sys_MODEL.o JACOBIAN_Matrix_${ODE_MODEL}.o  R_0_Function.o               \
-	Model_Variables_Code.o Total_Effective_Fractions.o Total_Population_Numbers.o Total_Disease_Prevalence.o Total_Disease_Infection.o Total_Population_Fractions.o \
-	stat.o                                                                               \
-	CPGPLOT___X_Y___Parameter_Table.o                                                    \
-	Fixed_Points_All.o Steady_State_x_Fraction.o x_y_Fixed_Points_Functions.o Feasibility_Condition.o Steady_State_y_Fraction.o intermediateRoot_x_Fraction.o Stable_Solution.o Stable_Solution_x.o Stable_Solution_y.o Generic_Root_Finder.o x_y_Intersection_Plots.o                                                         \
-	Time_Dependence_Apply.o Time_Dependence_Resolve.o Time_Dependence_Control.o Trend_Control.o # index.Definition${TYPE_of_INDEX}.o
-
+OBJECTS = main.o report.o argumentControl.o argumentControl_fprintf.o MODEL.o assert_right_model_definition.o Observed_Data.o                  \
+	Parameter_Model.o Time_Control.o Parameter_Table.o definition_OutPut_Variables.o definition_OutPut_Variables_Functions.o assignCodes_to_Model_Parameters.o assignLabel_to_Model_Parameters.o assignLabel_to_Model_Variables.o assignLabel_to_Output_Variables.o assignStructValue_to_VectorEntry.o assignSymbol_to_Model_Parameters.o assignSymbol_to_Model_Variables.o assignSymbol_to_Output_Variables.o assignVectorEntry_to_Structure.o assignLatex_Label_to_Model_Parameters.o  Latex_Write_Parameter_Table.o fprintf_Model_Parameters.o Model_Variable_Initial_Condition_into_Vector_Entry.o Vector_Entry_into_Model_Variable_Initial_Condition.o fprintf_Output_Variables.o                                                                 \
+	Parameter_Space.o Parameter_Space_Boundary_for_Trends${TYPE_of_BOUNDARY}.o  Initial_Condition_Boundary_Values.o                        \
+	deterministic_time_dynamics.o numerical_Integration_Driver.o Initial_Conditions_Numerical_Integration.o Initial_Condition_from_Parameter_Table.o  Random_Initial_Condition.o Random_Initial_Guess_within_Boundaries.o ODE_sys_${ODE_MODEL}.o JAC_sys_MODEL.o JACOBIAN_Matrix_${ODE_MODEL}.o                                                \
+	Model_Variables_Code.o               \
+	stat.o                               \
+	CPGPLOT___X_Y___Parameter_Table.o    \
+	Time_Dependence_Apply.o Time_Dependence_Resolve.o Time_Dependence_Control.o Trend_Control.o
 ### Example:
 RUN_ARGS =-sP 1 -I0 21 -H21 1.0 -n 1 -v0 6 -G0 1 -G1 1 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -G5 1 -G6 0.0 -G7 1000000 -DP 4 -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0
 
@@ -109,7 +105,7 @@ FF=gfortran##
 
 all: ${EXE} COMPILATION_OPTIONS
 
-${EXE}:  	$(OBJECTS) library library_Error library_IO 
+${EXE}:  	$(OBJECTS) library library_Error library_IO
 		$(FF) -o ${EXE} $(OBJECTS) $(LDFLAGS) $(CXXFLAGS) $(CPGPLOT_LIB) $(LIBS)
 
 library:
@@ -133,6 +129,9 @@ argumentControl.o: argumentControl.c ${HEAD.H}
 
 argumentControl_fprintf.o: argumentControl_fprintf.c ${HEAD.H}
 	${CC} -c argumentControl_fprintf.c $(CXXFLAGS)
+
+MODEL.o: MODEL.c ${HEAD.H}
+	$(CC) -c MODEL.c $(CXXFLAGS)
 
 # Funcions controling main data structures (Parameter_Model, Time_Control,
 # Parameter_Table):
@@ -162,6 +161,9 @@ Time_Dependence_Control.o: ${TIME_TREND_DIR}Time_Dependence_Control.c ${HEAD.H}
 
 Parameter_Table.o: ${PROJECT_DIR}Parameter_Table.c ${HEAD.H}
 	${CC} -c ${PROJECT_DIR}Parameter_Table.c $(CXXFLAGS)
+
+definition_OutPut_Variables_Functions.o: ${PROJECT_DIR}definition_OutPut_Variables_Functions.c ${HEAD.H}
+	${CC} -c ${PROJECT_DIR}definition_OutPut_Variables_Functions.c ${CXXFLAGS}
 
 definition_OutPut_Variables.o: ${PROJECT_DIR}definition_OutPut_Variables.c ${HEAD.H}
 	${CC} -c ${PROJECT_DIR}definition_OutPut_Variables.c ${CXXFLAGS}
@@ -205,8 +207,8 @@ fprintf_Model_Parameters.o: ${PROJECT_DIR}fprintf_Model_Parameters.c ${HEAD.H}
 fprintf_Output_Variables.o: ${PROJECT_DIR}fprintf_Output_Variables.c ${HEAD.H}
 	${CC} -c ${PROJECT_DIR}fprintf_Output_Variables.c $(CXXFLAGS)
 
-Latex_assignLabel_to_Model_Parameters.o: ${PROJECT_DIR}Latex_assignLabel_to_Model_Parameters.c ${HEAD.H}
-	${CC} -c ${PROJECT_DIR}Latex_assignLabel_to_Model_Parameters.c  ${CXXFLAGS}
+assignLatex_Label_to_Model_Parameters.o: ${PROJECT_DIR}assignLatex_Label_to_Model_Parameters.c ${HEAD.H}
+	${CC} -c ${PROJECT_DIR}assignLatex_Label_to_Model_Parameters.c  ${CXXFLAGS}
 
 Latex_Write_Parameter_Table.o:  ${PROJECT_DIR}/Latex_Write_Parameter_Table.c ${HEAD.H}
 	${CC} -c ${PROJECT_DIR}Latex_Write_Parameter_Table.c ${CXXFLAGS}
@@ -218,8 +220,8 @@ Parameter_Space.o: ${PROJECT_DIR}Definition_Parameter_Space/Parameter_Space.c ${
 Parameter_Space_Boundary_for_Trends${TYPE_of_BOUNDARY}.o:  ${PROJECT_DIR}Definition_Parameter_Space/Parameter_Space_Boundary_for_Trends${TYPE_of_BOUNDARY}.c ${HEAD.H}
 	${CC} -c ${PROJECT_DIR}Definition_Parameter_Space/Parameter_Space_Boundary_for_Trends${TYPE_of_BOUNDARY}.c $(CXXFLAGS)
 
-Initial_Condition_Boundary_Values.o:  ${PROJECT_DIR}Definition_Parameter_Space/Initial_Condition_Boundary_Values.c ${HEAD.H}
-	${CC} -c ${PROJECT_DIR}Definition_Parameter_Space/Initial_Condition_Boundary_Values.c $(CXXFLAGS)
+Initial_Condition_Boundary_Values.o:  ${PROJECT_DIR}Definition_Numerical_Integration/${ODE_MODEL}/Initial_Condition_Boundary_Values.c ${HEAD.H}
+	${CC} -c ${PROJECT_DIR}Definition_Numerical_Integration/${ODE_MODEL}/Initial_Condition_Boundary_Values.c $(CXXFLAGS)
 
 # index.Definition${TYPE_of_INDEX}.o: ${PROJECT_DIR}Definition_Parameter_Space/index.Definition${TYPE_of_INDEX}.c ${HEAD.H}
 #	${CC} -c ${PROJECT_DIR}Definition_Parameter_Space/index.Definition${TYPE_of_INDEX}.c $(CXXFLAGS)
@@ -227,10 +229,6 @@ Initial_Condition_Boundary_Values.o:  ${PROJECT_DIR}Definition_Parameter_Space/I
 # Functions to control graphical plots
 CPGPLOT___X_Y___Parameter_Table.o: ${CPGPLOT}CPGPLOT_Parameter_Table/CPGPLOT___X_Y___Parameter_Table.c ${CPGPLOT}CPGPLOT_Parameter_Table/CPGPLOT___X_Y___Parameter_Table.h
 	${CC} -c ${CPGPLOT}CPGPLOT_Parameter_Table/CPGPLOT___X_Y___Parameter_Table.c $(CXXFLAGS)
-
-# R_0 (model-dependent definition)
-R_0_Function.o: ${ODE_R_0}R_0_Function.c ${HEAD.H}
-	$(CC) -c ${ODE_R_0}R_0_Function.c $(CXXFLAGS)
 
 # Functions controling numerical integration of the ODE system
 deterministic_time_dynamics.o: ${ODE_DIR_GENERAL}deterministic_time_dynamics.c ${HEAD.H}
@@ -264,25 +262,6 @@ ODE_sys_${ODE_MODEL}.o: ${ODE_DEF}ODE_sys_${ODE_MODEL}.c ${HEAD.H}
 Model_Variables_Code.o: ${PROJECT_DIR}Model_Variables_Code.c ${HEAD.H}
 	${CC} -c ${PROJECT_DIR}Model_Variables_Code.c $(CXXFLAGS)
 
-Total_Effective_Fractions.o: ${PROJECT_DIR}Total_Effective_Fractions.c ${HEAD.H}
-	$(CC) -c ${PROJECT_DIR}Total_Effective_Fractions.c $(CXXFLAGS)
-
-Total_Population_Numbers.o: ${PROJECT_DIR}Total_Population_Numbers.c ${HEAD.H}
-	$(CC) -c ${PROJECT_DIR}Total_Population_Numbers.c $(CXXFLAGS)
-
-Total_Population_Fractions.o: ${PROJECT_DIR}Total_Population_Fractions.c ${HEAD.H}
-	$(CC) -c ${PROJECT_DIR}Total_Population_Fractions.c $(CXXFLAGS)
-
-Total_Disease_Prevalence.o: ${PROJECT_DIR}Total_Disease_Prevalence.c ${HEAD.H}
-	$(CC) -c ${PROJECT_DIR}Total_Disease_Prevalence.c $(CXXFLAGS)
-
-Total_Disease_Infection.o: ${PROJECT_DIR}Total_Disease_Infection.c ${HEAD.H}
-	$(CC) -c ${PROJECT_DIR}Total_Disease_Infection.c $(CXXFLAGS)
-
-# R_0 related functions:
-R_0.o: ${PROJECT_DIR}R_0.c ${HEAD.H}
-	${CC} -c ${PROJECT_DIR}R_0.c $(CXXFLAGS)
-
 # Funcions to calculate the fixed points of the ODE system
 Fixed_Points_All.o: ${ODE_FIXED_POINTS}Fixed_Points_All.c ${HEAD.H}
 	$(CC) -c ${ODE_FIXED_POINTS}Fixed_Points_All.c $(CXXFLAGS)
@@ -299,8 +278,8 @@ Steady_State_y_Fraction.o: ${ODE_FIXED_POINTS}Steady_State_y_Fraction.c ${HEAD.H
 x_y_Fixed_Points_Functions.o: ${ODE_FIXED_POINTS}x_y_Fixed_Points_Functions.c ${HEAD.H}
 	$(CC) -c ${ODE_FIXED_POINTS}x_y_Fixed_Points_Functions.c $(CXXFLAGS)
 
-x_y_Intersection_Plots.o: ${ODE_FIXED_POINTS}x_y_Intersection_Plots.c ${HEAD.H}
-	$(CC) -c ${ODE_FIXED_POINTS}x_y_Intersection_Plots.c $(CXXFLAGS)
+# y_W_diagramm.o: ${ODE_FIXED_POINTS}y_W_diagramm.c ${HEAD.H}
+#	$(CC) -c ${ODE_FIXED_POINTS}y_W_diagramm.c $(CXXFLAGS)
 
 intermediateRoot_x_Fraction.o: ${ODE_FIXED_POINTS}intermediateRoot_x_Fraction.c ${HEAD.H}
 	$(CC) -c ${ODE_FIXED_POINTS}intermediateRoot_x_Fraction.c $(CXXFLAGS)
@@ -320,15 +299,10 @@ Generic_Root_Finder.o: ${ODE_FIXED_POINTS}Generic_Root_Finder.c ${HEAD.H}
 Feasibility_Condition.o: ${ODE_FIXED_POINTS}Feasibility_Condition.c ${HEAD.H}
 	$(CC) -c ${ODE_FIXED_POINTS}Feasibility_Condition.c $(CXXFLAGS)
 
-# Functions involved in controling time dependent dynamics
-# time_Oscillations_Parameter_Forcing.o: ${PROJECT_DIR}time_Oscillations_Parameter_Forcing.c ${HEAD.H}
-# 	${CC} -c ${PROJECT_DIR}time_Oscillations_Parameter_Forcing.c $(CXXFLAGS)
-
 # Library of generic statistical functions and generic basic libraries to perform stochatic simulations
 stat.o:	${PROJECT_DIR}stat.c ${PROJECT_DIR}stat.h
 	${CC} -c ${PROJECT_DIR}stat.c $(CXXFLAGS)
 #
-
 clean:
 	rm -f *.o *~ core
 #

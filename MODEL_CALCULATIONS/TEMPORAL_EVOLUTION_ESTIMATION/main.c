@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                            David Alonso, 2018 (c)                         */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include <Include/MODEL.h>
+#include <MODEL.h>
 
 #include "global.h"
 
@@ -20,7 +20,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    Execution:
 
-   . ~$ ./MADMODEL -y0 0 -G0 2 -G1 2 -n 4 -v0 3 -v1 4 -v2 5 -v3 6 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 10.0 -t4 1 -xn 0 -xN 0.0 -tE 2.0 -tR 100 -xn 0 -xR 0 -xN 0.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate.dat -Y1 12
+   . ~$ ./MADMODEL -y0 0 -G0 2 -G1 2 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate.dat -Y1 12
 
    Two important Notices: 
  1. -tn 12 and -Y0 12 should match!!! 
@@ -58,6 +58,12 @@ int main(int argc, char **argv)
 
   /* Command line arguments */
   if(argc>1) ArgumentControl(argc, argv);
+
+/* This is important to update Output Variable Index vector and dependent parameter 
+   vector according to imput parameters from the command line 
+*/
+#include <include.Time_Dependence_Control.default.aux.c>
+#include <include.Output_Variables.default.aux.c>
 
 #include "include.Output_Variables.default.aux.c"
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
@@ -110,7 +116,7 @@ int main(int argc, char **argv)
   /* B E G I N : Reserving memmory for Parameter Space */
 #include <include.Parameter_Space.default.aux.c>
   Parameter_Space * Space = (Parameter_Space *)calloc(1, sizeof(Parameter_Space));
-  Parameter_Space_Alloc( Space, No_of_PARAMETERS, d);
+  Parameter_Space_Alloc( Space, No_of_PARAMETERS, d);  // -sP 2
   Parameter_Space_Initialization( Space, No_of_PARAMETERS, TOLERANCE, MAX_No_of_ITERATIONS,
 				  d, Index, Ranges, Acc);
   Table.S = Space;
@@ -154,14 +160,14 @@ int main(int argc, char **argv)
 
   OBSERVED_DATA_FILE[0] = '\0';
   pF = strcat(OBSERVED_DATA_FILE, "Observed_Data_File.dat");          /* Default Name */
-  if( No_of_FILES > 0) strcpy(OBSERVED_DATA_FILE, Name_of_FILE[0]);
+  if( No_of_FILES > 0) strcpy(OBSERVED_DATA_FILE, Name_of_FILE[0]);   // -Fn 2
 
   TIME_PARAMETERS_FILE[0] = '\0';
   pF = strcat(TIME_PARAMETERS_FILE, "Time_Dependent_Parameters.dat"); /* Default Name */
   if( No_of_FILES > 1) strcpy(TIME_PARAMETERS_FILE, Name_of_FILE[1]);
   /*     E N D -----------------------------------------------------------------------*/
 
-  if (TYPE_of_TIME_DEPENDENCE == 0) {
+  if (TYPE_of_TIME_DEPENDENCE == 0) {                                 // -t4 1
     printf(" No Time Dependence!!!\n");
     printf(" Check -t4 argument. It should be: -t4 1, but it is: -t4 %d\n",
 	   TYPE_of_TIME_DEPENDENCE);
@@ -225,7 +231,7 @@ int main(int argc, char **argv)
 
   s = 0;
   int s_Attemps   = 0;   /* This counter will count number of random seeds */
-  int Total_Tries = Realizations;
+  int Total_Tries = Realizations;                                // -tR 1000
   for(z=0; z<Realizations; z++) {  
 
     Parameter_Model_Copy_into_Parameter_Table(&Table, Initial_Guess);
@@ -236,14 +242,15 @@ int main(int argc, char **argv)
     Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 				   I_Time, No_of_EMPIRICAL_TIMES,
 				   TIME_DEPENDENT_PARAMETERS,
-				   TYPE_of_TIME_DEPENDENCE,
-				   TYPE_0_PARAMETERS,
-				   TYPE_1_PARAMETERS,
-				   TYPE_2_PARAMETERS,
-				   No_of_COVARIATES,
-				   dependent_parameter, forcing_pattern,
+				   TYPE_of_TIME_DEPENDENCE,        // -t4 1
+				   TYPE_0_PARAMETERS,              // -D0 0
+				   TYPE_1_PARAMETERS,              // -D1 1
+				   TYPE_2_PARAMETERS,              // -D2 0
+				   No_of_COVARIATES,               // -DC 0
+				   dependent_parameter, forcing_pattern, // -P0 16
 				   "File_of_Covariates.dat",
-				   TIME_PARAMETERS_FILE);
+				   TIME_PARAMETERS_FILE); 
+
     assert( Time_Dependence.No_of_TIMES == I_Time );
 
     /* Initial conditions from empirical data at the initial time ( -xn 0 )      */

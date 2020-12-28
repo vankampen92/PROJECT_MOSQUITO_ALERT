@@ -2372,3 +2372,54 @@ int Number_of_Octaves( int max_A, double * x, int MAX_NUMBER_of_OCTAVES_EVER)
       return(n_Bin); /* Number of Bins in the plot representation */
 }
 
+int Discret_Time_Choice_Interpolation(double xr, double * Time, int N)
+{
+  /* Input Arguments:  
+     . Time[] an ordered vector, such a time vector 
+     . N, dimension of the array Time[]
+     . xr, value to sort. 
+
+     Output: 
+     . This functions returns the position j2 in an ordered array Time
+     such that:  
+               Time[j2]  <  xr < Time[j2+1]
+  */
+  int j1,j2,jm, kount;
+  int stat_Bool;
+  double x_1, x_2, x_m;
+
+  if (xr >= Time[0] && xr <= Time[N-1] ) {
+
+    x_1 = Time[0];
+    if( xr == x_1 ) return(0);  /* Coincides with the first value, Time[0] */
+
+    stat_Bool = 0;
+    j1 = 0;            x_1 = Time[j1];
+    j2 = N-1;          x_2 = Time[j2];
+    while(stat_Bool == 0){
+      jm = (j1 + j2)/2; /* Integer division by 2 */
+      x_m = Time[jm];
+      if(j1 == j2-1)
+        stat_Bool = 1;  /* Brackening has succedeed  p(j1)< xr <= p(j2), p(i) = Time[i] */
+      else{
+        if((xr > x_m) && (xr <= x_2)){
+          x_1 = x_m;
+          j1  = jm;
+        }
+        else{
+          x_2 = x_m;
+          j2  = jm;
+        }
+      }
+    }
+
+    return (j2-1);
+  }
+  else{
+
+    printf(" Time[0] = %g < %g < Time[%d] = %g is false !!!\n", Time[0], xr, N-1, Time[N-1]);
+    Print_Press_Key(1, 1, "Input value out of range");
+
+    return (-1);
+  }
+}
