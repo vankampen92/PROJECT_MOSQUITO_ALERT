@@ -4,7 +4,7 @@
 # .~$ bash Ordering_3KK.sh [Name of File], in this case, Full_Parameter_Set.dat 
 
 head -n 1 $1 > Title_Row.txt
-awk '{ if ($13 < 100.0) { print } }' $1 | sort -k 13 -s | awk 'NR==1 { temp=$13; ((temp+=2)) } NR>=1 { if ($13 <= temp) { print } }' > ${1/%.dat/_Ord.dat}; 
+awk '{ if ($13 < 100000.0) { print } }' $1 | sort -g -k 13 -s | awk 'NR==1 { temp=$13; ((temp+=2)) } NR>=1 { if ($13 <= temp) { print } }' > ${1/%.dat/_Ord.dat}; 
 
 for f in *Ord.dat;
 do

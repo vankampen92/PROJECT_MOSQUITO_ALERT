@@ -10,7 +10,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 /* This code estimates ODE model parameters from data. Observed data are
    given as an input file (in matrix structure: a first row of times and
    as many rows as observed variables in the following rows). If there is
-   time dependence (for instance, in just parameter 16 (the 'downloading
+   time dependence (for instance, in just parameter 16, the 'downloading
    rate': -t4 1 -DP 1 -DC- -D0 0 -D1 1 -D2 0 -P0 16), then a time dependent
    file should be also provided through the input agument list.
 
