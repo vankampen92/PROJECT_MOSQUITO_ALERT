@@ -16,7 +16,7 @@ extern double A_Rate;
    assert(Table->No_of_AGES == Table->MODEL_STATE_VARIABLES);
    
    Table->CPG->CPG_RANGE_X_0 = 0;
-   Table->CPG->CPG_RANGE_X_1 = (double)Table->No_of_AGES/2.0;
+   Table->CPG->CPG_RANGE_X_1 = (double)Table->No_of_AGES/1.0;
    Table->CPG->CPG_RANGE_Y_0 = 0;
    Table->CPG->CPG_RANGE_Y_1 = 0.03 * A_Rate/Table->Gamma_0;
    

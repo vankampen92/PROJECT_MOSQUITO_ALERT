@@ -37,7 +37,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    (with generation of 4 output variables: P[0], P[1], P[2], P[3] that will become psedodata with
    additional Gaussian noise in Psedo_Data_File)
-   .~$ ./MADMODEL -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -G0 2 -G1 2 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tR 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 0 
+   .~$ ./MADMODEL -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -G0 2 -G1 2 -tn 100 -t0 0.0 -t1 10.0 -t4 1 -tcd R 1 -xn 0 -xN 0.0  -KK 1 -z0 0.5 -g0 0.01 -k0 100 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 0 
 
    (with generation of 4 output variables: P[0], P[1], P[2], P[3] that will become psedodata with
    additional Gaussian noise in Psedo_Data_File, but now 3 different age groups and 150 ages classe)
