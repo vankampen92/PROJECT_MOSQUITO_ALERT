@@ -154,7 +154,7 @@ int D_E_T_E_R_M_I_N_I_S_T_I_C___T_I_M_E___D_Y_N_A_M_I_C_S( Parameter_Table * Tab
 #if defined EVOLUTION_AGE_DISTRIBUTION    
     if (j%10 == 0) {
       Evolution_Age_Distribution_Plot( Table, j );
-      Press_Key();
+      // Press_Key();
     }
 #endif    
     /*   END: Grafical Representation per time step */

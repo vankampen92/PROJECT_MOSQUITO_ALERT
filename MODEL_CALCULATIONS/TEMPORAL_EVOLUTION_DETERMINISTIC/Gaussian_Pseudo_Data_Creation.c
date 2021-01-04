@@ -88,11 +88,12 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
   printf("X Axis Range: [%g, %g]\n", Table->CPG->CPG_RANGE_X_0, Table->CPG->CPG_RANGE_X_1);
   printf("Y Axis Range: [%g, %g]\n", Table->CPG->CPG_RANGE_Y_0, Table->CPG->CPG_RANGE_Y_1);
 
-  /* Directly controlled through input arguments (see extern double CPG_RANGE_X_0; above!!) */
-  /* Table->CPG->CPG_RANGE_X_0 = CPG_RANGE_X_0; */
-  /* Table->CPG->CPG_RANGE_X_1 = CPG_RANGE_X_1; */
-  /* Table->CPG->CPG_RANGE_Y_0 = CPG_RANGE_Y_0; */
-  /* Table->CPG->CPG_RANGE_Y_1 = CPG_RANGE_Y_1; */
+  /* In order to directly control ranges from the command line (through input arguments), 
+     please comment out the four lines below (see extern double CPG_RANGE_X_0; above!!) */
+  /* Table->CPG->CPG_RANGE_X_0 = CPG_RANGE_X_0; */ /* -G3 0.0    */
+  /* Table->CPG->CPG_RANGE_X_1 = CPG_RANGE_X_1; */ /* -G4 1000.0 */  /* X axis range */ 
+  /* Table->CPG->CPG_RANGE_Y_0 = CPG_RANGE_Y_0; */ /* -G6 0.0    */
+  /* Table->CPG->CPG_RANGE_Y_1 = CPG_RANGE_Y_1; */ /* -G7 200    */  /* Y axix range */
   
   Table->CPG->color_Index = 5;
   Table->CPG->type_of_Line = 1;

@@ -2418,7 +2418,8 @@ int Discret_Time_Choice_Interpolation(double xr, double * Time, int N)
   else{
 
     printf(" Time[0] = %g < %g < Time[%d] = %g is false !!!\n", Time[0], xr, N-1, Time[N-1]);
-    Print_Press_Key(1, 1, "Input value out of range");
+    Print_Press_Key(1, 1, "Input value out of range in Discrete_Time_Choice_Interpolation(...)\n");
+    Print_Press_Key(1, 1, "from stat.c library\n"); 
 
     return (-1);
   }

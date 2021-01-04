@@ -22,14 +22,14 @@
 
 #define No_of_CELLS_Y_MAXIMUM 1
   
-#define No_of_AGES_MAXIMUM 2000           /* S *//* Number of local states */
+#define No_of_AGES_MAXIMUM 3000           /* S *//* Number of local states */
 
-#define MODEL_STATE_VARIABLES_MAXIMUM 2000  /* M */ /* Dimension maximum, i.e., 2000 * 1 cells */
+#define MODEL_STATE_VARIABLES_MAXIMUM 3000  /* M */ /* Dimension maximum, i.e., 3000 * 1 cells */
                                             /* S * M */
 #define OUTPUT_VARIABLES_GENUINE 3          /* Number Output Variables (other than MODEL_STATE_VARIABLES)*/
                                             /* See definition_OutPut_Variables.c */
 
-#define OUTPUT_VARIABLES_MAXIMUM 2003  /* MODEL_STATE_VARIABLES_MAXIMUM +
+#define OUTPUT_VARIABLES_MAXIMUM 3003  /* MODEL_STATE_VARIABLES_MAXIMUM +
 					       OUTPUT_VARIABLES_GENUINE */
 
 typedef struct totalRateinfo

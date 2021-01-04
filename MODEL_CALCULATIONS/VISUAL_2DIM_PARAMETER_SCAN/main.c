@@ -202,7 +202,7 @@ int main(int argc, char **argv)
   Table.Fitting_Data       = (void *)F;  /* Table and F structures point to each other */
 
   int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
-                                             // For example, -Y1 12 (see input argument list)
+                                           // For example, -Y1 12 (see input argument list)
   Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 				 I_Time, No_of_EMPIRICAL_TIMES,
 				 TIME_DEPENDENT_PARAMETERS,

@@ -148,8 +148,11 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
       for( j=0; j < No_of_TIMES; j++)  TDC->Time_Vector[j] = Time->Time_Vector[j];
     }
     else {
-      // Empirical No of Times should coincide with number of times
-      // in the numerical integration
+
+      if ( TDC->No_of_EMPIRICAL_TIMES > TDC->No_of_TIMES  ) { 
+	printf(" Empirical No of Times should coincide with number of times\n");  
+        printf(" in the numerical integration. Please make -tn [No of EMPIRICAL TIMES]\n");
+      }
       
       assert( TDC->No_of_EMPIRICAL_TIMES == TDC->No_of_TIMES );
       

@@ -35,14 +35,14 @@ int Integer_Position_of_a_Time(Parameter_Table * Table, double t)
       position_found = 1;
       position = n;
     }
-    else if ( t >= (t_0 + (t_1-t_0)/2.0) && t < t_1 ) {
+    else if ( t >= (t_0 + (t_1-t_0)/2.0) && t <= t_1 ) {
       position_found = 1;
       position = n+1;
     }
     else {
       n++;
 
-      assert( n < (Table->TDC->No_of_TIMES-1));
+      assert( n < (Table->TDC->No_of_TIMES-1) );
 
       t_0 = Table->TDC->Time_Vector[n];
       t_1 = Table->TDC->Time_Vector[n+1];
