@@ -16,7 +16,7 @@ extern double A_Rate;
    assert(Table->No_of_AGES == Table->MODEL_STATE_VARIABLES);
    
    Table->CPG->CPG_RANGE_X_0 = 0;
-   Table->CPG->CPG_RANGE_X_1 = (double)Table->No_of_AGES/4.0;
+   Table->CPG->CPG_RANGE_X_1 = (double)Table->No_of_AGES/2.0;
    Table->CPG->CPG_RANGE_Y_0 = 0;
    Table->CPG->CPG_RANGE_Y_1 = 0.03 * A_Rate/Table->Gamma_0;
    
@@ -41,17 +41,22 @@ extern double A_Rate;
    sprintf(Time_Eraser, "Time = %5.2f", Last_Time);
   
    cpgslct(DEVICE_NUMBER);      /* Selecting Device */
-   SAME_PLOT = No_of_CALLS++; 
-   // SAME_PLOT = 0; 
+   SAME_PLOT = 0; 
+   // Comment out the line below if you want to represent
+   // ages distributions for successive times on the same plot
+   // as time advances. 
+   // SAME_PLOT = No_of_CALLS; 
+   
    CPGPLOT___X_Y___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T ( Table->CPG,
-   							   SAME_PLOT,
-   							   Table->No_of_AGES,
-   							   x_Data,
-   							   Table->Vector_Model_Variables,
-   							   "Participant Age",
-   							   "Number of Participants",
-   							   "",
-   							   1, 1);
+							 SAME_PLOT,
+							 Table->No_of_AGES,
+							 x_Data,
+							 Table->Vector_Model_Variables,
+							 "Participant Age",
+							 "Number of Participants",
+							 "",
+							 1, 1);
+   No_of_CALLS++;
    
    /* CPGPLOT___X_Y___S_C_A_T_T_E_R_E_D___S_A_M_E___P_L_O_T ( Table->CPG, */
    /* 							   SAME_PLOT, */
