@@ -19,7 +19,7 @@
    
    Execution:
                                                        
-   . ~$ ./MADMODEL -y0 0 -G0 1 -G1 1 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -iP 0 -en 0 -eV 100.0 -sP 2 -KK 1 -k0 100 -I0 0 -m0 0.2 -M0 1.0 -d0 300 -I1 1 -m1 0.001 -M1 0.05 -d1 300 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate.dat -Y1 12 -G14 "Function:\\(2749)\\gx\\u2\\d"
+   . ~$ ./MADMODEL -y0 0 -G0 1 -G1 1 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -iP 0 -en 0 -eV 100.0 -sP 2 -KK 1 -k0 100 -z0 0.5 -g0 0.01 -I0 0 -m0 0.2 -M0 1.0 -d0 300 -I1 1 -m1 0.001 -M1 0.05 -d1 300 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate.dat -Y1 12 -G14 "Function:\\(2749)\\gx\\u2\\d"
    
    -G14 is the title. This input argument only works when you are generating an only final 
    plot with only one panel as the single graphical output over all your code. What is written 
@@ -78,9 +78,9 @@ int main(int argc, char **argv)
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
 
-  Parameter_Model * Initial_Guess = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
-  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, Initial_Guess);
-  printf(" Parameter_Model structure 'Initial_Guess' has been correctly allocated and initiated\n");
+  Parameter_Model * Parameter_True_Values = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
+  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, Parameter_True_Values);
+  printf(" Parameter_Model structure 'Parameter_True_Values' has been correctly allocated and initiated\n");
   
   /* B E G I N : Reserving memmory for Parameter Space */
   Parameter_Space * Error_Space = (Parameter_Space *)calloc(1, sizeof(Parameter_Space));
@@ -272,7 +272,7 @@ int main(int argc, char **argv)
 							    Table.CPG->CPG_RANGE_W_0,
 							    Table.CPG->CPG_RANGE_W_1,
 							    i_PLOT );
-
+    
     /* Annotating the countours by hand */
     // cpgptxt(float x, float y, float angle, float fjust,  const char *text);
     
@@ -281,7 +281,14 @@ int main(int argc, char **argv)
     cpgptxt(0.0003, 60.0, 0.0, 0.0,   "20.0");
     cpgptxt(0.00082, 75.0, 0.0, 0.0,  "50.0");
 
-    cpgpt1(0.5, 0.01, 4);
+    key = Space->Parameter_Index[0]; 
+    double Px = Parameter_Model_into_Vector_Entry ( key, Parameter_True_Values );
+
+    key = Space->Parameter_Index[1]; 
+    double Py = Parameter_Model_into_Vector_Entry ( key, Parameter_True_Values );
+    
+    cpgpt1(Px, Py, 4);
+
     // cpg_XY_same_arrow( N, xs, ys, CPG->color_Index, CPG->type_of_Line, CPG->type_of_Width );
     float * xs = (float *)calloc(2, sizeof(float) );
     float * ys = (float *)calloc(2, sizeof(float) );
@@ -310,7 +317,7 @@ int main(int argc, char **argv)
   free(Error_Space);
 
   #include <include.Output_Variables.default.free.c>
-  free(Initial_Guess);
+  free(Parameter_True_Values);
 
   #include <include.Time_Dependence_Control.default.free.c>
   
