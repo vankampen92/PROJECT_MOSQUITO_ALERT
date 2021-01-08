@@ -47,6 +47,8 @@ gsl_rng * r; /* Global generator defined in main.c */
    that may become psedodata with additional Gaussian noise in Psedo_Data_File.dat, but now 3 different age groups  
    and 2001 (20 + 1500 + 480) ages classes in total)
    .~$ ./MADMODEL -y0 0 -n 6 -v0 3 -v1 4 -v2 5 -v3 6 -v4 104 -v5 105 -G0 3 -G1 2 -tn 2354 -t0 0.0 -t1 2385.0 -t4 1 -tR 1 -xn 0 -xN 0.0 -xR 0 -KK 3 -z0 5.0 -g0 0.1 -k0 20 -z1 5.0 -g1 0.01 -k1 1500 -z2 5.0 -g2 0.05 -k2 480 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 1 -F0 Downloads_Transposed.data -Y0 2354
+
+   ./MADMODEL -y0 0 -n 100 -G0 10 -G1 10 -tn 2354 -t0 0.0 -t1 2385.0 -t4 1 -tR 1 -xn 0 -xN 0.0 -xR 0 -KK 3 -z0 5.0 -g0 0.1 -k0 20 -z1 5.0 -g1 0.01 -k1 1500 -z2 5.0 -g2 0.05 -k2 480 -rA 100.0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 1 -F0 Downloads_Transposed.data -Y0 2354
 */
 
 int main(int argc, char **argv)
