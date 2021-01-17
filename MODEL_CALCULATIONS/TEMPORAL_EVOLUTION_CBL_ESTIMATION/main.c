@@ -21,12 +21,12 @@ gsl_rng * r; /* Global generator defined in main.c */
    Execution:
 
    (1 single age group, 100 ages classe)
-   . ~$ ./MADMODEL -y0 0 -G0 2 -G1 2 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_12P_KK1.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate_12P_KK1.dat -Y1 12
+   . ~$ ./MADMODELNW -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_12P_KK1.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate_12P_KK1.dat -Y1 12
 
    (True parameters: -KK 1 -z0 0.5 -g0 0.01 -k0 100) (Results file renamed as Full_Parameter_Set_Ordered_KK1.dat)
 
    (3 age groups, 50 ages classes per group)
-   . ~$ ./MADMODEL -y0 0 -G0 2 -G1 2 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 6 -KK 3 -k0 50 -k1 50 -k2 50 -I0 0 -m0 0.0 -M0 10.0 -A0 0.001 -I1 1 -m1 0.0 -M1 1.0 -A1 0.001 -I2 3 -m2 0.0 -M2 10.0 -A2 0.001 -I3 4 -m3 0.0 -M3 0.1 -A3 0.001 -I4 6 -m4 0.0 -M4 10.0 -A4 0.001 -I5 7 -m5 0.0 -M5 0.1 -A5 0.001 -iP 0 -en 0 -eV 100.0 -tn 100 -t0 0.0 -t1 24.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_100P_KK3.dat -Y0 100 -F1 Time_Dependent_Downloading_Rate_25P.dat -Y1 25
+   . ~$ ./MADMODELNW -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 6 -KK 3 -k0 50 -k1 50 -k2 50 -I0 0 -m0 0.0 -M0 10.0 -A0 0.001 -I1 1 -m1 0.0 -M1 1.0 -A1 0.001 -I2 3 -m2 0.0 -M2 10.0 -A2 0.001 -I3 4 -m3 0.0 -M3 0.1 -A3 0.001 -I4 6 -m4 0.0 -M4 10.0 -A4 0.001 -I5 7 -m5 0.0 -M5 0.1 -A5 0.001 -iP 0 -en 0 -eV 100.0 -tn 100 -t0 0.0 -t1 24.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_100P_KK3.dat -Y0 100 -F1 Time_Dependent_Downloading_Rate_25P.dat -Y1 25
     
    (True parameters: -KK 3 -z0 5.0 -g0 0.1 -k0 50 -z1 5.0 -g1 0.01 -k1 50 -z2 5.0 -g2 0.05 -k2 50) (Results file renamed as Full_Parameter_Set_Ordered_KK3.dat)
 
@@ -145,10 +145,11 @@ int main(int argc, char **argv)
     printf( "f(%d)=%g, ", i, gsl_rng_uniform(r) );
     printf( "f_GAUS(%d)=%g\n", i, gsl_ran_gaussian(r, 1.0) );
   }
-  printf("\n");//Press_Key();
+  printf("\n");  // Press_Key();
   /*   END: Checking Random Number Generator Setup */
 #endif
-
+  Press_Key();
+  
   char   ** Name_of_Rows          = (char **)calloc(SUB_OUTPUT_VARIABLES, sizeof(char *) );
   double ** Empirical_Data_Matrix = (double **)calloc( SUB_OUTPUT_VARIABLES, sizeof(double *) );
   for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
@@ -208,7 +209,7 @@ int main(int argc, char **argv)
 				SUB_OUTPUT_VARIABLES, I_Time,
 				1, Name_of_Rows,
 				0, Time.Time_Vector);
-  Press_Key(); 
+  // Press_Key(); 
   /* B E G I N :   Reserving memmory for Observed Data and Fitting Structure */
   Observed_Data * Data = (Observed_Data *)calloc(1, sizeof(Observed_Data));
   Observed_Data_Alloc( Data, SUB_OUTPUT_VARIABLES, I_Time);
@@ -293,8 +294,8 @@ int main(int argc, char **argv)
       printf("\n");
     }
 
-    printf("... Simplex bounded optimization starts right at this point within the\n");
-    printf("... parameter space boundaries given above\n");
+    // printf("... Simplex bounded optimization starts right at this point within the\n");
+    // printf("... parameter space boundaries given above\n");
     // getchar();
 
     /* B E G I N :  This line of code invoques the optimizaton process for this random seed */

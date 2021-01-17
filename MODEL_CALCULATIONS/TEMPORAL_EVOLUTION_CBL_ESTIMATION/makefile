@@ -15,7 +15,6 @@ C_NR=${PROJECT_DIR}Library/C_NumRecip/#############
 GSL_DA=${PROJECT_DIR}Library/GSL_RANDOM/###########
 HEAD.H =${PROJECT_DIR}Include/MODEL.h##############
 INCLUDE_DIR=${PROJECT_DIR}Include##################
-CPGPLOT = ${HOME}/CPGPLOT/#########################
 # EXTRA_LIBRARY_PATH=-L/usr/local/pgplot#############
 EXTRA_LIBRARY_PATH+=-L${CPGPLOT}###################
 EXTRA_LIBRARY_PATH+=-L${CPGPLOT}library/###########
@@ -43,13 +42,23 @@ NR=NUMERICAL_RECIPES###############################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   P R O G R A M   O U T P U T
 V=NON_VERBOSE###################################### Possibilities: 'VERBOSE' / 'NON_VERBOSE'
 FILE=FILE_REPRESENTATION###################### Possibilities: 'FILE_REPRESENTATION' / 'NON_FILE_REPRESENTATION'
-CPG=CPGPLOT_REPRESENTATION############## Possibilities: 'CPGPLOT_REPRESENTATION' / 'NON_CPGPLOT_REPRESENTATION'
+CBL=NW###################################### Possibilitites: 'NW' or comment out this definition in order to 
+############################################                  exectute with graphical output. In that case 
+############################################                  CPG environment variable should be, of course,
+############################################                  CPGPLOT_REPRESENTATION
+CPG=NON_CPGPLOT_REPRESENTATION############## Possibilities: 'CPGPLOT_REPRESENTATION' / 'NON_CPGPLOT_REPRESENTATION'
 STATIONARITY=NON_STATIONARY_POINT_REPRESENTATION# Possibilitites: 'STATIONARY_POINT_REPRESENTATION' / 'NON_STATIONARY_POINT_REPRESENTATION'
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   P A R A M E T E R   S P A C E ###############
 TYPE_of_BOUNDARY=###
 ##############################################################################################################
-RANDOM_SEED=CURRENT_TIME_RDN_SEED####### 'CURRENT_TIME_RDN_SEED' / 'FILE_RND_SEED'
+RANDOM_SEED=FILE_RND_SEED####### 'CURRENT_TIME_RDN_SEED' / 'FILE_RND_SEED'
+######################################## If FILE_RND_SEED is defined, then a new environment variable is needed,
+######################################## GSL_RNG_SEED. In some runs on the cluster, this variable is read from
+######################################## a file. Alternatively, you can execute the code always with the same
+######################################## random seed, if you call the exectutable as:
+######################################## GSL_RNG_SEED=69872641 ./MADMODELNW -y0 0 -n 4 -v0 ... ... ...
+######################################## In that case, remember that RANDOM_SEED should FILE_RND_SEED!!!
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N S   C O N T R O L I N G   M O D E L   D E F I N I T I O N #############
 ODE_MODEL=MADMODEL####################
@@ -75,7 +84,7 @@ EXTRA_INCLUDE_PATH+=-I${ODE_DEF}Include_${JACOBIAN}/#####
 ##############################################################################################################
 ## D E F I N I T I O N   N A M E   E X E C U T B L E   C O D E ###############################################
 ### EXE=${JACOBIAN}_${ODE_MODEL}
-EXE=${ODE_MODEL}
+EXE=${ODE_MODEL}${CBL}
 ##############################################################################################################
 EXTERN=#Possibilities: void (to be locally executed) / -static (to be non-locally executed) #
 ######################################## Possibilities: GA (locally executed) / GA_EXTERN (non-locally executed)

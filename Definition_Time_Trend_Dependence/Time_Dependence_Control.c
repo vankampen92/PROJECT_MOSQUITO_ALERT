@@ -55,9 +55,8 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
 {
   /* No_of_EMPIRICAL_TIMES is the number of times for which 
      we have data on changing parameter values. */ 
-  
+  int No_of_Rows; 
   int i,j,k;
-  int No_of_Rows;
   char ** Name_Dummy;
   double t;
   int * Function_Parameters = (int *)calloc(3, sizeof(int) ); 
@@ -127,6 +126,7 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
 					    No_of_EMPIRICAL_TIMES,
     					    0, Name_Dummy,
     					    1, Time_Empirical_Vector);
+     
     assert( No_of_Rows == TYPE_1_PARAMETERS);
 
     if( TDC->No_of_EMPIRICAL_TIMES < TDC->No_of_TIMES ) {

@@ -13,8 +13,8 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
   char * Name_Dummy = (char *)calloc( 50, sizeof(char) );
 
   FILE * fp;
-  printf("\n [Entering function Reading_Matrix_from_File(...)]\n");
-  printf(" Reading File %s...\n", File_Name);
+  printf("\n [Entering function Reading_Matrix_from_File(...)]:\t\n\tReading File %s...\n", 
+	File_Name);
   if((fp=fopen(File_Name,"r")) == NULL) {
     printf("File non-existent! Cannot open file.\n");
     printf("Program aborted!!!"); exit(1);
@@ -97,8 +97,7 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
     (*No_of_Rows) = n;
   }
   
-  printf(" File %s has been read successfully\n", File_Name);
-  printf(" [Exiting function Reading_Matrix_from_File(...)]\n\n");
+  printf("\tFile %s has been read successfully\n", File_Name);
 
   free(Name_Dummy);
   // printf("Press any key to continue...\n"); getchar();

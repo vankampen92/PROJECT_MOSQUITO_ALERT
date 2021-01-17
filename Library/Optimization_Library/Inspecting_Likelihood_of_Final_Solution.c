@@ -93,9 +93,9 @@ double Inspecting_Likelihood_of_Final_Solution( const gsl_vector * x, void * Par
     // if (F->Verbose == 1) {
       printf("Under Gaussian distributed independent errors, NLL (Data|Theory) = %g\n",
 	     Value);
-       #if defined CPGPLOT_REPRESENTATION
-       GSL_CPGPLOT_Minimization_Simplex (F, x, iter, F->Function);
-       #endif
+#if defined CPGPLOT_REPRESENTATION
+      GSL_CPGPLOT_Minimization_Simplex (F, x, iter, F->Function);
+#endif
     // }
   }
   else {
