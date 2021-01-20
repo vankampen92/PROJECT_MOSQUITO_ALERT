@@ -2,8 +2,8 @@
 
 extern double A_Rate; 
 
- void Evolution_Age_Distribution_Plot (Parameter_Table * Table, int j_Time)
- {
+void Evolution_Age_Distribution_Plot (Parameter_Table * Table, int j_Time)
+{
    static int DEVICE_NUMBER;
    static int No_of_CALLS = 0; 
    int i;
@@ -84,4 +84,5 @@ extern double A_Rate;
    
    free(x_Data);
    free(Plot_Time); free(Time_Eraser);
- }
+}
+
