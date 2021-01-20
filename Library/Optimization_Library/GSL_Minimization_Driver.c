@@ -94,9 +94,9 @@ double GSL_Minimization_Driver( Parameter_Fitting * F )
   }
 
   /* B E G I N :   In case, plotting or further evaluation with a given error model 
-     is required                                                                        */
-  Value = Inspecting_Likelihood_of_Final_Solution(x, F);
-  ///              Otherwise, simply use:                                               */
+     is required */
+  if (F->Verbose == 1)  Value = Inspecting_Likelihood_of_Final_Solution(x, F);
+      ///              Otherwise, simply use:                                           */
   Value =  ( * F->Function )( x, F );
   /*     E N D :   -------------------------------------------------------------------- */
 

@@ -22,8 +22,11 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    (1 single age group, 100 ages classe)
    . ~$ ./MADMODEL -y0 0 -G0 2 -G1 2 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_12P_KK1.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate_12P_KK1.dat -Y1 12
-
    (True parameters: -KK 1 -z0 0.5 -g0 0.01 -k0 100) (Results file renamed as Full_Parameter_Set_Ordered_KK1.dat)
+
+   (1 single age group, observed number ages classes in 6 years of mosquito alert project. Files: Time_Evol_Observed_Age_Distr_4First.data and Downloads_Transposed.data )
+   . ~$ ./MADMODEL -y0 0 -G0 2 -G1 2 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 2377 -I0 0 -z0 1.0 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 2378 -t0 0.0 -t1 2377.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Time_Evo_Observed_Age_Dist_4FirstAges.data -Y0 2378 -F1 Downloads_Transposed.data -Y1 2354
+   (True parameters: unknown) (Results file renamed as Full_Parameter_Set_Ordered_KK1_Real_System.dat)
 
    (3 age groups, 50 ages classes per group)
    . ~$ ./MADMODEL -y0 0 -G0 2 -G1 2 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 6 -KK 3 -k0 50 -k1 50 -k2 50 -I0 0 -m0 0.0 -M0 10.0 -A0 0.001 -I1 1 -m1 0.0 -M1 1.0 -A1 0.001 -I2 3 -m2 0.0 -M2 10.0 -A2 0.001 -I3 4 -m3 0.0 -M3 0.1 -A3 0.001 -I4 6 -m4 0.0 -M4 10.0 -A4 0.001 -I5 7 -m5 0.0 -M5 0.1 -A5 0.001 -iP 0 -en 0 -eV 100.0 -tn 100 -t0 0.0 -t1 24.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_100P_KK3.dat -Y0 100 -F1 Time_Dependent_Downloading_Rate_25P.dat -Y1 25
@@ -178,7 +181,14 @@ int main(int argc, char **argv)
   if( No_of_FILES > 1) strcpy(TIME_PARAMETERS_FILE, Name_of_FILE[1]);
   /*     E N D -----------------------------------------------------------------------*/
 
-  if (TYPE_of_TIME_DEPENDENCE == 0) {                                 // -t4 1
+  /* B E G I N : Time Dependence Control common initization                           */
+  double ** Matrix_of_COVARIATES; 
+  double ** Type_1_Parameter_Values; 
+  double  * Time_Empirical_Vector;
+  char   ** Name_Rows_Dummy; 
+  int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
+  int No_of_Rows;                          // For example, -Y1 12 (see input argument list)
+  if (TYPE_of_TIME_DEPENDENCE == 0) {      // -t4 1
     printf(" No Time Dependence!!!\n");
     printf(" Check -t4 argument. It should be: -t4 1, but it is: -t4 %d\n",
 	   TYPE_of_TIME_DEPENDENCE);
@@ -194,8 +204,34 @@ int main(int argc, char **argv)
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
     printf(" Both Time_Control and Time_Dependence_Control structures have been\n");
     printf(" correctly allocated\n");
-  }
 
+    Type_1_Parameter_Values = (double **)calloc( TYPE_1_PARAMETERS, sizeof(double *));
+    Time_Empirical_Vector   = (double * )calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
+    for(i = 0; i<TYPE_1_PARAMETERS; i++)
+      Type_1_Parameter_Values[i] = (double *)calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
+
+    Reading_Standard_Data_Matrix_from_File( TIME_PARAMETERS_FILE,
+    					    Type_1_Parameter_Values, &No_of_Rows,
+					    No_of_EMPIRICAL_TIMES,
+    					    0, Name_Rows_Dummy,
+    					    1, Time_Empirical_Vector);
+    assert( No_of_Rows == TYPE_1_PARAMETERS);
+
+    Time_Dependence_Control_Upload_Optimized (&Time, &Time_Dependence, &Table,
+    					      I_Time, No_of_EMPIRICAL_TIMES,
+    					      TIME_DEPENDENT_PARAMETERS,
+    					      TYPE_of_TIME_DEPENDENCE,        // -t4 1
+    					      TYPE_0_PARAMETERS,              // -D0 0
+    					      TYPE_1_PARAMETERS,              // -D1 1
+    					      TYPE_2_PARAMETERS,              // -D2 0
+    					      No_of_COVARIATES,               // -DC 0
+    					      dependent_parameter, forcing_pattern, // -P0 16
+    					      Matrix_of_COVARIATES,
+    					      Type_1_Parameter_Values,
+    					      Time_Empirical_Vector);
+  }
+  /*     E N D -----------------------------------------------------------------------*/
+  
   int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
 					  Empirical_Data_Matrix,
@@ -248,19 +284,18 @@ int main(int argc, char **argv)
     Parameter_Model_Copy_into_Parameter_Table(&Table, Initial_Guess);
     Random_Initial_Guess_within_Boundaries_Table(&Table, Space);
 
-    int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
-                                             // For example, -Y1 12 (see input argument list)
-    Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
-				   I_Time, No_of_EMPIRICAL_TIMES,
-				   TIME_DEPENDENT_PARAMETERS,
-				   TYPE_of_TIME_DEPENDENCE,        // -t4 1
-				   TYPE_0_PARAMETERS,              // -D0 0
-				   TYPE_1_PARAMETERS,              // -D1 1
-				   TYPE_2_PARAMETERS,              // -D2 0
-				   No_of_COVARIATES,               // -DC 0
-				   dependent_parameter, forcing_pattern, // -P0 16
-				   "File_of_Covariates.dat",
-				   TIME_PARAMETERS_FILE); 
+    /* Time_Dependence_Control_Upload_Optimized (&Time, &Time_Dependence, &Table,      */
+    /* 					      I_Time, No_of_EMPIRICAL_TIMES,           */
+    /* 					      TIME_DEPENDENT_PARAMETERS,               */
+    /* 					      TYPE_of_TIME_DEPENDENCE,        // -t4 1 */
+    /* 					      TYPE_0_PARAMETERS,              // -D0 0 */
+    /* 					      TYPE_1_PARAMETERS,              // -D1 1 */
+    /* 					      TYPE_2_PARAMETERS,              // -D2 0 */
+    /* 					      No_of_COVARIATES,               // -DC 0 */
+    /* 					      dependent_parameter, forcing_pattern, // -P0 16 */
+    /* 					      Matrix_of_COVARIATES,                    */
+    /* 					      Type_1_Parameter_Values,                 */
+    /* 					      Time_Empirical_Vector);                  */
 
     assert( Time_Dependence.No_of_TIMES == I_Time );
 
@@ -370,7 +405,12 @@ int main(int argc, char **argv)
   #include <include.Output_Variables.default.free.c>
 
   #include <include.Time_Dependence_Control.default.free.c>
-
+  if (TYPE_of_TIME_DEPENDENCE == 1) {                            // -t4 1
+    for(i = 0; i<TYPE_1_PARAMETERS; i++) free(Type_1_Parameter_Values[i]);
+    free(Type_1_Parameter_Values);
+    free(Time_Empirical_Vector);
+  }
+  
   free(Name_of_Rows);
   for (i=0; i<SUB_OUTPUT_VARIABLES; i++)  free(Empirical_Data_Matrix[i]);
   free(Empirical_Data_Matrix);

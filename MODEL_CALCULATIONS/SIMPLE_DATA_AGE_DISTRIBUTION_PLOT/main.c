@@ -13,7 +13,6 @@
    It is very important to establish the axis ranks through the corresponding command line arguments as in the example. Your ranks will be active as long as you also introduce -G2 1 (x axis) and G5 1 (y axis) --- as oposed to -G2 0 and -G5 0, which will shut down your axis rank choice. In the latter case, the program calculates rank axis automatically.
  
 */
-
 #include "main.h"
 
 #include "global.h"
@@ -123,11 +122,11 @@ int main (int argc, char **argv)
 					     Empirical_Age_Distribution, No_of_AGES );
   }
 
-  /* Writing_Standard_Data_Matrix_to_File("Time_Evo_Empirical_Age_Dist.data",    */
-  /* 				       Empirical_Data,                           */
-  /* 				       No_of_ROWS, No_of_TIMES,                  */
-  /* 				       0, Name_of_Rows,                          */
-  /* 				       1, Time_Vector);                          */
+  Writing_Standard_Data_Matrix_to_File("Time_Evo_Empirical_Age_Dist.data",
+  				       Empirical_Data,
+  				       No_of_ROWS, No_of_TIMES,
+  				       0, Name_of_Rows,
+  				       1, Time_Vector);
   
   for(i=0; i<No_of_POINTS_MAX; i++) { 
     free(Matrix_Data[i]);

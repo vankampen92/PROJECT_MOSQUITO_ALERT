@@ -37,9 +37,8 @@ int D_E_T_E_R_M_I_N_I_S_T_I_C___T_I_M_E___D_Y_N_A_M_I_C_S( Parameter_Table * Tab
      2. numerical_Integration_Driver(...), which performs the actual numerical integration
 
      In addition, it depends on the following functions:
-     1. Time_Dependence_Apply (...), which, in turn, calls Time_Dependence_Function(...),
-     which performs the update of parameter table depending on the value of the input parameter
-     TYPE_of_TIME_DEPENDENCE
+     1. Time_Dependence_Apply (...), which performs the update of parameter table 
+     depending on the value of the input parameter TYPE_of_TIME_DEPENDENCE
 
      2. definition_OutPut_Variables(...)
   */
@@ -70,7 +69,8 @@ int D_E_T_E_R_M_I_N_I_S_T_I_C___T_I_M_E___D_Y_N_A_M_I_C_S( Parameter_Table * Tab
      // Press_Key();
 
   Time_Current = Time->Time_Vector[0];
-  if (Time->TYPE_of_TIME_DEPENDENCE > 0) Time_Dependence_Apply( Table, Time_Current );
+  // if (Time->TYPE_of_TIME_DEPENDENCE > 0) Time_Dependence_Apply( Table, Time_Current );
+  if (Time->TYPE_of_TIME_DEPENDENCE > 0) Time_Dependence_Apply_Optimized( Table, 0 );
 
 #if defined CPGPLOT_REPRESENTATION
   Table->CPG->x_Time[0]      = Time->Time_Vector[0];
@@ -122,7 +122,8 @@ int D_E_T_E_R_M_I_N_I_S_T_I_C___T_I_M_E___D_Y_N_A_M_I_C_S( Parameter_Table * Tab
        Note: When the system is frozen (FROZEN_SYSTEM = 1), then
        this loop does not advance the system any more
     */
-    if (Table->T->TYPE_of_TIME_DEPENDENCE > 0) Time_Dependence_Apply( Table, Time_Current );
+    // if (Table->T->TYPE_of_TIME_DEPENDENCE > 0) Time_Dependence_Apply( Table, Time_Current );
+    if (Time->TYPE_of_TIME_DEPENDENCE > 0) Time_Dependence_Apply_Optimized( Table, j );
 /*-------------------------------------------------------------------*/
 /* B E G I N :
  *     CENTRAL POINT HERE: Numerical Integration up to the next time

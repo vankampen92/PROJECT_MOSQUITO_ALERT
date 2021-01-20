@@ -37,6 +37,30 @@ void Time_Dependence_Control_Alloc ( Time_Control * Time,
   Table->T = Time; 
 }
 
+void Time_Dependence_Control_Free ( Time_Dependence_Control * TDC, Parameter_Table * P)
+{
+  int i;
+
+  for(i = 0; i < TDC->TIME_DEPENDENT_PARAMETERS; i++) free (TDC->Dependent_Parameter[i]);
+  free (TDC->Dependent_Parameter);
+
+  free(TDC->Index_Dependent_Parameters);
+  free(TDC->Forcing_Pattern_Parameters);
+
+  if( TDC->No_of_COVARIATES > 0 ){ 
+    for(i = 0; i < TDC->No_of_COVARIATES; i++) {
+      free(TDC->COVARIATES[i]);
+      free(TDC->Name_of_COVARIATES[i]);
+    }
+    free(TDC->COVARIATES);
+    free(TDC->Name_of_COVARIATES);
+  }
+  
+  free(TDC->Time_Vector);
+
+  T_I_M_E___C_O_N_T_R_O_L___F_R_E_E( P->T, P );
+}
+
 void Time_Dependence_Control_Upload (Time_Control * Time,
 				     Time_Dependence_Control * TDC,
 				     Parameter_Table * Table,
@@ -203,26 +227,147 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   Table->TDC = TDC;
 }
 
-void Time_Dependence_Control_Free ( Time_Dependence_Control * TDC, Parameter_Table * P)
+void Time_Dependence_Control_Upload_Optimized (Time_Control * Time,
+					       Time_Dependence_Control * TDC,
+					       Parameter_Table * Table,
+					       int No_of_TIMES,
+					       int No_of_EMPIRICAL_TIMES, 
+					       int TIME_DEPENDENT_PARAMETERS,
+					       int TYPE_of_TIME_DEPENDENCE,
+					       int TYPE_0_PARAMETERS,
+					       int TYPE_1_PARAMETERS,
+					       int TYPE_2_PARAMETERS,
+					       int No_of_COVARIATES,
+					       int * dependent_parameter,
+					       int * forcing_pattern,
+					       double ** Matrix_of_COVARIATES,
+					       double ** Type_1_Parameter_Values,
+					       double  * Time_Empirical_Vector)
 {
-  int i;
-
-  for(i = 0; i < TDC->TIME_DEPENDENT_PARAMETERS; i++) free (TDC->Dependent_Parameter[i]);
-  free (TDC->Dependent_Parameter);
-
-  free(TDC->Index_Dependent_Parameters);
-  free(TDC->Forcing_Pattern_Parameters);
-
-  if( TDC->No_of_COVARIATES > 0 ){ 
-    for(i = 0; i < TDC->No_of_COVARIATES; i++) {
-      free(TDC->COVARIATES[i]);
-      free(TDC->Name_of_COVARIATES[i]);
-    }
-    free(TDC->COVARIATES);
-    free(TDC->Name_of_COVARIATES);
-  }
+  /* No_of_EMPIRICAL_TIMES is the number of times for which 
+     we have data on changing parameter values. */  
+  int i,j,k;
+  char ** Name_Dummy;
+  double t;
+  int * Function_Parameters = (int *)calloc(3, sizeof(int) ); 
   
-  free(TDC->Time_Vector);
+  assert( TIME_DEPENDENT_PARAMETERS = TYPE_0_PARAMETERS + TYPE_1_PARAMETERS + TYPE_2_PARAMETERS);
 
-  T_I_M_E___C_O_N_T_R_O_L___F_R_E_E( P->T, P );
+  assert( No_of_EMPIRICAL_TIMES <= No_of_TIMES); 
+  
+  TDC->No_of_TIMES                  = No_of_TIMES;
+  TDC->No_of_EMPIRICAL_TIMES        = No_of_EMPIRICAL_TIMES;
+  TDC->TIME_DEPENDENT_PARAMETERS    = TIME_DEPENDENT_PARAMETERS;
+  TDC->TYPE_of_TIME_DEPENDENCE      = TYPE_of_TIME_DEPENDENCE;
+  TDC->TYPE_0_PARAMETERS            = TYPE_0_PARAMETERS;
+  TDC->TYPE_1_PARAMETERS            = TYPE_1_PARAMETERS;
+  TDC->TYPE_2_PARAMETERS            = TYPE_2_PARAMETERS;
+  TDC->No_of_COVARIATES             = No_of_COVARIATES;
+  
+  // . TYPE_0_PARAMETERS is the number of parameters that, explicitly, depend
+  // on COVARIATES. Covariates are time-varying variables that change as time a
+  // increases. They may influence directly model parameters. We say they force
+  // (externally) the system. This influence is usually mediated by response functions
+  // that map these covariates into model parameters. 
+  //
+  // . TYPE_1_PARAMETERS are those time-dependent parametes that can be directly read from a file.
+  //
+  // . TYPE_2_PARAMETERS are those that functionally change with time according
+  // to certain given functions. This dependency is direct (as opposed to mediated
+  // by external (environmental parameters) and response functions). The type of functional
+  // dependency is determined by the 'forcing_pattern'.  This forcing pattern can be
+  // sinusoidal, sigmoidal, a linear increase, etc. 
+  
+  for(i = 0; i<TIME_DEPENDENT_PARAMETERS; i++) {
+    TDC->Index_Dependent_Parameters[i] = dependent_parameter[i];
+    TDC->Forcing_Pattern_Parameters[i] = forcing_pattern[i];
+  }
+
+  T_I_M_E___C_O_N_T_R_O_L___U_P_L_O_A_D(Time, Table, TDC->No_of_TIMES);
+
+  // By default, the time vector of Time_Control structure should coincide with
+  // the time vector of the Time_Dependence_Control structure:
+  for(j = 0; j < No_of_TIMES; j++) TDC->Time_Vector[j] = Time->Time_Vector[j];
+
+  // At the end of this function these two vectors should match!!! 
+  
+  if( TYPE_0_PARAMETERS > 0 ) {
+   
+    /* COVARIATES values determine Dependent_Parameters through response functions
+     */
+    // Upload_Dependent_Parameter_Values_from_Covariates (TDC, Table);
+
+    // Under construction... 
+  }
+
+  if(TYPE_1_PARAMETERS > 0 ) {
+   
+    if( TDC->No_of_EMPIRICAL_TIMES < TDC->No_of_TIMES ) {
+      // Interpolation is required for each time-dependent parameter
+      for(i = TYPE_0_PARAMETERS; i < TYPE_0_PARAMETERS + TYPE_1_PARAMETERS; i++) { 
+	gsl_interp_accel * acc = gsl_interp_accel_alloc ();
+	gsl_spline * spline    = gsl_spline_alloc (gsl_interp_cspline, No_of_EMPIRICAL_TIMES);
+	gsl_spline_init (spline,
+			 Time_Empirical_Vector, Type_1_Parameter_Values[i-TYPE_0_PARAMETERS],
+			 No_of_EMPIRICAL_TIMES );
+
+	for( j=0; j < No_of_TIMES; j++) 
+	  TDC->Dependent_Parameter[i][j] = gsl_spline_eval( spline, Time->Time_Vector[j], acc); 
+	  
+	gsl_spline_free (spline);
+	gsl_interp_accel_free (acc);
+      }
+
+      for( j=0; j < No_of_TIMES; j++)  TDC->Time_Vector[j] = Time->Time_Vector[j];
+    }
+    else {
+
+      if ( TDC->No_of_EMPIRICAL_TIMES > TDC->No_of_TIMES  ) { 
+	printf(" Empirical No of Times should coincide with number of times\n");  
+        printf(" in the numerical integration. Please make -tn [No of EMPIRICAL TIMES]\n");
+      }
+      
+      assert( TDC->No_of_EMPIRICAL_TIMES == TDC->No_of_TIMES );
+      
+      for(i = TYPE_0_PARAMETERS; i < TYPE_0_PARAMETERS + TYPE_1_PARAMETERS; i++)
+	for(j = 0; j < No_of_EMPIRICAL_TIMES; j++)
+	  TDC->Dependent_Parameter[i][j] = Type_1_Parameter_Values[i-TYPE_0_PARAMETERS][j];
+
+      for(j = 0; j < No_of_TIMES; j++) TDC->Time_Vector[j] = Time_Empirical_Vector[j];
+    } 
+  }
+
+  if( TYPE_0_PARAMETERS > 0 || TYPE_1_PARAMETERS > 0 ) {
+    Time->Time_0  = TDC->Time_Vector[0];
+    Time->Time_1  = TDC->Time_Vector[No_of_TIMES-1];
+    for(i = 0; i < TDC->No_of_TIMES; i++) Time->Time_Vector[i] = TDC->Time_Vector[i];
+  }
+
+  if(TYPE_2_PARAMETERS > 0) {
+    for(i = 0; i < TYPE_2_PARAMETERS; i++) {
+      k = i+TYPE_0_PARAMETERS+TYPE_1_PARAMETERS;
+      for(j = 0; j<No_of_TIMES; j++) {
+	t = Time->Time_Vector[j];
+	TDC->Dependent_Parameter[k][j] =Time_Dependence_Resolve(Table,
+								dependent_parameter[k],
+								forcing_pattern[k], t);
+	
+      }
+    }
+  }
+
+  /* This is to see if certain parameters that control the way a true model parameter 
+     depends on time have been included in Table->S->Parameter_Index, this is, in the
+     list of parameters to be searched by the optimization algorithm 
+  */
+  Function_Parameters[0] = 23;
+  Function_Parameters[1] = 24;
+  Function_Parameters[2] = 25;  
+  Table->x_Bool = isDisjoint(Function_Parameters, 3,
+			     Table->S->Parameter_Index, Table->S->No_of_PARAMETERS);   
+  free(Function_Parameters);
+  /* Table->x_Bool is true if Function_Parameters and Table->S->Parameter_Index are 
+     disjoint sets */  
+
+  Table->TDC = TDC;
 }
