@@ -1,7 +1,7 @@
 SUB_OUTPUT_VARIABLES = 60; // OUTPUT_VARIABLES_MAXIMUM;
-
-  variable_0 = 0;//2;
-  variable_1 = 1; //16;
+// First Age group.
+  variable_0 = 0;//2; Date:14-06-2014
+  variable_1 = 1; //16; 
   variable_2 = 2; //4;
   variable_3 = 3; //5;
   variable_4 = 4; //6;
@@ -34,39 +34,41 @@ SUB_OUTPUT_VARIABLES = 60; // OUTPUT_VARIABLES_MAXIMUM;
   variable_27 = 27;
   variable_28 = 28;
   variable_29 = 29;
-  variable_30 = 30;
+// Second Age group.
+  variable_30 = 30; //Date: 14-07-2014
   
-  variable_31 = 31;
-  variable_32 = 12414124;
-  variable_33 = 33;
-  variable_34 = 34;
-  variable_35 = 35;
-  variable_36 = 36;
-  variable_37 = 37;
-  variable_38 = 38;
-  variable_39 = 39;
+  variable_31 = 80;
+  variable_32 = 130;
+  variable_33 = 180;
+  variable_34 = 230;
+  variable_35 = 280;
+  variable_36 = 330;
+  variable_37 = 380;
+  variable_38 = 430;
+  variable_39 = 480;
 
-  variable_40 = 40;
-  variable_41 = 41;
-  variable_42 = 42;
-  variable_43 = 43;
-  variable_44 = 44;
-  variable_45 = 45;
-  variable_46 = 46;
-  variable_47 = 47;
-  variable_48 = 48;
-  variable_49 = 49;
-  variable_50 = 50;
+  variable_40 = 530;
+  variable_41 = 580;
+  variable_42 = 630;
+  variable_43 = 680;
+  variable_44 = 730;
+  variable_45 = 780;
+  variable_46 = 830;
+  variable_47 = 880;
+  variable_48 = 930;
+  variable_49 = 980;
+// Third Age group.
+  variable_50 = 1205; //Date: 01-10-2017
 
-  variable_51 = 51;
-  variable_52 = 52;
-  variable_53 = 53;
-  variable_54 = 54;
-  variable_55 = 55;
-  variable_56 = 56;
-  variable_57 = 57;
-  variable_58 = 58;
-  variable_59 = 59;
+  variable_51 = 1315;
+  variable_52 = 1425;
+  variable_53 = 1535;
+  variable_54 = 1645;
+  variable_55 = 1755;
+  variable_56 = 1865;
+  variable_57 = 1975;
+  variable_58 = 2085;
+  variable_59 = 2195;
 
 Index_Output_Variables = (int *)calloc(OUTPUT_VARIABLES_MAXIMUM, sizeof(int));
 
