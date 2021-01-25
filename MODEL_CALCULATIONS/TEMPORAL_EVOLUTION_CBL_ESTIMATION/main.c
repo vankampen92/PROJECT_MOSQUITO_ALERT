@@ -148,10 +148,16 @@ int main(int argc, char **argv)
   printf("\n");  // Press_Key();
   /*   END: Checking Random Number Generator Setup */
 #endif
-  Press_Key();
+ // Press_Key();
   
   char   ** Name_of_Rows          = (char **)calloc(SUB_OUTPUT_VARIABLES, sizeof(char *) );
   double ** Empirical_Data_Matrix = (double **)calloc( SUB_OUTPUT_VARIABLES, sizeof(double *) );
+  // Matrix with the full Empirical Data. After to be filter.
+  double ** Empirical_Data_Matrix_Full = (double **)calloc( No_of_MAX_TIMES, sizeof(double *) );
+  for (i=0; i<No_of_MAX_TIMES; i++) {
+    Empirical_Data_Matrix_Full[i] = (double *)calloc( No_of_MAX_TIMES, sizeof(double) );
+  }
+
   for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
     key = Table.OUTPUT_VARIABLE_INDEX[i];
     Name_of_Rows[i]         = Table.Output_Variable_Symbol[key];
@@ -195,6 +201,7 @@ int main(int argc, char **argv)
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
     printf(" Both Time_Control and Time_Dependence_Control structures have been\n");
     printf(" correctly allocated\n");
+    
     int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
                                              // For example, -Y1 12 (see input argument list)
     Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
@@ -211,25 +218,34 @@ int main(int argc, char **argv)
     printf(" Time denpencies have been incluced\n");
   }
 
-  int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
+  
+  int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
+
+  
+  //int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
-					  Empirical_Data_Matrix,
-					  &SUB_OUTPUT_VARIABLES,
-					  No_of_COLS, 
+					  Empirical_Data_Matrix_Full,
+					  No_of_MAX_TIMES,
+					  No_of_MAX_TIMES, 
 					  0, Name_of_Rows,
 					  1, Time.Time_Vector );
 
-  Writing_Standard_Data_Matrix( Empirical_Data_Matrix,
-				SUB_OUTPUT_VARIABLES, I_Time,
+  Writing_Standard_Data_Matrix( Empirical_Data_Matrix_Full,
+				No_of_MAX_TIMES,No_of_MAX_TIMES ,
 				1, Name_of_Rows,
 				0, Time.Time_Vector);
   // Press_Key(); 
   /* B E G I N :   Reserving memmory for Observed Data and Fitting Structure */
   Observed_Data * Data = (Observed_Data *)calloc(1, sizeof(Observed_Data));
   Observed_Data_Alloc( Data, SUB_OUTPUT_VARIABLES, I_Time);
-  Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
-				I_Time, Empirical_Data_Matrix,
-				"" );
+ //Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
+ //				I_Time, Empirical_Data_Matrix,
+ //				"" );
+
+  Observed_Data_Initialization_Fil( Data, SUB_OUTPUT_VARIABLES,
+                              I_Time, Empirical_Data_Matrix_Full,
+                              Index_Output_Variables ,"" );
+
   printf(" Observed_Data structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
 
@@ -254,7 +270,7 @@ int main(int argc, char **argv)
   fprintf(DEMO, "NegLogLike\n");
   /*     E N D : --------------------------------------------------------
    */
-
+  Press_Key();
   s = 0;
   int s_Attemps   = 0;   /* This counter will count number of random seeds */
   int Total_Tries = Realizations;                                // -tR 1000
