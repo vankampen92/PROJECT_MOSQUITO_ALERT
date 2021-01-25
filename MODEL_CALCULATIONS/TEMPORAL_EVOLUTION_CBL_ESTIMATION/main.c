@@ -221,7 +221,7 @@ int main(int argc, char **argv)
   
   int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
 
-  
+printf("****************Antes de leer observed_data_file");  
   //int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
 					  Empirical_Data_Matrix_Full,
@@ -229,7 +229,7 @@ int main(int argc, char **argv)
 					  No_of_MAX_TIMES, 
 					  0, Name_of_Rows,
 					  1, Time.Time_Vector );
-
+printf("***************Despues de leer");
   Writing_Standard_Data_Matrix( Empirical_Data_Matrix_Full,
 				No_of_MAX_TIMES,No_of_MAX_TIMES ,
 				1, Name_of_Rows,
