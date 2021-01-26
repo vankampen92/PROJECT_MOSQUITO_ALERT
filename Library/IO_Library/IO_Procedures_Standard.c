@@ -17,9 +17,9 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
 	File_Name);
   if((fp=fopen(File_Name,"r")) == NULL) {
     printf("File non-existent! Cannot open file.\n");
-    printf("Program aborted!!!"); exit(1);
+    printf("Program aborted!!!");
+    exit(1);
   }
-
   if(TIMES == 1) {
 
     if(NAMES == 1) { 

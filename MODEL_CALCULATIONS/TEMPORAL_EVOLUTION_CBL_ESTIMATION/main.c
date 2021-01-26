@@ -220,32 +220,44 @@ int main(int argc, char **argv)
 
   
   int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
-
-printf("****************Antes de leer observed_data_file");  
+  int * DUMMY_POINTER = No_of_MAX_TIMES; // Dummy pointer since Reading_Standard_Data_Matrix_from_File needs a int pointer as third argument.
   //int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
 					  Empirical_Data_Matrix_Full,
-					  No_of_MAX_TIMES,
+					  &DUMMY_POINTER,
 					  No_of_MAX_TIMES, 
 					  0, Name_of_Rows,
 					  1, Time.Time_Vector );
-printf("***************Despues de leer");
-  Writing_Standard_Data_Matrix( Empirical_Data_Matrix_Full,
-				No_of_MAX_TIMES,No_of_MAX_TIMES ,
-				1, Name_of_Rows,
-				0, Time.Time_Vector);
+  /*Writing_Standard_Data_Matrix( Empirical_Data_Matrix_Full,
+				No_of_MAX_TIMES,
+        No_of_MAX_TIMES ,
+				0,
+         Name_of_Rows,
+				0,
+         Time.Time_Vector);
+         */
   // Press_Key(); 
   /* B E G I N :   Reserving memmory for Observed Data and Fitting Structure */
   Observed_Data * Data = (Observed_Data *)calloc(1, sizeof(Observed_Data));
   Observed_Data_Alloc( Data, SUB_OUTPUT_VARIABLES, I_Time);
+  
  //Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
  //				I_Time, Empirical_Data_Matrix,
  //				"" );
-
+  for(j=0; j < 60; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
+  int * Index_Output_Variables_fil = Table.OUTPUT_VARIABLE_INDEX;
   Observed_Data_Initialization_Fil( Data, SUB_OUTPUT_VARIABLES,
                               I_Time, Empirical_Data_Matrix_Full,
-                              Index_Output_Variables ,"" );
+                              Index_Output_Variables_fil ,"" );
 
+  // Uncomment To chech whether the Observed Data file is well read.
+  /*printf("\n Observed Data filter:");
+  for(i=0; i < SUB_OUTPUT_VARIABLES; i++){
+    Press_Key();
+    printf("\n Row %d \n", i);
+     for(j=0; j < 100; j++)printf("%g\t", Data->N[i][j]);
+    }
+  */
   printf(" Observed_Data structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
 

@@ -1,4 +1,4 @@
-if(SUB_OUTPUT_VARIABLES < 60) {
+if(SUB_OUTPUT_VARIABLES < 61) {
   Index_Output_Variables[0]=variable_0; Index_Output_Variables[1]=variable_1; Index_Output_Variables[2]=variable_2; Index_Output_Variables[3]=variable_3; Index_Output_Variables[4]=variable_4;
   Index_Output_Variables[5]=variable_5; Index_Output_Variables[6]=variable_6; Index_Output_Variables[7]=variable_7; Index_Output_Variables[8]=variable_8; Index_Output_Variables[9]=variable_9;
 Index_Output_Variables[10]=variable_10; Index_Output_Variables[11]=variable_11; Index_Output_Variables[12]=variable_12; Index_Output_Variables[13]=variable_13; Index_Output_Variables[14]=variable_14;
