@@ -244,12 +244,13 @@ int main(int argc, char **argv)
  //Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
  //				I_Time, Empirical_Data_Matrix,
  //				"" );
+  printf("\n Ages used for the optimization:");
   for(j=0; j < 60; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
   int * Index_Output_Variables_fil = Table.OUTPUT_VARIABLE_INDEX;
   Observed_Data_Initialization_Fil( Data, SUB_OUTPUT_VARIABLES,
                               I_Time, Empirical_Data_Matrix_Full,
                               Index_Output_Variables_fil ,"" );
-
+   printf("\n");
   // Uncomment To chech whether the Observed Data file is well read.
   /*printf("\n Observed Data filter:");
   for(i=0; i < SUB_OUTPUT_VARIABLES; i++){
@@ -282,7 +283,7 @@ int main(int argc, char **argv)
   fprintf(DEMO, "NegLogLike\n");
   /*     E N D : --------------------------------------------------------
    */
-  Press_Key();
+  //Press_Key();
   s = 0;
   int s_Attemps   = 0;   /* This counter will count number of random seeds */
   int Total_Tries = Realizations;                                // -tR 1000
