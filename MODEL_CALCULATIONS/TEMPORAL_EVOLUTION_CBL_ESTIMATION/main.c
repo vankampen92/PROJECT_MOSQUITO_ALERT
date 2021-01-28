@@ -184,8 +184,14 @@ int main(int argc, char **argv)
   pF = strcat(TIME_PARAMETERS_FILE, "Time_Dependent_Parameters.dat"); /* Default Name */
   if( No_of_FILES > 1) strcpy(TIME_PARAMETERS_FILE, Name_of_FILE[1]);
   /*     E N D -----------------------------------------------------------------------*/
-
-  if (TYPE_of_TIME_DEPENDENCE == 0) {                                 // -t4 1
+ /* B E G I N : Time Dependence Control common initization                           */
+  double ** Matrix_of_COVARIATES; 
+  double ** Type_1_Parameter_Values; 
+  double  * Time_Empirical_Vector;
+  char   ** Name_Rows_Dummy; 
+  int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
+  int No_of_Rows;                          // For example, -Y1 12 (see input argument list)
+  if (TYPE_of_TIME_DEPENDENCE == 0) {      // -t4 1
     printf(" No Time Dependence!!!\n");
     printf(" Check -t4 argument. It should be: -t4 1, but it is: -t4 %d\n",
 	   TYPE_of_TIME_DEPENDENCE);
@@ -201,22 +207,34 @@ int main(int argc, char **argv)
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
     printf(" Both Time_Control and Time_Dependence_Control structures have been\n");
     printf(" correctly allocated\n");
-    
-    int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
-                                             // For example, -Y1 12 (see input argument list)
-    Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
-				   I_Time, No_of_EMPIRICAL_TIMES,
-				   TIME_DEPENDENT_PARAMETERS,
-				   TYPE_of_TIME_DEPENDENCE,        // -t4 1
-				   TYPE_0_PARAMETERS,              // -D0 0
-				   TYPE_1_PARAMETERS,              // -D1 1
-				   TYPE_2_PARAMETERS,              // -D2 0
-				   No_of_COVARIATES,               // -DC 0
-				   dependent_parameter, forcing_pattern, // -P0 16
-				   "File_of_Covariates.dat",
-				   TIME_PARAMETERS_FILE);
-    printf(" Time denpencies have been incluced\n");
+
+    Type_1_Parameter_Values = (double **)calloc( TYPE_1_PARAMETERS, sizeof(double *));
+    Time_Empirical_Vector   = (double * )calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
+    for(i = 0; i<TYPE_1_PARAMETERS; i++)
+      Type_1_Parameter_Values[i] = (double *)calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
+
+    Reading_Standard_Data_Matrix_from_File( TIME_PARAMETERS_FILE,
+    					    Type_1_Parameter_Values, &No_of_Rows,
+					    No_of_EMPIRICAL_TIMES,
+    					    0, Name_Rows_Dummy,
+    					    1, Time_Empirical_Vector);
+    assert( No_of_Rows == TYPE_1_PARAMETERS);
+    for(i = 0; i<I_Time; i++)printf("\nTime_Empirical_Vector[%d]:%lf \n",i,Time_Empirical_Vector[i]);
+    Time_Dependence_Control_Upload_Optimized (&Time, &Time_Dependence, &Table,
+    					      I_Time, No_of_EMPIRICAL_TIMES,
+    					      TIME_DEPENDENT_PARAMETERS,
+    					      TYPE_of_TIME_DEPENDENCE,        // -t4 1
+    					      TYPE_0_PARAMETERS,              // -D0 0
+    					      TYPE_1_PARAMETERS,              // -D1 1
+    					      TYPE_2_PARAMETERS,              // -D2 0
+    					      No_of_COVARIATES,               // -DC 0
+    					      dependent_parameter, forcing_pattern, // -P0 16
+    					      Matrix_of_COVARIATES,
+    					      Type_1_Parameter_Values,
+    					      Time_Empirical_Vector);
   }
+  /*     E N D -----------------------------------------------------------------------*/
+  
 
   
   int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
