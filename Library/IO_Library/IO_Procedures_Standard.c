@@ -20,8 +20,8 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
     printf("Program aborted!!!");
     exit(1);
   }
+  printf("\nAFTER IF***********************\n");
   if(TIMES == 1) {
-
     if(NAMES == 1) { 
       fscanf(fp, "%s\t", Name_Dummy );
       for(j=0; j < No_of_Columns; j++) {

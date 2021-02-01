@@ -45,7 +45,7 @@ void Observed_Data_Initialization_Fil( Observed_Data * Data, int No_of_OBSERVED_
   for(i = 0; i<No_of_OBSERVED_VARIABLES; i++){
   //printf("\n Row: %d", i);
   //Press_Key();
-  ind =  Index_Output_Var[i];
+  ind =  Index_Output_Var[i]-4;
   //printf("\n Ind: %d", ind);
     for(j = 0; j<No_of_TIMES; j++){
       Data->N[i][j] = Data_Matrix[ind][j];

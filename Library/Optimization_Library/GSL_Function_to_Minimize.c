@@ -65,7 +65,7 @@ double GSL_Function_to_Minimize( const gsl_vector * x, void * Par )
 	// Value += (Data[i][j] - Theory[i][j]) * (Data[i][j] - Theory[i][j]); 
 
 	/* Chi^2 minimization (notice possible division by zero if Theory prediction is zero): */
-	if( Theory[i][j] > 0.0 ) 
+	if( Theory[i][j] > 1.e-100 && gsl_isnan(Data[i][j]) == 0  && gsl_isnan(Theory[i][j]) == 0) 
 	  Value += (Data[i][j] - Theory[i][j]) * (Data[i][j] - Theory[i][j]) / Theory[i][j];
 	
     

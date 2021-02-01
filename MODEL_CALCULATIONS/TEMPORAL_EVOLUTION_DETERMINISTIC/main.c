@@ -113,7 +113,7 @@ int main(int argc, char **argv)
     SUB_OUTPUT_VARIABLES, I_Time);
     Time_Dependence_Control_Alloc(&Time, &Time_Dependence, &Table,
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
-
+     printf("**********************Before if");
     /* In order for this default name to work properly, you need -Fn 0 in command line */
     if (No_of_FILES == 0) {
       No_of_EMPIRICAL_TIMES = 12; /* 12 cols in Time_Dependence_Downloading_Rate.dat */
@@ -123,6 +123,7 @@ int main(int argc, char **argv)
       No_of_EMPIRICAL_TIMES = F_y_GRID[0]; /* Number of columns in the data files of 
 					      time-dependent parameters (-Y0 25) */
     }
+     printf("**********************After if");
     Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 				   I_Time, No_of_EMPIRICAL_TIMES,
 				   TIME_DEPENDENT_PARAMETERS, TYPE_of_TIME_DEPENDENCE,
@@ -134,6 +135,7 @@ int main(int argc, char **argv)
     printf(" Both Time_Control and Time_Dependence_Control structures have been\n");
     printf(" correctly allocated and set up\n");
   }
+  printf("\n ******DESPUES UPLOAD\n ");
 
 #if defined CPGPLOT_REPRESENTATION
   Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
@@ -154,6 +156,10 @@ int main(int argc, char **argv)
   /* Deterministic Time Dynamics */
   M_O_D_E_L( &Table );
   
+  printf("\n Ages used for the integration:");
+  int j;
+  for(j=0; j < 60; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
+
   // File to save the output of the integration.
   char * OUTPUT_INTEGRATION   = (char *)calloc(1000, sizeof(char) ); /* Output files  */
   char * pF;
@@ -162,13 +168,15 @@ int main(int argc, char **argv)
   OUTPUT_INTEGRATION[0] = '\0';
   pF = strcat(OUTPUT_INTEGRATION, "Output_Integration.dat");
   DEMO = fopen(OUTPUT_INTEGRATION, "w");
-   int j;
+
+  for(j=0;j<I_Time;j++)fprintf(DEMO, "%g\t",Time.Time_Vector[j]);
+  fprintf(DEMO, "\n");
   for(i=0; i<SUB_OUTPUT_VARIABLES; i++){
 	  for(j=0;j<I_Time;j++)fprintf(DEMO, "%g\t",Table.Matrix_Output_Variables[i][j]);
     fprintf(DEMO, "\n");
   }
   
-
+ 
   Gaussian_Pseudo_Data_Creation ( &Table ); 
 
   Model_Parameters_into_Latex_Table("Latex_Parameter_Table.tex", &Table);

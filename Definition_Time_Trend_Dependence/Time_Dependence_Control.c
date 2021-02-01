@@ -84,11 +84,9 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   char ** Name_Dummy;
   double t;
   int * Function_Parameters = (int *)calloc(3, sizeof(int) ); 
-  
   assert( TIME_DEPENDENT_PARAMETERS = TYPE_0_PARAMETERS + TYPE_1_PARAMETERS + TYPE_2_PARAMETERS);
 
   assert( No_of_EMPIRICAL_TIMES <= No_of_TIMES); 
-  
   TDC->No_of_TIMES                  = No_of_TIMES;
   TDC->No_of_EMPIRICAL_TIMES        = No_of_EMPIRICAL_TIMES;
   TDC->TIME_DEPENDENT_PARAMETERS    = TIME_DEPENDENT_PARAMETERS;
@@ -97,7 +95,6 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   TDC->TYPE_1_PARAMETERS            = TYPE_1_PARAMETERS;
   TDC->TYPE_2_PARAMETERS            = TYPE_2_PARAMETERS;
   TDC->No_of_COVARIATES             = No_of_COVARIATES;
-  
   // . TYPE_0_PARAMETERS is the number of parameters that, explicitly, depend
   // on COVARIATES. Covariates are time-varying variables that change as time a
   // increases. They may influence directly model parameters. We say they force
@@ -111,12 +108,10 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   // by external (environmental parameters) and response functions). The type of functional
   // dependency is determined by the 'forcing_pattern'.  This forcing pattern can be
   // sinusoidal, sigmoidal, a linear increase, etc. 
-  
   for(i = 0; i<TIME_DEPENDENT_PARAMETERS; i++) {
     TDC->Index_Dependent_Parameters[i] = dependent_parameter[i];
     TDC->Forcing_Pattern_Parameters[i] = forcing_pattern[i];
   }
-
   T_I_M_E___C_O_N_T_R_O_L___U_P_L_O_A_D(Time, Table, TDC->No_of_TIMES);
 
   // By default, the time vector of Time_Control structure should coincide with
