@@ -153,6 +153,21 @@ int main(int argc, char **argv)
 
   /* Deterministic Time Dynamics */
   M_O_D_E_L( &Table );
+  
+  // File to save the output of the integration.
+  char * OUTPUT_INTEGRATION   = (char *)calloc(1000, sizeof(char) ); /* Output files  */
+  char * pF;
+
+  FILE * DEMO;
+  OUTPUT_INTEGRATION[0] = '\0';
+  pF = strcat(OUTPUT_INTEGRATION, "Output_Integration.dat");
+  DEMO = fopen(OUTPUT_INTEGRATION, "w");
+   int j;
+  for(i=0; i<SUB_OUTPUT_VARIABLES; i++){
+	  for(j=0;j<I_Time;j++)fprintf(DEMO, "%g\t",Table.Matrix_Output_Variables[i][j]);
+    fprintf(DEMO, "\n");
+  }
+  
 
   Gaussian_Pseudo_Data_Creation ( &Table ); 
 
@@ -178,7 +193,7 @@ int main(int argc, char **argv)
 
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( &Table );
   /*  END : Freeing  All Memmory * * * * * * * * * * * * * * */
-
+  free(OUTPUT_INTEGRATION);
   printf("\nEnd of progam\n");
   return (0);
 }
