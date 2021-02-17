@@ -113,7 +113,7 @@ int main(int argc, char **argv)
     SUB_OUTPUT_VARIABLES, I_Time);
     Time_Dependence_Control_Alloc(&Time, &Time_Dependence, &Table,
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
-     printf("**********************Before if");
+     
     /* In order for this default name to work properly, you need -Fn 0 in command line */
     if (No_of_FILES == 0) {
       No_of_EMPIRICAL_TIMES = 12; /* 12 cols in Time_Dependence_Downloading_Rate.dat */
@@ -123,7 +123,7 @@ int main(int argc, char **argv)
       No_of_EMPIRICAL_TIMES = F_y_GRID[0]; /* Number of columns in the data files of 
 					      time-dependent parameters (-Y0 25) */
     }
-     printf("**********************After if");
+     
     Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 				   I_Time, No_of_EMPIRICAL_TIMES,
 				   TIME_DEPENDENT_PARAMETERS, TYPE_of_TIME_DEPENDENCE,
