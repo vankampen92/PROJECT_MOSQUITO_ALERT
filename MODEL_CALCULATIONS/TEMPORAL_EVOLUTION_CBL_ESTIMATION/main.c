@@ -219,7 +219,7 @@ int main(int argc, char **argv)
     					    0, Name_Rows_Dummy,
     					    1, Time_Empirical_Vector);
     assert( No_of_Rows == TYPE_1_PARAMETERS);
-    for(i = 0; i<I_Time; i++)printf("\nTime_Empirical_Vector[%d]:%lf \n",i,Time_Empirical_Vector[i]);
+    //for(i = 0; i<I_Time; i++)printf("\nTime_Empirical_Vector[%d]:%lf \n",i,Time_Empirical_Vector[i]);
     Time_Dependence_Control_Upload_Optimized (&Time, &Time_Dependence, &Table,
     					      I_Time, No_of_EMPIRICAL_TIMES,
     					      TIME_DEPENDENT_PARAMETERS,
