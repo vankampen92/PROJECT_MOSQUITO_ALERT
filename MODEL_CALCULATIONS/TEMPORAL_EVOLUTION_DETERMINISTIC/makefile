@@ -40,6 +40,7 @@ EXTRA_LIBRARY_PATH+=-L${C_NR}######################
 EXTRA_LIBRARY_PATH+=-L${GSL_DA}####################
 EXTRA_LIBRARY_PATH+=-L${IO_DIR}
 EXTRA_LIBRARY_PATH+=-L${ERROR_DIR}
+EXTRA_LIBRARY_PATH+=-L/usr/lib/x86_64-linux-gnu/
 # Directories where headers files are located:
 # (required at the precompilation step, when building 
 # the files to compile and create the *.o objects with 
