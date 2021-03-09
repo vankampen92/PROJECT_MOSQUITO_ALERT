@@ -7,35 +7,35 @@ void AssignCodes_to_Model_Parameters(int j, char * Label, Parameter_Table *P)
 
   switch(j)
     {
-    case  0:  p = strcat(Label, "-z0");   /* Mu Per Capita Movement Rate */  
+    case  0:  p = strcat(Label, "-g0");   /* Gamma Per Capita Movement Rate */  
 	break;
-    case  1:  p = strcat(Label, "-g0");  
+    case  1:  p = strcat(Label, "-k0");  
       break;
-    case  2:  p = strcat(Label, "-k0");
+    case  2:  p = strcat(Label, "-g1");
       break;
-    case  3:  p = strcat(Label, "-z1");  
+    case  3:  p = strcat(Label, "-k1");  
       break;
-    case  4:  p = strcat(Label, "-g1");
+    case  4:  p = strcat(Label, "-g2");
       break;
-    case  5:  p = strcat(Label, "-k1");
+    case  5:  p = strcat(Label, "-k2");
       break;
-    case  6:  p = strcat(Label, "-z2");
+    case  6:  p = strcat(Label, "-g3");
       break;
-    case  7:  p = strcat(Label, "-g2");
+    case  7:  p = strcat(Label, "-k3");
       break;
-    case  8:  p = strcat(Label, "-k2");
+    case  8:  p = strcat(Label, "-g4");
       break;
-    case  9:  p = strcat(Label, "-z3");
+    case  9:  p = strcat(Label, "-k4");
       break;
-    case 10:  p = strcat(Label, "-g3");
+    case 10:  p = strcat(Label, "-g5");
       break;
-    case 11:  p = strcat(Label, "-k3");
+    case 11:  p = strcat(Label, "-k5");
       break;
-    case 12:  p = strcat(Label, "-z4");
+    case 12:  p = strcat(Label, "-g6");
       break;
-    case 13:  p = strcat(Label, "-g4");
+    case 13:  p = strcat(Label, "-k6");
       break;
-    case 14:  p = strcat(Label, "-k4");
+    case 14:  p = strcat(Label, "-g7");
       break;
     case 15:  p = strcat(Label, "-KK");
       break;

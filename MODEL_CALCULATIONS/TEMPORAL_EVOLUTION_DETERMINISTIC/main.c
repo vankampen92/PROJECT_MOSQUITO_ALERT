@@ -135,7 +135,6 @@ int main(int argc, char **argv)
     printf(" Both Time_Control and Time_Dependence_Control structures have been\n");
     printf(" correctly allocated and set up\n");
   }
-  printf("\n ******DESPUES UPLOAD\n ");
 
 #if defined CPGPLOT_REPRESENTATION
   Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);

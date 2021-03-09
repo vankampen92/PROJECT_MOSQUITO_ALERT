@@ -20,7 +20,6 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
     printf("Program aborted!!!");
     exit(1);
   }
-  
   if(TIMES == 1) {
     if(NAMES == 1) { 
       fscanf(fp, "%s\t", Name_Dummy );
@@ -38,7 +37,6 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
       }
     }
   }
-
   if(TIMES == 2) {
 
     if(NAMES == 1) { 
@@ -57,7 +55,6 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
       }
     }
   }
-  
   if (NAMES == 1) {
     n=0;
     while ( fscanf(fp, "%s\t", Name_Dummy) != EOF ){
@@ -92,11 +89,10 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
       
       n++;
     }
-    
     fclose(fp);
     (*No_of_Rows) = n;
   }
-  
+
   printf("\tFile %s has been read successfully\n", File_Name);
 
   free(Name_Dummy);

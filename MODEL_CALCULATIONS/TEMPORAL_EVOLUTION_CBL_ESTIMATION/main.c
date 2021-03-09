@@ -21,7 +21,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    Execution:
 
    (1 single age group, 100 ages classe)
-   . ~$ ./MADMODELNW -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_12P_KK1.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate_12P_KK1.dat -Y1 12
+   . ~$ ./MADMODELNW -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 1.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_12P_KK1.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate_12P_KK1.dat -Y1 12
 
    (True parameters: -KK 1 -z0 0.5 -g0 0.01 -k0 100) (Results file renamed as Full_Parameter_Set_Ordered_KK1.dat)
 
@@ -238,14 +238,18 @@ int main(int argc, char **argv)
 
   
   int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
-  int * DUMMY_POINTER = No_of_MAX_TIMES; // Dummy pointer since Reading_Standard_Data_Matrix_from_File needs a int pointer as third argument.
+  int a = No_of_MAX_TIMES;
+
+  
+  // Dummy pointer since Reading_Standard_Data_Matrix_from_File needs a int pointer as third argument.
   //int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
 					  Empirical_Data_Matrix_Full,
-					  &DUMMY_POINTER,
+					  &a,
 					  No_of_MAX_TIMES, 
 					  0, Name_of_Rows,
 					  1, Time.Time_Vector );
+  printf("\n***********OUT READING****************\n");
   /*Writing_Standard_Data_Matrix( Empirical_Data_Matrix_Full,
 				No_of_MAX_TIMES,
         No_of_MAX_TIMES ,

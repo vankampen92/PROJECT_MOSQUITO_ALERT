@@ -19,19 +19,19 @@ int function (double t, const double y[], double dydt[], void *params)
   n= 0; 
   for (j=0; j<Table->No_of_CELLS; j++) {
     
-    dydt[n++]     = Table->A_Rate - (Table->Mu_Vector[0]  + Table->Gamma_Vector[0]) * y[n];
+    dydt[n++]     = Table->A_Rate - (1 + Table->Gamma_Vector[0]) * y[n];
     
     for( k=0; k < Table->No_of_GROUPS; k++ ) {
       
       for(i=0; i < Table->K_Vector[k]; i++) {
 	if(i==0 && k > 0)
-	  dydt[n] = Table->Mu_Vector[k-1]* y[n-1] - (Table->Mu_Vector[k] + Table->Gamma_Vector[k]) * y[n];
+	  dydt[n] = y[n-1] - (1 + Table->Gamma_Vector[k]) * y[n];
 	else
-	  dydt[n] = Table->Mu_Vector[k]* y[n-1] - (Table->Mu_Vector[k] + Table->Gamma_Vector[k]) * y[n];
+	  dydt[n] = y[n-1] - (1 + Table->Gamma_Vector[k]) * y[n];
 
 	if( i == (Table->K_Vector[k]-1) && k == (Table->No_of_GROUPS-1) )
-	  dydt[n] = Table->Mu_Vector[k]* y[n-1] - (Table->Gamma_Vector[k]) * y[n];
-
+	  dydt[n] = y[n-1] - (1 + Table->Gamma_Vector[k]) * y[n];
+ 
 	n++; 
       }
     }

@@ -3,25 +3,28 @@
 void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_Source)
 {
 
-  P_Destination->Mu_0     = P_Source->Mu_0; 
   P_Destination->Gamma_0  = P_Source->Gamma_0;
   P_Destination->k_0      = P_Source->k_0; 
 
-  P_Destination->Mu_1     = P_Source->Mu_1; 
   P_Destination->Gamma_1  = P_Source->Gamma_1;
   P_Destination->k_1      = P_Source->k_1; 
 
-  P_Destination->Mu_2     = P_Source->Mu_2; 
   P_Destination->Gamma_2  = P_Source->Gamma_2;
   P_Destination->k_2      = P_Source->k_2; 
-
-  P_Destination->Mu_3     = P_Source->Mu_3; 
+ 
   P_Destination->Gamma_3  = P_Source->Gamma_3;
   P_Destination->k_3      = P_Source->k_3; 
 
-  P_Destination->Mu_4     = P_Source->Mu_4; 
   P_Destination->Gamma_4  = P_Source->Gamma_4;
   P_Destination->k_4      = P_Source->k_4; 
+
+  P_Destination->Gamma_5  = P_Source->Gamma_5;
+  P_Destination->k_5     = P_Source->k_5; 
+
+  P_Destination->Gamma_6  = P_Source->Gamma_6;
+  P_Destination->k_6      = P_Source->k_6; 
+
+  P_Destination->Gamma_7  = P_Source->Gamma_7;
  
   P_Destination->No_of_GROUPS = P_Source->No_of_GROUPS;
   P_Destination->A_Rate       = P_Source->A_Rate; 
@@ -83,7 +86,6 @@ void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_
 
   P_Destination->Metapop_Connectivity_Matrix = P_Source->Metapop_Connectivity_Matrix;
 
-  P_Destination->Mu_Vector    = P_Source->Mu_Vector;
   P_Destination->Gamma_Vector = P_Source->Gamma_Vector; 
   P_Destination->K_Vector     = P_Source->K_Vector; 
 }
@@ -96,25 +98,28 @@ void  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( Parameter_Table * Table,
      control the dynamical model.
   */
 
-  P->Mu_0     = Table->Mu_0; 
   P->Gamma_0  = Table->Gamma_0;
   P->k_0      = Table->k_0; 
 
-  P->Mu_1     = Table->Mu_1; 
   P->Gamma_1  = Table->Gamma_1;
   P->k_1      = Table->k_1; 
 
-  P->Mu_2     = Table->Mu_2; 
   P->Gamma_2  = Table->Gamma_2;
   P->k_2      = Table->k_2; 
 
-  P->Mu_3     = Table->Mu_3; 
   P->Gamma_3  = Table->Gamma_3;
   P->k_3      = Table->k_3; 
 
-  P->Mu_4     = Table->Mu_4; 
   P->Gamma_4  = Table->Gamma_4;
   P->k_4      = Table->k_4; 
+
+  P->Gamma_5  = Table->Gamma_5;
+  P->k_5      = Table->k_5; 
+
+  P->Gamma_6  = Table->Gamma_6;
+  P->k_6      = Table->k_6; 
+
+  P->Gamma_7  = Table->Gamma_7;
 
   P->No_of_GROUPS = Table->No_of_GROUPS;
   P->A_Rate       = Table->A_Rate; 
@@ -173,32 +178,34 @@ void  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( Parameter_Table * Table,
   
   P->Metapop_Connectivity_Matrix = Table->Metapop_Connectivity_Matrix;
   
-  P->Mu_Vector    = Table->Mu_Vector;
   P->Gamma_Vector = Table->Gamma_Vector; 
   P->K_Vector     = Table->K_Vector;
 }
 
 void Parameter_Model_Copy_into_Parameter_Table (Parameter_Table * P_Destination, Parameter_Model * P_Source)
 {
-  P_Destination->Mu_0     = P_Source->Mu_0; 
   P_Destination->Gamma_0  = P_Source->Gamma_0;
   P_Destination->k_0      = P_Source->k_0; 
 
-  P_Destination->Mu_1     = P_Source->Mu_1; 
   P_Destination->Gamma_1  = P_Source->Gamma_1;
   P_Destination->k_1      = P_Source->k_1; 
 
-  P_Destination->Mu_2     = P_Source->Mu_2; 
   P_Destination->Gamma_2  = P_Source->Gamma_2;
   P_Destination->k_2      = P_Source->k_2; 
 
-  P_Destination->Mu_3     = P_Source->Mu_3; 
   P_Destination->Gamma_3  = P_Source->Gamma_3;
   P_Destination->k_3      = P_Source->k_3; 
 
-  P_Destination->Mu_4     = P_Source->Mu_4; 
   P_Destination->Gamma_4  = P_Source->Gamma_4;
   P_Destination->k_4      = P_Source->k_4; 
+
+  P_Destination->Gamma_5  = P_Source->Gamma_5;
+  P_Destination->k_5      = P_Source->k_5; 
+
+  P_Destination->Gamma_6  = P_Source->Gamma_6;
+  P_Destination->k_6      = P_Source->k_6; 
+
+  P_Destination->Gamma_7  = P_Source->Gamma_7;
 
   P_Destination->No_of_GROUPS = P_Source->No_of_GROUPS;
   P_Destination->A_Rate       = P_Source->A_Rate; 
@@ -260,32 +267,34 @@ void Parameter_Model_Copy_into_Parameter_Table (Parameter_Table * P_Destination,
   
   P_Destination->Metapop_Connectivity_Matrix = P_Source->Metapop_Connectivity_Matrix;
 
-  P_Destination->Mu_Vector    = P_Source->Mu_Vector;
   P_Destination->Gamma_Vector = P_Source->Gamma_Vector; 
   P_Destination->K_Vector     = P_Source->K_Vector;
 }
 
 void Parameter_Table_Copy_into_Parameter_Model (Parameter_Model * P_Destination, Parameter_Table * P_Source)
 {
-  P_Destination->Mu_0     = P_Source->Mu_0; 
   P_Destination->Gamma_0  = P_Source->Gamma_0;
   P_Destination->k_0      = P_Source->k_0; 
 
-  P_Destination->Mu_1     = P_Source->Mu_1; 
   P_Destination->Gamma_1  = P_Source->Gamma_1;
   P_Destination->k_1      = P_Source->k_1; 
 
-  P_Destination->Mu_2     = P_Source->Mu_2; 
   P_Destination->Gamma_2  = P_Source->Gamma_2;
   P_Destination->k_2      = P_Source->k_2; 
 
-  P_Destination->Mu_3     = P_Source->Mu_3; 
   P_Destination->Gamma_3  = P_Source->Gamma_3;
   P_Destination->k_3      = P_Source->k_3; 
 
-  P_Destination->Mu_4     = P_Source->Mu_4; 
   P_Destination->Gamma_4  = P_Source->Gamma_4;
   P_Destination->k_4      = P_Source->k_4; 
+
+  P_Destination->Gamma_5  = P_Source->Gamma_5;
+  P_Destination->k_5      = P_Source->k_5; 
+
+  P_Destination->Gamma_6  = P_Source->Gamma_6;
+  P_Destination->k_6      = P_Source->k_6; 
+
+  P_Destination->Gamma_7  = P_Source->Gamma_7;
 
   P_Destination->No_of_GROUPS = P_Source->No_of_GROUPS;
   P_Destination->A_Rate       = P_Source->A_Rate; 
@@ -346,7 +355,6 @@ void Parameter_Table_Copy_into_Parameter_Model (Parameter_Model * P_Destination,
   
   P_Destination->Metapop_Connectivity_Matrix = P_Source->Metapop_Connectivity_Matrix;
 
-  P_Destination->Mu_Vector    = P_Source->Mu_Vector;
   P_Destination->Gamma_Vector = P_Source->Gamma_Vector; 
   P_Destination->K_Vector     = P_Source->K_Vector;
 }
@@ -370,35 +378,35 @@ void Vector_Entry_into_Parameter_Model ( double value, int key, Parameter_Model 
 
   switch (key)
     {
-    case  0:  P->Mu_0 = value;       
+    case  0:  P->Gamma_0 = value;       
       break;
-    case  1:  P->Gamma_0 = value;    
+    case  1:  P->k_0 = value;    
       break;
-    case  2:  P->k_0 = value;        
+    case  2:  P->Gamma_1 = value;        
       break;
-    case  3:  P->Mu_1 = value;       
+    case  3:  P->k_1 = value;       
       break;
-    case  4:  P->Gamma_1 = value;    
+    case  4:  P->Gamma_2 = value;    
       break;
-    case  5:  P->k_1 = value;        
+    case  5:  P->k_2 = value;        
       break;
-    case  6:  P->Mu_2 = value;       
+    case  6:  P->Gamma_3 = value;       
       break;
-    case  7:  P->Gamma_2 = value;    
+    case  7:  P->k_3 = value;    
       break;
-    case  8:  P->k_2 = value;        
+    case  8:  P->Gamma_4 = value;        
       break;
-    case  9:  P->Mu_3 = value;       
+    case  9:  P->k_4 = value;       
       break;
-    case 10:  P->Gamma_3 = value;    
+    case 10:  P->Gamma_5 = value;    
       break;
-    case 11:  P->k_3 = value;        
+    case 11:  P->k_5 = value;        
       break;
-    case 12:  P->Mu_4 = value;       
+    case 12:  P->Gamma_6 = value;       
       break;
-    case 13:  P->Gamma_4 = value;    
+    case 13:  P->k_6 = value;    
       break;
-    case 14:  P->k_4 = value;        
+    case 14:  P->Gamma_7 = value;        
       break;
     case 15:  P->No_of_GROUPS = (int)value; 
       break;
@@ -434,35 +442,35 @@ double Parameter_Model_into_Vector_Entry ( int key, Parameter_Model * P )
 
   switch (key)
     {
-    case  0:  value = P->Mu_0;    
+    case  0:  value = P->Gamma_0;    
       break;
-    case  1:  value = P->Gamma_0; 
+    case  1:  value = P->k_0; 
       break;
-    case  2:  value = P->k_0; 
+    case  2:  value = P->Gamma_1; 
       break;
-    case  3:  value = P->Mu_1; 
+    case  3:  value = P->k_1; 
       break;
-    case  4:  value = P->Gamma_1; 
+    case  4:  value = P->Gamma_2; 
       break;
-    case  5:  value = P->k_1; 
+    case  5:  value = P->k_2; 
       break;
-    case  6:  value = P->Mu_2;    
+    case  6:  value = P->Gamma_3;    
       break;
-    case  7:  value = P->Gamma_2; 
+    case  7:  value = P->k_3; 
       break;
-    case  8:  value = P->k_2; 
+    case  8:  value = P->Gamma_4; 
       break;
-    case  9:  value = P->Mu_3; 
+    case  9:  value = P->k_4; 
       break;
-    case 10:  value = P->Gamma_3; 
+    case 10:  value = P->Gamma_5; 
       break;
-    case 11:  value = P->k_3; 
+    case 11:  value = P->k_5; 
       break;
-    case 12:  value = P->Mu_4;    
+    case 12:  value = P->Gamma_6;    
       break;
-    case 13:  value = P->Gamma_4; 
+    case 13:  value = P->k_6; 
       break;
-    case 14:  value = P->k_4; 
+    case 14:  value = P->Gamma_7; 
       break;
     case 15:  value = P->No_of_GROUPS = (int)value; 
       break;

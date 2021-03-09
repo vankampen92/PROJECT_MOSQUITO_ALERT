@@ -23,7 +23,6 @@ typedef struct Parameter_Modelinfo
   
   int TOTAL_No_of_MODEL_PARAMETERS;
   
-  double * Mu_Vector;
   double * Gamma_Vector;
   int    * K_Vector;
 

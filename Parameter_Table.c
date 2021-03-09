@@ -98,7 +98,6 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C( Parameter_Table * Table )
     exit(0); 
   }
 
-  Table->Mu_Vector    = (double *)calloc(No_of_GROUPS_MAXIMUM, sizeof(double) );
   Table->Gamma_Vector = (double *)calloc(No_of_GROUPS_MAXIMUM, sizeof(double) );
   Table->K_Vector     = (int *)calloc(No_of_GROUPS_MAXIMUM, sizeof(int)); 
  
@@ -177,7 +176,6 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( Parameter_Table * Table )
 
   free(Table->Default_Vector_Output_Variables);
 
-  free(Table->Mu_Vector);
   free(Table->Gamma_Vector);
   free(Table->K_Vector);  
  
@@ -324,29 +322,35 @@ void Resetting_Mu_Gamma_K_Vectors (Parameter_Table * Table)
     switch(i)
       {
       case  0:
-	Table->Mu_Vector[i]    = Table->Mu_0;
 	Table->Gamma_Vector[i] = Table->Gamma_0;
 	Table->K_Vector[i]     = Table->k_0; 
 	break;
       case  1:
-	Table->Mu_Vector[i]    = Table->Mu_1;
 	Table->Gamma_Vector[i] = Table->Gamma_1;
 	Table->K_Vector[i]     = Table->k_1; 
 	break;
       case  2:
-	Table->Mu_Vector[i]    = Table->Mu_2;
 	Table->Gamma_Vector[i] = Table->Gamma_2;
 	Table->K_Vector[i]     = Table->k_2; 
 	break;
       case  3:
-	Table->Mu_Vector[i]    = Table->Mu_3;
 	Table->Gamma_Vector[i] = Table->Gamma_3;
 	Table->K_Vector[i]     = Table->k_3; 
 	break;
       case  4:
-	Table->Mu_Vector[i]    = Table->Mu_4;
 	Table->Gamma_Vector[i] = Table->Gamma_4;
 	Table->K_Vector[i]     = Table->k_4; 
+	break;
+      case  5:
+	Table->Gamma_Vector[i] = Table->Gamma_5;
+	Table->K_Vector[i]     = Table->k_5; 
+	break;
+      case  6:
+	Table->Gamma_Vector[i] = Table->Gamma_6;
+	Table->K_Vector[i]     = Table->k_6; 
+	break;
+      case  7:
+	Table->Gamma_Vector[i] = Table->Gamma_7;
 	break;
 	
       default:
@@ -375,25 +379,28 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
 {
   int i_POP; 
   
-  P->Mu_0     = Mu_0; 
   P->Gamma_0  = Gamma_0;
   P->k_0      = k_0; 
 
-  P->Mu_1     = Mu_1; 
   P->Gamma_1  = Gamma_1;
   P->k_1      = k_1; 
 
-  P->Mu_2     = Mu_2; 
   P->Gamma_2  = Gamma_2;
   P->k_2      = k_2; 
 
-  P->Mu_3     = Mu_3; 
   P->Gamma_3  = Gamma_3;
   P->k_3      = k_3; 
 
-  P->Mu_4     = Mu_4; 
   P->Gamma_4  = Gamma_4;
   P->k_4      = k_4; 
+
+  P->Gamma_5  = Gamma_5;
+  P->k_5      = k_5; 
+
+  P->Gamma_6  = Gamma_6;
+  P->k_6      = k_6; 
+
+  P->Gamma_7  = Gamma_7;
 
   P->No_of_GROUPS = No_of_GROUPS;
   P->A_Rate       = A_Rate; 
