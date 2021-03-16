@@ -444,3 +444,21 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
 			       */
   P->No_of_NEIGHBORS    = No_of_NEIGHBORS;
 }
+
+void rand_index_OutputVar(int * vec_rand, int num_ind){
+  
+  int i;
+  gsl_rng *r;
+  int rand, rand_max; 
+
+  if((r = gsl_rng_alloc(gsl_rng_mt19937)) == NULL) {
+    printf("ERROR: Could not create random number generator\n");
+    exit(1);
+  }
+
+  for (i=0; i<num_ind; i++){
+    rand = gsl_rng_uniform_int(r, 2000);
+    printf("\n ********* rand : %d\n", rand);
+    vec_rand[i] = rand;
+  }
+}

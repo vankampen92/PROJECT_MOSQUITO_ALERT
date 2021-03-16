@@ -29,8 +29,7 @@
 #define OUTPUT_VARIABLES_GENUINE 3          /* Number Output Variables (other than MODEL_STATE_VARIABLES)*/
                                             /* See definition_OutPut_Variables.c */
 
-#define OUTPUT_VARIABLES_MAXIMUM 3003  /* MODEL_STATE_VARIABLES_MAXIMUM +
-					       OUTPUT_VARIABLES_GENUINE */
+#define OUTPUT_VARIABLES_MAXIMUM 3003  /* MODEL_STATE_VARIABLES_MAXIMUM + OUTPUT_VARIABLES_GENUINE */
 #define No_of_MAX_TIMES 2378 /*Maximum number of times in the observed data.*/
 typedef struct totalRateinfo
 {

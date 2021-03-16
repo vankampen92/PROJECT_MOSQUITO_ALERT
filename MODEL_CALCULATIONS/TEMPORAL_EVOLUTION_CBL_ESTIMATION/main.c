@@ -63,7 +63,7 @@ int main(int argc, char **argv)
   Time_Control Time;
   Time_Dependence_Control Time_Dependence;
   P_ARG = &Table;
-
+  int *Index_Output_Variables_Rand;
 #include "default.c"
 
   /* Command line arguments */
@@ -77,6 +77,17 @@ int main(int argc, char **argv)
 
 #include "include.Output_Variables.default.aux.c"
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
+
+  // Randomized selection of variables.
+  if( SUB_OUTPUT_VARIABLES > 61){
+    printf("\n*************ENtro\n");
+    Index_Output_Variables_Rand  = (int *)malloc( SUB_OUTPUT_VARIABLES * sizeof(int) );
+    rand_index_OutputVar(Index_Output_Variables_Rand, SUB_OUTPUT_VARIABLES);
+    P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables_Rand );
+  }
+  
+  //poner aqui la función del randomize si es más de 60 que lo randomice.
+  printf("\n **************SUB_OUTPUT_VARIABLES: %d\n", SUB_OUTPUT_VARIABLES);
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
 
@@ -157,7 +168,6 @@ int main(int argc, char **argv)
   for (i=0; i<No_of_MAX_TIMES; i++) {
     Empirical_Data_Matrix_Full[i] = (double *)calloc( No_of_MAX_TIMES, sizeof(double) );
   }
-
   for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
     key = Table.OUTPUT_VARIABLE_INDEX[i];
     Name_of_Rows[i]         = Table.Output_Variable_Symbol[key];
@@ -215,7 +225,7 @@ int main(int argc, char **argv)
 
     Reading_Standard_Data_Matrix_from_File( TIME_PARAMETERS_FILE,
     					    Type_1_Parameter_Values, &No_of_Rows,
-					    No_of_EMPIRICAL_TIMES,
+					        No_of_EMPIRICAL_TIMES,
     					    0, Name_Rows_Dummy,
     					    1, Time_Empirical_Vector);
     assert( No_of_Rows == TYPE_1_PARAMETERS);
@@ -369,27 +379,27 @@ int main(int argc, char **argv)
       printf(" Min Value: NLL=%g\t Best Estimates: ", Min_Value);
 
       fprintf(DEMO, "%d:\t", s_Attemps);
-
+      printf("\n**************TOTAL_No_of_MODEL_PARAMETERS:%d\n", Table.TOTAL_No_of_MODEL_PARAMETERS);
       for(i=0; i<Table.TOTAL_No_of_MODEL_PARAMETERS; i++) {
-	key = Table.Index[i];
-	value = AssignStructValue_to_VectorEntry(key, &Table);
-	printf(" %s  = %g  ", Table.Symbol_Parameters[key], value);
-	fprintf(DEMO, "%g\t", value);
+        key = Table.Index[i];
+        value = AssignStructValue_to_VectorEntry(key, &Table);
+        printf(" %s  = %g  ", Table.Symbol_Parameters[key], value);
+        fprintf(DEMO, "%g\t", value);
       }
       for(i=0; i<No_of_IC; i++) {
-	key = Initial_Condition_Space->Parameter_Index[i];
-	value = Model_Variable_Initial_Condition_into_Vector_Entry_Table( key, &Table );
-	printf("%s = %g  ", Table.Model_Variable_Symbol[key], value);
-	fprintf(DEMO, "%g\t", value);
+        key = Initial_Condition_Space->Parameter_Index[i];
+        value = Model_Variable_Initial_Condition_into_Vector_Entry_Table( key, &Table );
+        printf("%s = %g  ", Table.Model_Variable_Symbol[key], value);
+        fprintf(DEMO, "%g\t", value);
       }
       for(i=0; i<No_of_ERROR_PARAMETERS; i++) {
-	key = Error_Space->Parameter_Index[i];
-	value = Error_Model_into_Vector_Entry_Table( key, &Table );
-	if(key < OUTPUT_VARIABLES_GENUINE)
-	  printf("%s = %g  ", Table.Output_Variable_Symbol[key], value);
-	else
-	  printf("Error_Parameter_%d = %g  ", i, value);
-	fprintf(DEMO, "%g\t", value);
+        key = Error_Space->Parameter_Index[i];
+        value = Error_Model_into_Vector_Entry_Table( key, &Table );
+        if(key < OUTPUT_VARIABLES_GENUINE)
+          printf("%s = %g  ", Table.Output_Variable_Symbol[key], value);
+        else
+          printf("Error_Parameter_%d = %g  ", i, value);
+        fprintf(DEMO, "%g\t", value);
       }
       fprintf(DEMO, "%g\n", Min_Value);
 

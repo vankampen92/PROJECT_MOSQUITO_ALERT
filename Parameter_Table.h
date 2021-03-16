@@ -10,3 +10,4 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * );
 
 void Resetting_Mu_Gamma_K_Vectors (Parameter_Table * ); 
 
+void rand_index_OutputVar(int * , int );
