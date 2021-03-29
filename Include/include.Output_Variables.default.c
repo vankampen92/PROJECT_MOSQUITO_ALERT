@@ -37,38 +37,38 @@ SUB_OUTPUT_VARIABLES = 60; // OUTPUT_VARIABLES_MAXIMUM;
 // Second Age group.
   variable_30 = 34; //Date: 14-07-2014
   
-  variable_31 = 84;
-  variable_32 = 134;
-  variable_33 = 184;
-  variable_34 = 234;
-  variable_35 = 284;
-  variable_36 = 334;
-  variable_37 = 384;
-  variable_38 = 434;
-  variable_39 = 484;
+  variable_31 = 44;
+  variable_32 = 54;
+  variable_33 = 64;
+  variable_34 = 74;
+  variable_35 = 84;
+  variable_36 = 94;
+  variable_37 = 104;
+  variable_38 = 114;
+  variable_39 = 124;
 
-  variable_40 = 534;
-  variable_41 = 584;
-  variable_42 = 634;
-  variable_43 = 684;
-  variable_44 = 734;
-  variable_45 = 784;
-  variable_46 = 834;
-  variable_47 = 884;
-  variable_48 = 934;
-  variable_49 = 984;
+  variable_40 = 134;
+  variable_41 = 144;
+  variable_42 = 154;
+  variable_43 = 164;
+  variable_44 = 174;
+  variable_45 = 184;
+  variable_46 = 194;
+  variable_47 = 204;
+  variable_48 = 214;
+  variable_49 = 224;
 // Third Age group.
-  variable_50 = 1209; //Date: 01-10-2017
+  variable_50 = 234; //Date: 01-10-2017
 
-  variable_51 = 1319;
-  variable_52 = 1429;
-  variable_53 = 1539;
-  variable_54 = 1649;
-  variable_55 = 1759;
-  variable_56 = 1869;
-  variable_57 = 1979;
-  variable_58 = 2089;
-  variable_59 = 2199;
+  variable_51 = 244;
+  variable_52 = 254;
+  variable_53 = 264;
+  variable_54 = 274;
+  variable_55 = 284;
+  variable_56 = 294;
+  variable_57 = 304;
+  variable_58 = 314;
+  variable_59 = 324;
 
 Index_Output_Variables = (int *)calloc(OUTPUT_VARIABLES_MAXIMUM, sizeof(int));
 
