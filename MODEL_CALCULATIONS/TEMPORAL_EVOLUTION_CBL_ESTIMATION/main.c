@@ -79,8 +79,8 @@ int main(int argc, char **argv)
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
 
   // Randomized selection of variables.
-  if( SUB_OUTPUT_VARIABLES > 61){
-    printf("\n*************ENtro\n");
+  if( SUB_OUTPUT_VARIABLES > 90){
+    printf("\n*************ENtro SUB_OUTPUT_VARIABLES:%d \n", SUB_OUTPUT_VARIABLES);
     Index_Output_Variables_Rand  = (int *)malloc( SUB_OUTPUT_VARIABLES * sizeof(int) );
     rand_index_OutputVar(Index_Output_Variables_Rand, SUB_OUTPUT_VARIABLES);
     P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables_Rand );
