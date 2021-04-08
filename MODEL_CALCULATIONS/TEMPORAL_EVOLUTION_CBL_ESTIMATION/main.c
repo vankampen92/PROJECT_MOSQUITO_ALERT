@@ -277,7 +277,7 @@ int main(int argc, char **argv)
  //				I_Time, Empirical_Data_Matrix,
  //				"" );
   printf("\n Ages used for the optimization:");
-  for(j=0; j < 60; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
+  for(j=0; j < SUB_OUTPUT_VARIABLES; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
   int * Index_Output_Variables_fil = Table.OUTPUT_VARIABLE_INDEX;
   Observed_Data_Initialization_Fil( Data, SUB_OUTPUT_VARIABLES,
                               I_Time, Empirical_Data_Matrix_Full,
