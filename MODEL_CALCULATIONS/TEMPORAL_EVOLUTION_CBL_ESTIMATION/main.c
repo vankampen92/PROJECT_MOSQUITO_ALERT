@@ -77,20 +77,24 @@ int main(int argc, char **argv)
 
 #include "include.Output_Variables.default.aux.c"
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
-
+	printf("\n Number of output variables:%d \n ", SUB_OUTPUT_VARIABLES);
   // Randomized selection of variables.
   if( SUB_OUTPUT_VARIABLES > 90){
-    printf("\n*************ENtro SUB_OUTPUT_VARIABLES:%d \n", SUB_OUTPUT_VARIABLES);
+    printf("\n*************RANDOL SELECTION OF EQUATIONS SUB_OUTPUT_VARIABLES:%d \n", SUB_OUTPUT_VARIABLES);
     Index_Output_Variables_Rand  = (int *)malloc( SUB_OUTPUT_VARIABLES * sizeof(int) );
     rand_index_OutputVar(Index_Output_Variables_Rand, SUB_OUTPUT_VARIABLES);
     P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables_Rand );
-  }
-  
-  //poner aqui la función del randomize si es más de 60 que lo randomice.
+  }else{
+	//poner aqui la función del randomize si es más de 60 que lo randomice.
   printf("\n **************SUB_OUTPUT_VARIABLES: %d\n", SUB_OUTPUT_VARIABLES);
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
-
+  }
+  
+  //poner aqui la función del randomize si es más de 60 que lo randomice.
+ // printf("\n **************SUB_OUTPUT_VARIABLES: %d\n", SUB_OUTPUT_VARIABLES);
+ // P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
+ // printf(" Parameter_Table structure has been correctly allocated and initiated\n");
   Parameter_Model * Initial_Guess = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
   P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, Initial_Guess);
   printf(" Parameter_Model structure 'Initial_Guess' has been correctly allocated and initiated\n");
