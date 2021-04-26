@@ -222,7 +222,6 @@ int main(int argc, char **argv)
     Time_Empirical_Vector   = (double * )calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
     for(i = 0; i<TYPE_1_PARAMETERS; i++)
       Type_1_Parameter_Values[i] = (double *)calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
-
     Reading_Standard_Data_Matrix_from_File( TIME_PARAMETERS_FILE,
     					    Type_1_Parameter_Values, &No_of_Rows,
 					        No_of_EMPIRICAL_TIMES,
@@ -250,7 +249,6 @@ int main(int argc, char **argv)
   int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
   int a = No_of_MAX_TIMES;
 
-  
   // Dummy pointer since Reading_Standard_Data_Matrix_from_File needs a int pointer as third argument.
   //int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
@@ -271,12 +269,12 @@ int main(int argc, char **argv)
   /* B E G I N :   Reserving memmory for Observed Data and Fitting Structure */
   Observed_Data * Data = (Observed_Data *)calloc(1, sizeof(Observed_Data));
   Observed_Data_Alloc( Data, SUB_OUTPUT_VARIABLES, I_Time);
-  
  //Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
  //				I_Time, Empirical_Data_Matrix,
  //				"" );
   printf("\n Ages used for the optimization:");
   for(j=0; j < SUB_OUTPUT_VARIABLES; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
+  printf("\n Ages used for the optimization:");
   int * Index_Output_Variables_fil = Table.OUTPUT_VARIABLE_INDEX;
   Observed_Data_Initialization_Fil( Data, SUB_OUTPUT_VARIABLES,
                               I_Time, Empirical_Data_Matrix_Full,

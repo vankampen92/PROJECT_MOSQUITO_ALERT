@@ -468,7 +468,7 @@ void rand_index_OutputVar(int * vec_rand, int num_ind){
         rand = gsl_rng_uniform_int(r, 1670);
         vec_rand[i] = rand + 34;
     }else{
-        rand = gsl_rng_uniform_int(r, 1730);
+        rand = gsl_rng_uniform_int(r, 648);
         vec_rand[i] = rand + 1704;
     }
     
