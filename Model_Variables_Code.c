@@ -27,7 +27,6 @@ void Model_Variables_Code_into_Parameter_Table (Parameter_Table * Table)
 
       /* List of (Potentially searcheable) model parameters */
       n = 0; 
-      printf("\n****************Table->No_of_GROUPS:%d\n", Table->No_of_GROUPS);
       for (i=0; i < Table->No_of_GROUPS; i++) {
 	      Table->Index[n++] = 2*i; Table->Index[n++] = 2*i+1;
       }

@@ -80,19 +80,15 @@ int main(int argc, char **argv)
 	printf("\n Number of output variables:%d \n ", SUB_OUTPUT_VARIABLES);
   // Randomized selection of variables.
   if( SUB_OUTPUT_VARIABLES > 90){
-    printf("\n*************RANDOL SELECTION OF EQUATIONS SUB_OUTPUT_VARIABLES:%d \n", SUB_OUTPUT_VARIABLES);
     Index_Output_Variables_Rand  = (int *)malloc( SUB_OUTPUT_VARIABLES * sizeof(int) );
     rand_index_OutputVar(Index_Output_Variables_Rand, SUB_OUTPUT_VARIABLES);
     P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables_Rand );
   }else{
 	//poner aqui la función del randomize si es más de 60 que lo randomice.
-  printf("\n **************SUB_OUTPUT_VARIABLES: %d\n", SUB_OUTPUT_VARIABLES);
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
   }
   
-  //poner aqui la función del randomize si es más de 60 que lo randomice.
- // printf("\n **************SUB_OUTPUT_VARIABLES: %d\n", SUB_OUTPUT_VARIABLES);
  // P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
  // printf(" Parameter_Table structure has been correctly allocated and initiated\n");
   Parameter_Model * Initial_Guess = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
@@ -263,7 +259,6 @@ int main(int argc, char **argv)
 					  No_of_MAX_TIMES, 
 					  0, Name_of_Rows,
 					  1, Time.Time_Vector );
-  printf("\n***********OUT READING****************\n");
   /*Writing_Standard_Data_Matrix( Empirical_Data_Matrix_Full,
 				No_of_MAX_TIMES,
         No_of_MAX_TIMES ,
@@ -383,7 +378,6 @@ int main(int argc, char **argv)
       printf(" Min Value: NLL=%g\t Best Estimates: ", Min_Value);
 
       fprintf(DEMO, "%d:\t", s_Attemps);
-      printf("\n**************TOTAL_No_of_MODEL_PARAMETERS:%d\n", Table.TOTAL_No_of_MODEL_PARAMETERS);
       for(i=0; i<Table.TOTAL_No_of_MODEL_PARAMETERS; i++) {
         key = Table.Index[i];
         value = AssignStructValue_to_VectorEntry(key, &Table);
