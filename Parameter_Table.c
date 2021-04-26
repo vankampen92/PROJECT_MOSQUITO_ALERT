@@ -450,15 +450,27 @@ void rand_index_OutputVar(int * vec_rand, int num_ind){
   int i;
   gsl_rng *r;
   int rand, rand_max; 
+  int mod, integ;
+  int ind_l;
 
   if((r = gsl_rng_alloc(gsl_rng_mt19937)) == NULL) {
     printf("ERROR: Could not create random number generator\n");
     exit(1);
   }
 
+  mod = modf((num_ind-30)/2, &integ);
+  ind_l = mod +31;
+
   for (i=0; i<num_ind; i++){
-    rand = gsl_rng_uniform_int(r, 2000);
-    printf("\n ********* rand : %d\n", rand);
-    vec_rand[i] = rand;
+    if(i>=0 && i<=30){
+      vec_rand[i] = i+4;
+    }else if(i>=31 && i<=ind_l){
+        rand = gsl_rng_uniform_int(r, 1670);
+        vec_rand[i] = rand + 34;
+    }else{
+        rand = gsl_rng_uniform_int(r, 1730);
+        vec_rand[i] = rand + 1704;
+    }
+    
   }
 }
