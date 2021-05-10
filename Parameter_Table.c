@@ -457,17 +457,21 @@ void rand_index_OutputVar(int * vec_rand, int num_ind){
     printf("ERROR: Could not create random number generator\n");
     exit(1);
   }
-
-  mod = modf((num_ind-30)/2, &integ);
-  ind_l = mod +31;
-
+   printf("\n******************* num_ind : %d\n",num_ind);
+  mod = (num_ind-30)/2;
+  int int_mod = (int)mod;
+  printf("\n******************* mod : %d\n",mod);
+  ind_l = int_mod +31;
+   printf("\n******************* ind_l : %d\n",ind_l);
   for (i=0; i<num_ind; i++){
     if(i>=0 && i<=30){
       vec_rand[i] = i+4;
     }else if(i>=31 && i<=ind_l){
+      printf("\n ********************Second group age");
         rand = gsl_rng_uniform_int(r, 1670);
         vec_rand[i] = rand + 34;
     }else{
+      printf("\n ********************Third group age");
         rand = gsl_rng_uniform_int(r, 648);
         vec_rand[i] = rand + 1704;
     }
