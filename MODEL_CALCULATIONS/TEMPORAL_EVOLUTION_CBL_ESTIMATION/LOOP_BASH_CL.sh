@@ -12,7 +12,7 @@ do
 
 	count=`expr $count + 1`             # Increment arithmetically the counter
 
-	qsub -N MP.$Year -m bea -M mpardo@ceab.csic.es -v SEED=$seed,LABEL=$1 ${HOME}/my_PBS_FILE.sh
+	qsub -N MP.$Year -m bea -M mpardo@ceab.csic.es -v SEED=$seed,LABEL=$1,GROUP=$count,CLASS=$2  /home/usuaris/m.pardo/PROJECT_MOSQUITO_ALERT/MODEL_CALCULATIONS/TEMPORAL_EVOLUTION_CBL_ESTIMATION/my_PBS_FILE.sh
 
 	echo "Job Number: "$count "has been queued!!!"
 
