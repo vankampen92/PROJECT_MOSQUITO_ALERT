@@ -228,6 +228,8 @@ int main(int argc, char **argv)
     					    0, Name_Rows_Dummy,
     					    1, Time_Empirical_Vector);
     assert( No_of_Rows == TYPE_1_PARAMETERS);
+     printf("\n**********************No_of_EMPIRICAL_TIMES:%d, No_of_TIMES:%d*********************\n"), No_of_EMPIRICAL_TIMES, I_Time;
+
     //for(i = 0; i<I_Time; i++)printf("\nTime_Empirical_Vector[%d]:%lf \n",i,Time_Empirical_Vector[i]);
     Time_Dependence_Control_Upload_Optimized (&Time, &Time_Dependence, &Table,
     					      I_Time, No_of_EMPIRICAL_TIMES,
@@ -248,7 +250,6 @@ int main(int argc, char **argv)
   
   int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
   int a = No_of_MAX_TIMES;
-
   // Dummy pointer since Reading_Standard_Data_Matrix_from_File needs a int pointer as third argument.
   //int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
