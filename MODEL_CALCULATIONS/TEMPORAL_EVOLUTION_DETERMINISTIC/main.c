@@ -157,7 +157,7 @@ int main(int argc, char **argv)
   
   printf("\n Ages used for the integration:");
   int j;
-  for(j=0; j < 60; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
+  for(j=0; j < SUB_OUTPUT_VARIABLES; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
 
   // File to save the output of the integration.
   char * OUTPUT_INTEGRATION   = (char *)calloc(1000, sizeof(char) ); /* Output files  */
