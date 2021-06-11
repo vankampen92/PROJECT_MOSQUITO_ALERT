@@ -20,7 +20,7 @@ double Gamma_7;                  /* Jumping Rate                    */
 
 int No_of_GROUPS;
 double A_Rate;
-
+double rho;
 
 /* Type of model */
 #include <include.Type_of_Model.global.h>

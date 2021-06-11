@@ -55,6 +55,9 @@ void Parameter_Space_Boundary_for_Trends(int j, double *value_0, double *value_1
     case 16: 
     (*value_0) = (0.0);      (*value_1) = (0.5);
     break;
+    case 17: 
+    (*value_0) = (0.0);      (*value_1) = (0.5);
+    break;
     
     default:
     printf("...(in Parameter_Space_Boundary_for_Trends.c) INVALID PARAMETER KEY (key = %d)\n", j);

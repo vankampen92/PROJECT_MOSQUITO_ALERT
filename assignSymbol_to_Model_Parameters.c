@@ -40,6 +40,8 @@ void AssignCPGPLOT_Symbol_to_Model_Parameters(int j, char * Label, Parameter_Tab
     case 15:  p = strcat(Label, "K");
       break;
     case 16:  p = strcat(Label, "A\\d0\\u");   
+      break;
+    case 17:  p = strcat(Label, "Rho\\d0\\u");   
       break;  
     
     default:
@@ -93,6 +95,8 @@ void AssignSymbol_to_Model_Parameters(int j, char * Label, Parameter_Table *P)
     case 15:  p = strcat(Label, "K");
       break;
     case 16:  p = strcat(Label, "A");   
+      break;
+    case 17:  p = strcat(Label, "Rho");   
       break;  
     
       

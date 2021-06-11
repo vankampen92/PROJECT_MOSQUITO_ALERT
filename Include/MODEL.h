@@ -8,11 +8,11 @@
 
 #define INTEGER_CODE_FOR_TIME_DIMENSION 0
 
-#define DEPENDENT_PARAMETERS_MAXIMUM 17  /* Maximum number of potentially forced parameters */
+#define DEPENDENT_PARAMETERS_MAXIMUM 18  /* Maximum number of potentially forced parameters */
 
-#define MODEL_PARAMETERS_MAXIMUM 17       /* Maximum No of MODEL (input) PARAMETERS */
+#define MODEL_PARAMETERS_MAXIMUM 18       /* Maximum No of MODEL (input) PARAMETERS */
 
-#define MODEL_PARAMETER_SPACE_MAXIMUM 17  /* Maximum Dimension for Parameter Space */
+#define MODEL_PARAMETER_SPACE_MAXIMUM 18  /* Maximum Dimension for Parameter Space */
 
 #define No_of_GROUPS_MAXIMUM 5
 

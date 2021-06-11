@@ -87,6 +87,17 @@
 	      skip++;
 	      break;
 
+           case 'o': 
+              if(argv[argcount][2]=='rho')        fprintf(fp, "-rho %g  ",
+						       Table->rho);            /* 17 */
+              
+	      else {
+		printf(" Error at reading input arguments: -  %s  \n", argv[argcount]);
+		exit(0);
+	      }
+	      skip++;
+	      break;
+
  
               #include <include.Type_of_Model.argumentControl_fprintf.c>
 

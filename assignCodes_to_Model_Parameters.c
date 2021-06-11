@@ -41,6 +41,8 @@ void AssignCodes_to_Model_Parameters(int j, char * Label, Parameter_Table *P)
       break;
     case 16:  p = strcat(Label, "-rA");
       break;
+    case 17:  p = strcat(Label, "-oR");
+      break;
       
     default:
       printf(".... INVALID PARAMETER KEY [key = %d]\n", j);

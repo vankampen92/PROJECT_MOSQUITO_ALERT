@@ -404,6 +404,7 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
 
   P->No_of_GROUPS = No_of_GROUPS;
   P->A_Rate       = A_Rate; 
+  P->rho          = rho; 
   
   P->No_of_IC = No_of_IC;
   P->TYPE_of_INITIAL_CONDITION = TYPE_of_INITIAL_CONDITION;
@@ -435,6 +436,7 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
   P->Err_14 = Err_14;
   P->Err_15 = Err_15;
   P->Err_16 = Err_16;
+  P->Err_17 = Err_17;
 
   /* Definition of type of network */
   P->TYPE_of_NETWORK  = TYPE_of_NETWORK;

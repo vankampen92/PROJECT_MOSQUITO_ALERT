@@ -70,6 +70,8 @@ double AssignStructValue_to_VectorEntry(int j, Parameter_Table * P)
       break;
     case 16:  value = P->A_Rate; 
       break;
+    case 17:  value = P->rho; 
+      break;
 
     default:
       printf(".... INVALID PARAMETER KEY (key = %d)\n", j);

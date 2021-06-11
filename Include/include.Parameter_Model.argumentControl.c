@@ -84,6 +84,18 @@
 	      skip++;
 	      break;
 
+           case 'o': 
+              if(argv[argcount][2]=='rho')        sscanf(argv[argcount+1],"%lf",
+						       &A_Rate);          /* 17 */
+              
+	      else {
+		printf(" Error at reading input arguments: -  %s  \n", argv[argcount]);
+		exit(0);
+	      }
+	      skip++;
+	      break;
+
+
 
 
               #include <include.Type_of_Model.argumentControl.c>

@@ -28,6 +28,7 @@ void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_
  
   P_Destination->No_of_GROUPS = P_Source->No_of_GROUPS;
   P_Destination->A_Rate       = P_Source->A_Rate; 
+  P_Destination->rho       = P_Source->rho; 
   
   P_Destination->No_of_IC = P_Source->No_of_IC;
   P_Destination->TYPE_of_INITIAL_CONDITION = P_Source->TYPE_of_INITIAL_CONDITION;
@@ -58,6 +59,7 @@ void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_
   P_Destination->Err_14 = P_Source->Err_14;
   P_Destination->Err_15 = P_Source->Err_15;
   P_Destination->Err_16 = P_Source->Err_16;
+  P_Destination->Err_17 = P_Source->Err_17;
   
   P_Destination->MODEL_OUTPUT_VARIABLES = P_Source->MODEL_OUTPUT_VARIABLES;   /* Actual no of MODEL (output) VARIABLES */
   P_Destination->MODEL_INPUT_PARAMETERS = P_Source->MODEL_INPUT_PARAMETERS;  /* Actual no of MODEL (input) PARAMETERS */
@@ -123,7 +125,8 @@ void  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( Parameter_Table * Table,
 
   P->No_of_GROUPS = Table->No_of_GROUPS;
   P->A_Rate       = Table->A_Rate; 
-  
+  P->rho       = Table->rho;
+
   P->No_of_IC = Table->No_of_IC;
   P->TYPE_of_INITIAL_CONDITION = Table->TYPE_of_INITIAL_CONDITION;
   P->INITIAL_TOTAL_POPULATION  = Table->INITIAL_TOTAL_POPULATION;
@@ -153,6 +156,7 @@ void  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( Parameter_Table * Table,
   P->Err_14 = Table->Err_14;
   P->Err_15 = Table->Err_15;
   P->Err_16 = Table->Err_16;
+  P->Err_17 = Table->Err_17;
 
   P->MODEL_OUTPUT_VARIABLES = Table->MODEL_OUTPUT_VARIABLES;   /* Actual no of MODEL (output) VARIABLES */
   P->MODEL_INPUT_PARAMETERS = Table->MODEL_INPUT_PARAMETERS;  /* Actual no of MODEL (input) PARAMETERS */
@@ -209,7 +213,7 @@ void Parameter_Model_Copy_into_Parameter_Table (Parameter_Table * P_Destination,
 
   P_Destination->No_of_GROUPS = P_Source->No_of_GROUPS;
   P_Destination->A_Rate       = P_Source->A_Rate; 
- 
+  P_Destination->rho       = P_Source->rho;
   
   P_Destination->No_of_IC = P_Source->No_of_IC;
   P_Destination->TYPE_of_INITIAL_CONDITION = P_Source->TYPE_of_INITIAL_CONDITION;
@@ -240,7 +244,8 @@ void Parameter_Model_Copy_into_Parameter_Table (Parameter_Table * P_Destination,
   P_Destination->Err_14 = P_Source->Err_14;
   P_Destination->Err_15 = P_Source->Err_15;
   P_Destination->Err_16 = P_Source->Err_16; 
-  
+  P_Destination->Err_17 = P_Source->Err_17; 
+
   P_Destination->MODEL_OUTPUT_VARIABLES = P_Source->MODEL_OUTPUT_VARIABLES;   /* Actual no of MODEL (output) VARIABLES */
   P_Destination->MODEL_INPUT_PARAMETERS = P_Source->MODEL_INPUT_PARAMETERS;  /* Actual no of MODEL (input) PARAMETERS */
   P_Destination->MODEL_STATE_VARIABLES  = P_Source->MODEL_STATE_VARIABLES;  /* Actual no of MODEL (state) VARIABLES  */
@@ -298,6 +303,7 @@ void Parameter_Table_Copy_into_Parameter_Model (Parameter_Model * P_Destination,
 
   P_Destination->No_of_GROUPS = P_Source->No_of_GROUPS;
   P_Destination->A_Rate       = P_Source->A_Rate; 
+  P_Destination->rho       = P_Source->rho; 
   
   P_Destination->No_of_IC = P_Source->No_of_IC;
   P_Destination->TYPE_of_INITIAL_CONDITION = P_Source->TYPE_of_INITIAL_CONDITION;
@@ -328,6 +334,8 @@ void Parameter_Table_Copy_into_Parameter_Model (Parameter_Model * P_Destination,
   P_Destination->Err_14 = P_Source->Err_14;
   P_Destination->Err_15 = P_Source->Err_15;
   P_Destination->Err_16 = P_Source->Err_16;
+  P_Destination->Err_17 = P_Source->Err_17;
+
 
   P_Destination->MODEL_OUTPUT_VARIABLES = P_Source->MODEL_OUTPUT_VARIABLES;   /* Actual no of MODEL (output) VARIABLES */
   P_Destination->MODEL_INPUT_PARAMETERS = P_Source->MODEL_INPUT_PARAMETERS;  /* Actual no of MODEL (input) PARAMETERS */
@@ -412,6 +420,8 @@ void Vector_Entry_into_Parameter_Model ( double value, int key, Parameter_Model 
       break;
     case 16:  P->A_Rate       = value; 
       break;
+    case 17:  P->rho       = value; 
+      break;
       
   default:
     printf(".... INVALID PARAMETER KEY (key = %d)\n", key);
@@ -475,6 +485,8 @@ double Parameter_Model_into_Vector_Entry ( int key, Parameter_Model * P )
     case 15:  value = P->No_of_GROUPS = (int)value; 
       break;
     case 16:  value = P->A_Rate; 
+      break;
+    case 17:  value = P->rho; 
       break;
     
     

@@ -19,7 +19,7 @@ Gamma_7 = 0.1;                 /* Jumping Rate                    */
 
 No_of_GROUPS = 1;
 A_Rate       = 100;
-
+rho       = 0.0100;
 /* Type of model */
 #include <include.Type_of_Model.global.h>
 

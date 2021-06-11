@@ -19,9 +19,9 @@ void Model_Variables_Code_into_Parameter_Table (Parameter_Table * Table)
       
       n = 0;
       for(i=0; i<Table->No_of_CELLS; i++)
-	for(j=0; j<Table->No_of_AGES; j++)
-	  n++;
-	    
+	      for(j=0; j<Table->No_of_AGES; j++)
+	        n++;
+
       /* Conventions */
       Table->K   = n-1;     /* Label of the very last class */
 
@@ -30,16 +30,42 @@ void Model_Variables_Code_into_Parameter_Table (Parameter_Table * Table)
       for (i=0; i < Table->No_of_GROUPS; i++) {
 	      Table->Index[n++] = 2*i; Table->Index[n++] = 2*i+1;
       }
-      Table->Index[n++] = 15; Table->Index[n++] = 16; 
+      Table->Index[n++] = 15; Table->Index[n++] = 16; Table->Index[n++] = 17; 
+      
+      Table->TOTAL_No_of_MODEL_PARAMETERS = n; 
+      
+      break;
+      case 1: /* MADMODEL_FULL * * * * * * * * * * * * * * * * * * * * * * */
+
+      /* Number of events that can occur to a single Species: */
+      Table->No_of_EVENTS                 = 2;              /* Transition or loss */  
+      Table->TOTAL_No_of_EVENTS           = Table->No_of_EVENTS * Table->No_of_AGES;
+      Table->TOTAL_No_of_MODEL_PARAMETERS = MODEL_PARAMETERS_MAXIMUM +1;
+      
+      n = 0;
+      for(i=0; i<Table->No_of_CELLS; i++)
+	      for(j=0; j<Table->No_of_AGES; j++)
+	        n++;
+
+      /* Conventions */
+      Table->K   = n;     /* Label of the very last class */
+
+      /* List of (Potentially searcheable) model parameters */
+      n = 0; 
+      for (i=0; i < Table->No_of_GROUPS; i++) {
+	      Table->Index[n++] = 2*i; Table->Index[n++] = 2*i+1;
+      }
+      Table->Index[n++] = 15; Table->Index[n++] = 16; Table->Index[n++] = 17; 
       
       Table->TOTAL_No_of_MODEL_PARAMETERS = n; 
       
       break;
 
-    default:
+       default:
       printf(" This TYPE_of_MODEL (%d) code is not defined.\n", TYPE_of_MODEL);
       printf(" Check input argument list\n");
       exit(0);
+
    }
   /* Conventionally, the last label in the argument list of
 
@@ -68,6 +94,17 @@ void Model_Variables_Code_into_Parameter_Model (Parameter_Model * P)
 	  n++;	    
       /* Conventions */
       P->K   = n-1;     /* Label of the very last class */
+
+      break;
+
+      case 1: /* MADMODEL_FULL * * * * * * * * * * * * * * * * * * * * * * */
+      
+      n = 0;
+      for(i=0; i<P->No_of_CELLS; i++)
+	for(j=0; j<P->No_of_AGES; j++)
+	  n++;	    
+      /* Conventions */
+      P->K   = n;     /* Label of the very last class */
 
       break;
       

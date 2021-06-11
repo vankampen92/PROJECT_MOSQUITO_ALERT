@@ -41,6 +41,8 @@ void AssignLabel_to_Model_Parameters__LATEX(int j, char * Label, Parameter_Table
       break;
     case 16:  p = strcat(Label, "Downloading Rate");   
       break;    
+    case 17:  p = strcat(Label, "Encounter Rate");   
+      break;  
     default:
       printf(".... INVALID PARAMETER KEY [key = %d]\n", j);
       printf(".... The permited correspondences are:\n");
@@ -90,6 +92,8 @@ void AssignLabel_to_Model_Parameters__LATEX__SYMBOL(int j, char * Label, Paramet
     case 15:  p = strcat(Label, "$K$");      
       break;
     case 16:  p = strcat(Label, "$A$");        
+      break;
+    case 17:  p = strcat(Label, "$Rho$");        
       break;
       
       

@@ -10,6 +10,7 @@ extern double CPG_RANGE_X_1;
 extern double CPG_RANGE_Y_0;
 extern double CPG_RANGE_Y_1;
 extern double A_Rate;       /* Participate in the defintion Y Axis Range */
+extern double rho;
 #endif
 
 int M_O_D_E_L( Parameter_Table * Table )
