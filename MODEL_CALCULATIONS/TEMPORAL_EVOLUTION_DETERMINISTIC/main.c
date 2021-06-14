@@ -58,9 +58,18 @@ int main(int argc, char **argv)
   Time_Control Time;
   Time_Dependence_Control Time_Dependence;
   int No_of_EMPIRICAL_TIMES;
+  double * propen_vec;
+  int No_ages_PROP;
   
+  No_ages_PROP = No_of_Ages_PROP;
   P_ARG = &Table;
 
+  propen_vec = (double *)calloc(No_ages_PROP, sizeof(double) );
+
+    char * File_prop;
+
+  File_prop = "prop_vec.dat";
+  
 #include "default.c"
 
   /* Command line arguments */
@@ -77,6 +86,9 @@ int main(int argc, char **argv)
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
 
 
+  upload_extra_vec_to_ParameterTable(File_prop, propen_vec,No_ages_PROP,&Table);
+  
+  
   /* B E G I N : Reserving memmory for Parameter Space */
 #include <include.Parameter_Space.default.aux.c>
   Parameter_Space * Space = (Parameter_Space *)calloc(1, sizeof(Parameter_Space));
@@ -104,7 +116,7 @@ int main(int argc, char **argv)
 	   SUB_OUTPUT_VARIABLES, I_Time);
     T_I_M_E___C_O_N_T_R_O_L___A_L_L_O_C( &Time, &Table, I_Time);
     T_I_M_E___C_O_N_T_R_O_L___U_P_L_O_A_D( &Time, &Table, I_Time);
-    printf(" Time_Control structure has been correctly allocated and set up\n");
+   
   }
   else {
     #include <include.Time_Dependence_Control.default.aux.c>
@@ -113,7 +125,6 @@ int main(int argc, char **argv)
     SUB_OUTPUT_VARIABLES, I_Time);
     Time_Dependence_Control_Alloc(&Time, &Time_Dependence, &Table,
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
-     
     /* In order for this default name to work properly, you need -Fn 0 in command line */
     if (No_of_FILES == 0) {
       No_of_EMPIRICAL_TIMES = 12; /* 12 cols in Time_Dependence_Downloading_Rate.dat */
@@ -136,6 +147,10 @@ int main(int argc, char **argv)
     printf(" correctly allocated and set up\n");
   }
 
+  // Read vector of propensities;
+  char * file_name;
+  file_name = "prop_vec.csv";
+  
 #if defined CPGPLOT_REPRESENTATION
   Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
   Table.CPG_STO = A_C_T_I_V_A_T_E___2nd___C_P_G_P_L_O_T (0,

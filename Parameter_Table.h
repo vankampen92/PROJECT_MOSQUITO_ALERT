@@ -11,3 +11,15 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * );
 void Resetting_Mu_Gamma_K_Vectors (Parameter_Table * ); 
 
 void rand_index_OutputVar(int * , int );
+
+void Uploading_Demographic_Parameters_into_Parameter_Table(Parameter_Table * Table, double ** Data,
+							   int k, int * Index,
+							   int No_of_PARAMETERS );
+
+void Uploading_Model_Parameters_into_Parameter_Table(Parameter_Table * Table, double ** Data,
+						     int k);
+
+void upload_extra_vec_to_ParameterTable(char * File_Name,
+                              double * vec,
+                              int No_of_Row,
+                              Parameter_Table * Table);

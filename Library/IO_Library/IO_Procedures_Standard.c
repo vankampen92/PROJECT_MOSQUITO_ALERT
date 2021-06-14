@@ -171,3 +171,25 @@ void Writing_Standard_Data_Matrix_to_File(char * File_Name,
   
   fclose(FP);
 }
+
+void Reading_vector_from_File(char * File_Name,
+                              double * vec,
+                              int No_of_Row)
+{
+    int i;
+    double y;
+    FILE * fp;
+
+    printf("\n [Entering function Reading_vector_from_File(...)]:\t\n\tReading File %s...\n", File_Name);
+    if((fp=fopen(File_Name,"r")) == NULL) {
+        printf("File non-existent! Cannot open file.\n");
+        printf("Program aborted!!!");
+        exit(345);
+    }
+
+    for(i=0; i<No_of_Row;i++){
+        fscanf(fp, "%lf\n", &y);
+        vec[i] = y;
+    } 
+}
+

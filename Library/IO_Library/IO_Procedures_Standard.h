@@ -14,3 +14,7 @@ void Writing_Standard_Data_Matrix_to_File(char * File_Name,
 					  int N_row, int N_column,
 					  int NAMES, char ** Name_of_Rows,
 					  int TIMES, double * Time_Vector);
+
+void Reading_vector_from_File(char * File_Name,
+								double * vec,
+								int No_of_Row);

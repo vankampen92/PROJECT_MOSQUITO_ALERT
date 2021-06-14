@@ -20,9 +20,11 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C( Parameter_Table * Table )
   int i, j, a;
   int MODEL_OUTPUT_VARIABLES;   /* Actual no of MODEL (output) VARIABLES */
   int MODEL_INPUT_PARAMETERS;  /* Actual no of MODEL (input) PARAMETERS */
+  int No_AGES_PROP;
   
   MODEL_INPUT_PARAMETERS = MODEL_PARAMETERS_MAXIMUM;
   MODEL_OUTPUT_VARIABLES = OUTPUT_VARIABLES_MAXIMUM;
+  No_AGES_PROP = No_of_Ages_PROP;
   
   // int MODEL_STATE_VARIABLES;  /* Actual no of MODEL (state) VARIABLES 
   /* Model parameters are all input parameters defining and controling
@@ -100,6 +102,7 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C( Parameter_Table * Table )
 
   Table->Gamma_Vector = (double *)calloc(No_of_GROUPS_MAXIMUM, sizeof(double) );
   Table->K_Vector     = (int *)calloc(No_of_GROUPS_MAXIMUM, sizeof(int)); 
+  Table->prop_vec = (double *)calloc(No_AGES_PROP, sizeof(double) );
  
   /* BEGIN: Allocating and Setting up Connectivity Matrix */
   Table->Metapop_Connectivity_Matrix = (double ***)calloc(No_of_AGES_MAXIMUM,
@@ -178,6 +181,7 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( Parameter_Table * Table )
 
   free(Table->Gamma_Vector);
   free(Table->K_Vector);  
+  free(Table->prop_vec);
  
   for(a=0; a<Table->No_of_AGES; a++) {  
     for(i=0; i<Table->No_of_CELLS; i++) 
@@ -191,7 +195,8 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( Parameter_Table * Table )
 void P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( Parameter_Table * Table, int * Index_Output_Variables )
 {
   int i, j, a;
-  
+  int No_AGES_PROP;
+  No_AGES_PROP = No_of_Ages_PROP;
   /* Stochastic Realizations */
   Table->Realizations = Realizations;
 
@@ -304,6 +309,10 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( Parameter_Table * Table, int *
 	for(j=0; j<Table->No_of_NEIGHBORS; j++)
 	    Table->Metapop_Connectivity_Matrix[a][i][j] = Table->Mu;
 	  
+  }
+
+  for(i=0; i<No_AGES_PROP; i++){
+    Table->prop_vec[i] = 0;
   }
   /* END -------------------------------------------------*/
 
@@ -479,4 +488,53 @@ void rand_index_OutputVar(int * vec_rand, int num_ind){
     }
     
   }
+}
+
+void Uploading_Demographic_Parameters_into_Parameter_Table(Parameter_Table * Table, double ** Data,
+							   int k, int * Index,
+							   int No_of_PARAMETERS )
+{
+  int i, key;
+  
+  //Parameter Labels for Sigma_0, Sigma_0_r, Sigma_1, Sigma_1_r, and Alpha. 
+
+  for(i=0; i<No_of_PARAMETERS; i++) {
+    key = Index[i];
+    AssignVectorEntry_to_Structure(Table , key, Data[k][i]);
+  }     
+}
+
+void Uploading_Model_Parameters_into_Parameter_Table(Parameter_Table * Table, double ** Data,
+						     int k)
+{
+  int i, key;
+  int No_of_PARAMETERS; 
+  
+
+  No_of_PARAMETERS = Table->S->No_of_PARAMETERS;
+  
+  for(i=0; i < No_of_PARAMETERS; i++) {
+    key = Table->S->Parameter_Index[i];
+    AssignVectorEntry_to_Structure(Table , key, Data[k][i]);
+  }
+      
+}
+
+void upload_extra_vec_to_ParameterTable(char * File_Name,
+                              double * vec,
+                              int No_of_Row,
+                              Parameter_Table * Table)
+{
+  int No_of_ages;
+  int i;
+
+  Reading_vector_from_File(File_Name,vec,No_of_Row);
+  
+  No_of_ages = No_of_Ages_PROP;
+  for(i=0; i< No_of_ages;i++){
+    Table->prop_vec[i] = vec[i];
+  }
+
+ 
+
 }
