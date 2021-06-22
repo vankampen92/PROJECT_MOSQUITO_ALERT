@@ -128,6 +128,8 @@ typedef struct Parameter_Tableinfo
   int No_of_CELLS_Y;
   
   int No_of_AGES;
+
+  double * prop_vec;
   
 }Parameter_Table;
 

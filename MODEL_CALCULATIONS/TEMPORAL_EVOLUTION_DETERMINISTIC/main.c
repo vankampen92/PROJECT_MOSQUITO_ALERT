@@ -173,7 +173,9 @@ int main(int argc, char **argv)
   printf("\n Ages used for the integration:");
   int j;
   for(j=0; j < SUB_OUTPUT_VARIABLES; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
-
+  printf("\n***********Table.No_of_AGES : %d***************\n", Table.No_of_AGES);
+  printf("\n***********Table->MODEL_STATE_VARIABLES : %d***************\n", Table.MODEL_STATE_VARIABLES);
+ 
   // File to save the output of the integration.
   char * OUTPUT_INTEGRATION   = (char *)calloc(1000, sizeof(char) ); /* Output files  */
   char * pF;
@@ -190,7 +192,7 @@ int main(int argc, char **argv)
     fprintf(DEMO, "\n");
   }
   
- 
+  
   Gaussian_Pseudo_Data_Creation ( &Table ); 
 
   Model_Parameters_into_Latex_Table("Latex_Parameter_Table.tex", &Table);

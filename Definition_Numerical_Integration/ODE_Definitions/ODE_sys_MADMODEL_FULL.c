@@ -8,7 +8,9 @@ int function (double t, const double y[], double dydt[], void *params)
 {
   int i, n, j, k;
   double sum;
-  
+  int No_ages_prop;
+
+  No_ages_prop = No_of_Ages_PROP;
   Parameter_Table * Table = (Parameter_Table *)params;
 
   /* Definition of the state vector numerical order, from 0 to K, of model variables */
@@ -22,15 +24,16 @@ int function (double t, const double y[], double dydt[], void *params)
       n++; 
     }
   }
-  dydt[n+1] = sum*Table->rho;
- /*
   // Compute the sum of the denominator.
   sum = 0;
-  for(k=0; k < Table->No_PROP; k++){
-    sum = sum + (Table->Prop[k])*y[k]*(Table->rho);
+  for(k=0; k < No_ages_prop; k++){
+    
+    sum = sum + (Table->prop_vec[k])*y[k]*(Table->rho);
   }
-  dydt[n+1] = sum;
-*/
+  //dydt[n+1] = sum;
+
+  dydt[n+1] = 20;
+
   assert(Table->No_of_AGES == n);
    #if defined MADMODEL
   assert(Table->MODEL_STATE_VARIABLES == n && K == (n-1)); 
