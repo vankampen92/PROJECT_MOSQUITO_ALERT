@@ -8,11 +8,11 @@
 
 #define INTEGER_CODE_FOR_TIME_DIMENSION 0
 
-#define DEPENDENT_PARAMETERS_MAXIMUM 17  /* Maximum number of potentially forced parameters */
+#define DEPENDENT_PARAMETERS_MAXIMUM 18  /* Maximum number of potentially forced parameters */
 
-#define MODEL_PARAMETERS_MAXIMUM 17       /* Maximum No of MODEL (input) PARAMETERS */
+#define MODEL_PARAMETERS_MAXIMUM 18       /* Maximum No of MODEL (input) PARAMETERS */
 
-#define MODEL_PARAMETER_SPACE_MAXIMUM 17  /* Maximum Dimension for Parameter Space */
+#define MODEL_PARAMETER_SPACE_MAXIMUM 18  /* Maximum Dimension for Parameter Space */
 
 #define No_of_GROUPS_MAXIMUM 5
 
@@ -29,9 +29,10 @@
 #define OUTPUT_VARIABLES_GENUINE 3          /* Number Output Variables (other than MODEL_STATE_VARIABLES)*/
                                             /* See definition_OutPut_Variables.c */
 
-#define OUTPUT_VARIABLES_MAXIMUM 3003  /* MODEL_STATE_VARIABLES_MAXIMUM +
-					       OUTPUT_VARIABLES_GENUINE */
+#define OUTPUT_VARIABLES_MAXIMUM 3003  /* MODEL_STATE_VARIABLES_MAXIMUM + OUTPUT_VARIABLES_GENUINE */
+#define No_of_MAX_TIMES 2378 /*Maximum number of times in the observed data.*/
 
+#define No_of_Ages_PROP 1386 /*Number of ages in the propensity matrix.*/
 typedef struct totalRateinfo
 {
   double Total_Rate;

@@ -17,6 +17,7 @@ extern double Err_13;
 extern double Err_14;
 extern double Err_15;
 extern double Err_16;
+extern double Err_17;
 
 extern double Error_Parameter_2;
 

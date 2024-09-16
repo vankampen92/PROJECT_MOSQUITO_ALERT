@@ -99,7 +99,6 @@ typedef struct Parameter_Tableinfo
   double DETERMINISTIC_CASES; // Need by Error_Function.c 
   /* * * C P G   P L O T * * */
 
-  double * Mu_Vector;
   double * Gamma_Vector;
   int    * K_Vector;
   
@@ -129,6 +128,8 @@ typedef struct Parameter_Tableinfo
   int No_of_CELLS_Y;
   
   int No_of_AGES;
+
+  double * prop_vec;
   
 }Parameter_Table;
 

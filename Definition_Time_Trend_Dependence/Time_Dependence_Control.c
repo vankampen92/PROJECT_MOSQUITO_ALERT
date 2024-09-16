@@ -84,11 +84,9 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   char ** Name_Dummy;
   double t;
   int * Function_Parameters = (int *)calloc(3, sizeof(int) ); 
-  
   assert( TIME_DEPENDENT_PARAMETERS = TYPE_0_PARAMETERS + TYPE_1_PARAMETERS + TYPE_2_PARAMETERS);
 
   assert( No_of_EMPIRICAL_TIMES <= No_of_TIMES); 
-  
   TDC->No_of_TIMES                  = No_of_TIMES;
   TDC->No_of_EMPIRICAL_TIMES        = No_of_EMPIRICAL_TIMES;
   TDC->TIME_DEPENDENT_PARAMETERS    = TIME_DEPENDENT_PARAMETERS;
@@ -97,7 +95,6 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   TDC->TYPE_1_PARAMETERS            = TYPE_1_PARAMETERS;
   TDC->TYPE_2_PARAMETERS            = TYPE_2_PARAMETERS;
   TDC->No_of_COVARIATES             = No_of_COVARIATES;
-  
   // . TYPE_0_PARAMETERS is the number of parameters that, explicitly, depend
   // on COVARIATES. Covariates are time-varying variables that change as time a
   // increases. They may influence directly model parameters. We say they force
@@ -111,12 +108,10 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   // by external (environmental parameters) and response functions). The type of functional
   // dependency is determined by the 'forcing_pattern'.  This forcing pattern can be
   // sinusoidal, sigmoidal, a linear increase, etc. 
-  
   for(i = 0; i<TIME_DEPENDENT_PARAMETERS; i++) {
     TDC->Index_Dependent_Parameters[i] = dependent_parameter[i];
     TDC->Forcing_Pattern_Parameters[i] = forcing_pattern[i];
   }
-
   T_I_M_E___C_O_N_T_R_O_L___U_P_L_O_A_D(Time, Table, TDC->No_of_TIMES);
 
   // By default, the time vector of Time_Control structure should coincide with
@@ -130,7 +125,6 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
 					    TDC->COVARIATES, &No_of_Rows, No_of_EMPIRICAL_TIMES,
 					    1, TDC->Name_of_COVARIATES,
 					    1, TDC->Time_Vector);
-
     assert(No_of_Rows == No_of_COVARIATES);
     /* COVARIATES values determine Dependent_Parameters through response functions
      */
@@ -138,7 +132,6 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
 
     // Under construction... 
   }
-
   if(TYPE_1_PARAMETERS > 0 ) {
     double ** Type_1_Parameter_Values = (double **)calloc( TYPE_1_PARAMETERS, sizeof(double *));
     double  * Time_Empirical_Vector   = (double * )calloc( No_of_EMPIRICAL_TIMES, sizeof(double) );
@@ -150,7 +143,6 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
 					    No_of_EMPIRICAL_TIMES,
     					    0, Name_Dummy,
     					    1, Time_Empirical_Vector);
-     
     assert( No_of_Rows == TYPE_1_PARAMETERS);
 
     if( TDC->No_of_EMPIRICAL_TIMES < TDC->No_of_TIMES ) {
@@ -250,9 +242,8 @@ void Time_Dependence_Control_Upload_Optimized (Time_Control * Time,
   char ** Name_Dummy;
   double t;
   int * Function_Parameters = (int *)calloc(3, sizeof(int) ); 
-  
   assert( TIME_DEPENDENT_PARAMETERS = TYPE_0_PARAMETERS + TYPE_1_PARAMETERS + TYPE_2_PARAMETERS);
-
+  printf("\n**********************No_of_EMPIRICAL_TIMES:%d, No_of_TIMES:%d*********************\n"), No_of_EMPIRICAL_TIMES, No_of_TIMES;
   assert( No_of_EMPIRICAL_TIMES <= No_of_TIMES); 
   
   TDC->No_of_TIMES                  = No_of_TIMES;
@@ -277,22 +268,18 @@ void Time_Dependence_Control_Upload_Optimized (Time_Control * Time,
   // by external (environmental parameters) and response functions). The type of functional
   // dependency is determined by the 'forcing_pattern'.  This forcing pattern can be
   // sinusoidal, sigmoidal, a linear increase, etc. 
-  
   for(i = 0; i<TIME_DEPENDENT_PARAMETERS; i++) {
     TDC->Index_Dependent_Parameters[i] = dependent_parameter[i];
     TDC->Forcing_Pattern_Parameters[i] = forcing_pattern[i];
   }
-
   T_I_M_E___C_O_N_T_R_O_L___U_P_L_O_A_D(Time, Table, TDC->No_of_TIMES);
 
   // By default, the time vector of Time_Control structure should coincide with
   // the time vector of the Time_Dependence_Control structure:
   for(j = 0; j < No_of_TIMES; j++) TDC->Time_Vector[j] = Time->Time_Vector[j];
-
   // At the end of this function these two vectors should match!!! 
   
   if( TYPE_0_PARAMETERS > 0 ) {
-   
     /* COVARIATES values determine Dependent_Parameters through response functions
      */
     // Upload_Dependent_Parameter_Values_from_Covariates (TDC, Table);
@@ -301,7 +288,6 @@ void Time_Dependence_Control_Upload_Optimized (Time_Control * Time,
   }
 
   if(TYPE_1_PARAMETERS > 0 ) {
-   
     if( TDC->No_of_EMPIRICAL_TIMES < TDC->No_of_TIMES ) {
       // Interpolation is required for each time-dependent parameter
       for(i = TYPE_0_PARAMETERS; i < TYPE_0_PARAMETERS + TYPE_1_PARAMETERS; i++) { 
@@ -310,7 +296,6 @@ void Time_Dependence_Control_Upload_Optimized (Time_Control * Time,
 	gsl_spline_init (spline,
 			 Time_Empirical_Vector, Type_1_Parameter_Values[i-TYPE_0_PARAMETERS],
 			 No_of_EMPIRICAL_TIMES );
-
 	for( j=0; j < No_of_TIMES; j++) 
 	  TDC->Dependent_Parameter[i][j] = gsl_spline_eval( spline, Time->Time_Vector[j], acc); 
 	  
@@ -371,3 +356,5 @@ void Time_Dependence_Control_Upload_Optimized (Time_Control * Time,
 
   Table->TDC = TDC;
 }
+
+

@@ -21,7 +21,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    Execution:
 
    (1 single age group, 100 ages classe)
-   . ~$ ./MADMODELNW -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 5.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_12P_KK1.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate_12P_KK1.dat -Y1 12
+   . ~$ ./MADMODELNW -y0 0 -n 4 -v0 4 -v1 5 -v2 6 -v3 7 -sT 1.0E-04 -sN 300 -sP 2 -KK 1 -k0 100 -I0 0 -z0 0.5 -m0 0.0 -M0 1.0 -A0 0.001 -I1 1 -g0 0.01 -m1 0.0 -M1 1.0 -A1 0.001 -iP 0 -en 0 -eV 100.0 -tn 12 -t0 0.0 -t1 11.0 -t4 1 -tE 2.0 -tR 100 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Pseudo_Data_File_12P_KK1.dat -Y0 12 -F1 Time_Dependent_Downloading_Rate_12P_KK1.dat -Y1 12
 
    (True parameters: -KK 1 -z0 0.5 -g0 0.01 -k0 100) (Results file renamed as Full_Parameter_Set_Ordered_KK1.dat)
 
@@ -63,7 +63,7 @@ int main(int argc, char **argv)
   Time_Control Time;
   Time_Dependence_Control Time_Dependence;
   P_ARG = &Table;
-
+  int *Index_Output_Variables_Rand;
 #include "default.c"
 
   /* Command line arguments */
@@ -77,9 +77,20 @@ int main(int argc, char **argv)
 
 #include "include.Output_Variables.default.aux.c"
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
+	printf("\n Number of output variables:%d \n ", SUB_OUTPUT_VARIABLES);
+  // Randomized selection of variables.
+  if( SUB_OUTPUT_VARIABLES > 90){
+    Index_Output_Variables_Rand  = (int *)malloc( SUB_OUTPUT_VARIABLES * sizeof(int) );
+    rand_index_OutputVar(Index_Output_Variables_Rand, SUB_OUTPUT_VARIABLES);
+    P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables_Rand );
+  }else{
+	//poner aqui la función del randomize si es más de 60 que lo randomice.
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
-
+  }
+  
+ // P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
+ // printf(" Parameter_Table structure has been correctly allocated and initiated\n");
   Parameter_Model * Initial_Guess = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
   P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, Initial_Guess);
   printf(" Parameter_Model structure 'Initial_Guess' has been correctly allocated and initiated\n");
@@ -148,10 +159,15 @@ int main(int argc, char **argv)
   printf("\n");  // Press_Key();
   /*   END: Checking Random Number Generator Setup */
 #endif
-  Press_Key();
+ // Press_Key();
   
   char   ** Name_of_Rows          = (char **)calloc(SUB_OUTPUT_VARIABLES, sizeof(char *) );
   double ** Empirical_Data_Matrix = (double **)calloc( SUB_OUTPUT_VARIABLES, sizeof(double *) );
+  // Matrix with the full Empirical Data. After to be filter.
+  double ** Empirical_Data_Matrix_Full = (double **)calloc( No_of_MAX_TIMES, sizeof(double *) );
+  for (i=0; i<No_of_MAX_TIMES; i++) {
+    Empirical_Data_Matrix_Full[i] = (double *)calloc( No_of_MAX_TIMES, sizeof(double) );
+  }
   for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
     key = Table.OUTPUT_VARIABLE_INDEX[i];
     Name_of_Rows[i]         = Table.Output_Variable_Symbol[key];
@@ -178,8 +194,14 @@ int main(int argc, char **argv)
   pF = strcat(TIME_PARAMETERS_FILE, "Time_Dependent_Parameters.dat"); /* Default Name */
   if( No_of_FILES > 1) strcpy(TIME_PARAMETERS_FILE, Name_of_FILE[1]);
   /*     E N D -----------------------------------------------------------------------*/
-
-  if (TYPE_of_TIME_DEPENDENCE == 0) {                                 // -t4 1
+ /* B E G I N : Time Dependence Control common initization                           */
+  double ** Matrix_of_COVARIATES; 
+  double ** Type_1_Parameter_Values; 
+  double  * Time_Empirical_Vector;
+  char   ** Name_Rows_Dummy; 
+  int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
+  int No_of_Rows;                          // For example, -Y1 12 (see input argument list)
+  if (TYPE_of_TIME_DEPENDENCE == 0) {      // -t4 1
     printf(" No Time Dependence!!!\n");
     printf(" Check -t4 argument. It should be: -t4 1, but it is: -t4 %d\n",
 	   TYPE_of_TIME_DEPENDENCE);
@@ -195,41 +217,78 @@ int main(int argc, char **argv)
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
     printf(" Both Time_Control and Time_Dependence_Control structures have been\n");
     printf(" correctly allocated\n");
-    int No_of_EMPIRICAL_TIMES = F_y_GRID[1]; // No of Cols the time-dependent parameter file
-                                             // For example, -Y1 12 (see input argument list)
-    Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
-				   I_Time, No_of_EMPIRICAL_TIMES,
-				   TIME_DEPENDENT_PARAMETERS,
-				   TYPE_of_TIME_DEPENDENCE,        // -t4 1
-				   TYPE_0_PARAMETERS,              // -D0 0
-				   TYPE_1_PARAMETERS,              // -D1 1
-				   TYPE_2_PARAMETERS,              // -D2 0
-				   No_of_COVARIATES,               // -DC 0
-				   dependent_parameter, forcing_pattern, // -P0 16
-				   "File_of_Covariates.dat",
-				   TIME_PARAMETERS_FILE);
-    printf(" Time denpencies have been incluced\n");
-  }
 
-  int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
+    Type_1_Parameter_Values = (double **)calloc( TYPE_1_PARAMETERS, sizeof(double *));
+    Time_Empirical_Vector   = (double * )calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
+    for(i = 0; i<TYPE_1_PARAMETERS; i++)
+      Type_1_Parameter_Values[i] = (double *)calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
+    Reading_Standard_Data_Matrix_from_File( TIME_PARAMETERS_FILE,
+    					    Type_1_Parameter_Values, &No_of_Rows,
+					        No_of_EMPIRICAL_TIMES,
+    					    0, Name_Rows_Dummy,
+    					    1, Time_Empirical_Vector);
+    assert( No_of_Rows == TYPE_1_PARAMETERS);
+     printf("\n**********************No_of_EMPIRICAL_TIMES:%d, No_of_TIMES:%d*********************\n"), No_of_EMPIRICAL_TIMES, I_Time;
+
+    //for(i = 0; i<I_Time; i++)printf("\nTime_Empirical_Vector[%d]:%lf \n",i,Time_Empirical_Vector[i]);
+    Time_Dependence_Control_Upload_Optimized (&Time, &Time_Dependence, &Table,
+    					      I_Time, No_of_EMPIRICAL_TIMES,
+    					      TIME_DEPENDENT_PARAMETERS,
+    					      TYPE_of_TIME_DEPENDENCE,        // -t4 1
+    					      TYPE_0_PARAMETERS,              // -D0 0
+    					      TYPE_1_PARAMETERS,              // -D1 1
+    					      TYPE_2_PARAMETERS,              // -D2 0
+    					      No_of_COVARIATES,               // -DC 0
+    					      dependent_parameter, forcing_pattern, // -P0 16
+    					      Matrix_of_COVARIATES,
+    					      Type_1_Parameter_Values,
+    					      Time_Empirical_Vector);
+  }
+  /*     E N D -----------------------------------------------------------------------*/
+  
+
+  
+  int No_of_COLS_full = No_of_MAX_TIMES; // No of Columns in Observed Data File always the same size.
+  int a = No_of_MAX_TIMES;
+  // Dummy pointer since Reading_Standard_Data_Matrix_from_File needs a int pointer as third argument.
+  //int No_of_COLS = F_y_GRID[0]; // No of Columns in Observed Data File
   Reading_Standard_Data_Matrix_from_File( OBSERVED_DATA_FILE,
-					  Empirical_Data_Matrix,
-					  &SUB_OUTPUT_VARIABLES,
-					  No_of_COLS, 
+					  Empirical_Data_Matrix_Full,
+					  &a,
+					  No_of_MAX_TIMES, 
 					  0, Name_of_Rows,
 					  1, Time.Time_Vector );
-
-  Writing_Standard_Data_Matrix( Empirical_Data_Matrix,
-				SUB_OUTPUT_VARIABLES, I_Time,
-				1, Name_of_Rows,
-				0, Time.Time_Vector);
+  /*Writing_Standard_Data_Matrix( Empirical_Data_Matrix_Full,
+				No_of_MAX_TIMES,
+        No_of_MAX_TIMES ,
+				0,
+         Name_of_Rows,
+				0,
+         Time.Time_Vector);
+         */
   // Press_Key(); 
   /* B E G I N :   Reserving memmory for Observed Data and Fitting Structure */
   Observed_Data * Data = (Observed_Data *)calloc(1, sizeof(Observed_Data));
   Observed_Data_Alloc( Data, SUB_OUTPUT_VARIABLES, I_Time);
-  Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
-				I_Time, Empirical_Data_Matrix,
-				"" );
+ //Observed_Data_Initialization( Data, SUB_OUTPUT_VARIABLES,
+ //				I_Time, Empirical_Data_Matrix,
+ //				"" );
+  printf("\n Ages used for the optimization:");
+  for(j=0; j < SUB_OUTPUT_VARIABLES; j++)printf("%d \t",Table.OUTPUT_VARIABLE_INDEX[j]);
+  printf("\n Ages used for the optimization:");
+  int * Index_Output_Variables_fil = Table.OUTPUT_VARIABLE_INDEX;
+  Observed_Data_Initialization_Fil( Data, SUB_OUTPUT_VARIABLES,
+                              I_Time, Empirical_Data_Matrix_Full,
+                              Index_Output_Variables_fil ,"" );
+   printf("\n");
+  // Uncomment To chech whether the Observed Data file is well read.
+  /*printf("\n Observed Data filter:");
+  for(i=0; i < SUB_OUTPUT_VARIABLES; i++){
+    Press_Key();
+    printf("\n Row %d \n", i);
+     for(j=0; j < 100; j++)printf("%g\t", Data->N[i][j]);
+    }
+  */
   printf(" Observed_Data structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
 
@@ -254,7 +313,7 @@ int main(int argc, char **argv)
   fprintf(DEMO, "NegLogLike\n");
   /*     E N D : --------------------------------------------------------
    */
-
+  //Press_Key();
   s = 0;
   int s_Attemps   = 0;   /* This counter will count number of random seeds */
   int Total_Tries = Realizations;                                // -tR 1000
@@ -318,27 +377,26 @@ int main(int argc, char **argv)
       printf(" Min Value: NLL=%g\t Best Estimates: ", Min_Value);
 
       fprintf(DEMO, "%d:\t", s_Attemps);
-
       for(i=0; i<Table.TOTAL_No_of_MODEL_PARAMETERS; i++) {
-	key = Table.Index[i];
-	value = AssignStructValue_to_VectorEntry(key, &Table);
-	printf(" %s  = %g  ", Table.Symbol_Parameters[key], value);
-	fprintf(DEMO, "%g\t", value);
+        key = Table.Index[i];
+        value = AssignStructValue_to_VectorEntry(key, &Table);
+        printf(" %s  = %g  ", Table.Symbol_Parameters[key], value);
+        fprintf(DEMO, "%g\t", value);
       }
       for(i=0; i<No_of_IC; i++) {
-	key = Initial_Condition_Space->Parameter_Index[i];
-	value = Model_Variable_Initial_Condition_into_Vector_Entry_Table( key, &Table );
-	printf("%s = %g  ", Table.Model_Variable_Symbol[key], value);
-	fprintf(DEMO, "%g\t", value);
+        key = Initial_Condition_Space->Parameter_Index[i];
+        value = Model_Variable_Initial_Condition_into_Vector_Entry_Table( key, &Table );
+        printf("%s = %g  ", Table.Model_Variable_Symbol[key], value);
+        fprintf(DEMO, "%g\t", value);
       }
       for(i=0; i<No_of_ERROR_PARAMETERS; i++) {
-	key = Error_Space->Parameter_Index[i];
-	value = Error_Model_into_Vector_Entry_Table( key, &Table );
-	if(key < OUTPUT_VARIABLES_GENUINE)
-	  printf("%s = %g  ", Table.Output_Variable_Symbol[key], value);
-	else
-	  printf("Error_Parameter_%d = %g  ", i, value);
-	fprintf(DEMO, "%g\t", value);
+        key = Error_Space->Parameter_Index[i];
+        value = Error_Model_into_Vector_Entry_Table( key, &Table );
+        if(key < OUTPUT_VARIABLES_GENUINE)
+          printf("%s = %g  ", Table.Output_Variable_Symbol[key], value);
+        else
+          printf("Error_Parameter_%d = %g  ", i, value);
+        fprintf(DEMO, "%g\t", value);
       }
       fprintf(DEMO, "%g\n", Min_Value);
 

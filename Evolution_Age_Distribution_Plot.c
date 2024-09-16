@@ -13,8 +13,13 @@ void Evolution_Age_Distribution_Plot (Parameter_Table * Table, int j_Time)
    char * Plot_Time  = (char *)calloc( 50, sizeof(char));
    char * Time_Eraser = (char *)calloc(50, sizeof(char));
    
+   #if defined MADMODEL
    assert(Table->No_of_AGES == Table->MODEL_STATE_VARIABLES);
-   
+   #endif
+
+   #if defined MADMODEL_FULL
+   assert((Table->No_of_AGES + 1) == Table->MODEL_STATE_VARIABLES);
+   #endif
    Table->CPG->CPG_RANGE_X_0 = 0;
    Table->CPG->CPG_RANGE_X_1 = (double)Table->No_of_AGES/1.0;
    Table->CPG->CPG_RANGE_Y_0 = 0;

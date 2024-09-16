@@ -8,8 +8,13 @@ void Initial_Condition_from_Parameter_Table(Parameter_Table * Table, double *Y)
 
   /* Definition of the state vector numerical order, from 0 to K, of model variables */
 #include <Model_Variables_Code.Include.c>
-
+  #if defined MADMODEL
   assert(K == (Table->No_of_CELLS*Table->No_of_AGES-1) );
+  #endif
+
+  #if defined MADMODEL_FULL
+  assert(K == (Table->No_of_CELLS*Table->No_of_AGES) );
+  #endif
 
   for (J=0; J<Table->MODEL_STATE_VARIABLES; J++)
     Y[J] = Table->Vector_Model_Variables_Time_0[J];

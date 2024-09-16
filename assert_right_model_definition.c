@@ -9,4 +9,10 @@ void assert_right_model_definition( Parameter_Table * P )
   
 #endif
 
+#if defined MADMODEL_FULL
+  
+    assert ( P->TYPE_of_MODEL ==  1);
+  
+#endif
+
 }

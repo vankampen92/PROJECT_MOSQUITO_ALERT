@@ -1,0 +1,1 @@
+GSL_RND_SEED=98776 ./MADMODELNW -y0 0 -n 30 -sT 1.0E-04 -sN 300 -sP 1 -KK 1 -k0 100 -I0 0 -m0 0.0 -M0 1.0 -A0 0.1 -iP 0 -en 0 -eV 100.0 -tn 2378 -t0 0.0 -t1 2377 -t4 1 -tE 2.0 -tR 50 -xn 0 -xN 0.0 -xR 0 -DP 1 -DC 0 -D0 0 -D1 1 -D2 0 -P0 16 -a0 0 -Fn 2 -F0 Output_1K_100.dat -Y0 2378 -F1 Downloads_2378.dat -Y1 2378

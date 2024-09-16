@@ -35,6 +35,7 @@ EXTRA_INCLUDE_PATH+=-I${GSL_DA}####################
 EXTRA_INCLUDE_PATH+=-I${IO_DIR}
 EXTRA_INCLUDE_PATH+=-I${OPT_DIR}
 EXTRA_INCLUDE_PATH+=-I${ERROR_DIR}
+EXTRA_INCLUDE_PATH+=-L/usr/lib/x86_64-linux-gnu/
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N   C O N T R O L I N G   N U M E R I C A L   R E C I P E S
 NR=NUMERICAL_RECIPES###############################
@@ -88,7 +89,7 @@ EXE=${ODE_MODEL}${CBL}
 ##############################################################################################################
 EXTERN=#Possibilities: void (to be locally executed) / -static (to be non-locally executed) #
 ######################################## Possibilities: GA (locally executed) / GA_EXTERN (non-locally executed)
-LDFLAGS+=-lm -lgsl -lgslcblas -lDa_GSL_UTL -lda_IO -lda_Optimization -lda_Error -lNumRec -lNRUTL -L${C_NR} -lda_cpgplot_XY_GRID_FILE -lda_cpgplot_BASIC ${EXTRA_LIBRARY_PATH}
+LDFLAGS+=-lm -lDa_GSL_UTL -lda_IO -lgsl -lgslcblas -lda_Optimization -lda_Error -lNumRec -lNRUTL -L${C_NR} -lda_cpgplot_XY_GRID_FILE -lda_cpgplot_BASIC ${EXTRA_LIBRARY_PATH}
 CXXFLAGS+=${EXTRA_INCLUDE_PATH} -D${V} -D${CPG} -D${FILE}  -D${TYPE_NUMERICAL_INTEGRATION} -D${RANDOM_SEED}  -D${ODE_MODEL} -D${JACOBIAN} -D${NR} -D${STATIONARITY} -DHAVE_INLINE ${EXTERN} -g #-Wall
 ##############################################################################################################
 # either -g or some optimization opiton, for instance, -O3

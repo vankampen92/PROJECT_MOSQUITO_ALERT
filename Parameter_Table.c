@@ -20,9 +20,11 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C( Parameter_Table * Table )
   int i, j, a;
   int MODEL_OUTPUT_VARIABLES;   /* Actual no of MODEL (output) VARIABLES */
   int MODEL_INPUT_PARAMETERS;  /* Actual no of MODEL (input) PARAMETERS */
+  int No_AGES_PROP;
   
   MODEL_INPUT_PARAMETERS = MODEL_PARAMETERS_MAXIMUM;
   MODEL_OUTPUT_VARIABLES = OUTPUT_VARIABLES_MAXIMUM;
+  No_AGES_PROP = No_of_Ages_PROP;
   
   // int MODEL_STATE_VARIABLES;  /* Actual no of MODEL (state) VARIABLES 
   /* Model parameters are all input parameters defining and controling
@@ -98,9 +100,9 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C( Parameter_Table * Table )
     exit(0); 
   }
 
-  Table->Mu_Vector    = (double *)calloc(No_of_GROUPS_MAXIMUM, sizeof(double) );
   Table->Gamma_Vector = (double *)calloc(No_of_GROUPS_MAXIMUM, sizeof(double) );
   Table->K_Vector     = (int *)calloc(No_of_GROUPS_MAXIMUM, sizeof(int)); 
+  Table->prop_vec = (double *)calloc(No_AGES_PROP, sizeof(double) );
  
   /* BEGIN: Allocating and Setting up Connectivity Matrix */
   Table->Metapop_Connectivity_Matrix = (double ***)calloc(No_of_AGES_MAXIMUM,
@@ -177,9 +179,9 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( Parameter_Table * Table )
 
   free(Table->Default_Vector_Output_Variables);
 
-  free(Table->Mu_Vector);
   free(Table->Gamma_Vector);
   free(Table->K_Vector);  
+  free(Table->prop_vec);
  
   for(a=0; a<Table->No_of_AGES; a++) {  
     for(i=0; i<Table->No_of_CELLS; i++) 
@@ -193,7 +195,8 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( Parameter_Table * Table )
 void P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( Parameter_Table * Table, int * Index_Output_Variables )
 {
   int i, j, a;
-  
+  int No_AGES_PROP;
+  No_AGES_PROP = No_of_Ages_PROP;
   /* Stochastic Realizations */
   Table->Realizations = Realizations;
 
@@ -307,6 +310,10 @@ void P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( Parameter_Table * Table, int *
 	    Table->Metapop_Connectivity_Matrix[a][i][j] = Table->Mu;
 	  
   }
+
+  for(i=0; i<No_AGES_PROP; i++){
+    Table->prop_vec[i] = 0;
+  }
   /* END -------------------------------------------------*/
 
   /* This function should be called always after having called 
@@ -324,29 +331,35 @@ void Resetting_Mu_Gamma_K_Vectors (Parameter_Table * Table)
     switch(i)
       {
       case  0:
-	Table->Mu_Vector[i]    = Table->Mu_0;
 	Table->Gamma_Vector[i] = Table->Gamma_0;
 	Table->K_Vector[i]     = Table->k_0; 
 	break;
       case  1:
-	Table->Mu_Vector[i]    = Table->Mu_1;
 	Table->Gamma_Vector[i] = Table->Gamma_1;
 	Table->K_Vector[i]     = Table->k_1; 
 	break;
       case  2:
-	Table->Mu_Vector[i]    = Table->Mu_2;
 	Table->Gamma_Vector[i] = Table->Gamma_2;
 	Table->K_Vector[i]     = Table->k_2; 
 	break;
       case  3:
-	Table->Mu_Vector[i]    = Table->Mu_3;
 	Table->Gamma_Vector[i] = Table->Gamma_3;
 	Table->K_Vector[i]     = Table->k_3; 
 	break;
       case  4:
-	Table->Mu_Vector[i]    = Table->Mu_4;
 	Table->Gamma_Vector[i] = Table->Gamma_4;
 	Table->K_Vector[i]     = Table->k_4; 
+	break;
+      case  5:
+	Table->Gamma_Vector[i] = Table->Gamma_5;
+	Table->K_Vector[i]     = Table->k_5; 
+	break;
+      case  6:
+	Table->Gamma_Vector[i] = Table->Gamma_6;
+	Table->K_Vector[i]     = Table->k_6; 
+	break;
+      case  7:
+	Table->Gamma_Vector[i] = Table->Gamma_7;
 	break;
 	
       default:
@@ -375,28 +388,32 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
 {
   int i_POP; 
   
-  P->Mu_0     = Mu_0; 
   P->Gamma_0  = Gamma_0;
   P->k_0      = k_0; 
 
-  P->Mu_1     = Mu_1; 
   P->Gamma_1  = Gamma_1;
   P->k_1      = k_1; 
 
-  P->Mu_2     = Mu_2; 
   P->Gamma_2  = Gamma_2;
   P->k_2      = k_2; 
 
-  P->Mu_3     = Mu_3; 
   P->Gamma_3  = Gamma_3;
   P->k_3      = k_3; 
 
-  P->Mu_4     = Mu_4; 
   P->Gamma_4  = Gamma_4;
   P->k_4      = k_4; 
 
+  P->Gamma_5  = Gamma_5;
+  P->k_5      = k_5; 
+
+  P->Gamma_6  = Gamma_6;
+  P->k_6      = k_6; 
+
+  P->Gamma_7  = Gamma_7;
+
   P->No_of_GROUPS = No_of_GROUPS;
   P->A_Rate       = A_Rate; 
+  P->rho          = rho; 
   
   P->No_of_IC = No_of_IC;
   P->TYPE_of_INITIAL_CONDITION = TYPE_of_INITIAL_CONDITION;
@@ -428,6 +445,7 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
   P->Err_14 = Err_14;
   P->Err_15 = Err_15;
   P->Err_16 = Err_16;
+  P->Err_17 = Err_17;
 
   /* Definition of type of network */
   P->TYPE_of_NETWORK  = TYPE_of_NETWORK;
@@ -436,4 +454,87 @@ void Parameter_Values_into_Parameter_Table(Parameter_Table * P)
 				  More network structures under construction 
 			       */
   P->No_of_NEIGHBORS    = No_of_NEIGHBORS;
+}
+
+void rand_index_OutputVar(int * vec_rand, int num_ind){
+  
+  int i;
+  gsl_rng *r;
+  int rand, rand_max; 
+  int mod, integ;
+  int ind_l;
+
+  if((r = gsl_rng_alloc(gsl_rng_mt19937)) == NULL) {
+    printf("ERROR: Could not create random number generator\n");
+    exit(1);
+  }
+   printf("\n******************* num_ind : %d\n",num_ind);
+  mod = (num_ind-30)/2;
+  int int_mod = (int)mod;
+  printf("\n******************* mod : %d\n",mod);
+  ind_l = int_mod +31;
+   printf("\n******************* ind_l : %d\n",ind_l);
+  for (i=0; i<num_ind; i++){
+    if(i>=0 && i<=30){
+      vec_rand[i] = i+4;
+    }else if(i>=31 && i<=ind_l){
+      printf("\n ********************Second group age");
+        rand = gsl_rng_uniform_int(r, 1670);
+        vec_rand[i] = rand + 34;
+    }else{
+      printf("\n ********************Third group age");
+        rand = gsl_rng_uniform_int(r, 648);
+        vec_rand[i] = rand + 1704;
+    }
+    
+  }
+}
+
+void Uploading_Demographic_Parameters_into_Parameter_Table(Parameter_Table * Table, double ** Data,
+							   int k, int * Index,
+							   int No_of_PARAMETERS )
+{
+  int i, key;
+  
+  //Parameter Labels for Sigma_0, Sigma_0_r, Sigma_1, Sigma_1_r, and Alpha. 
+
+  for(i=0; i<No_of_PARAMETERS; i++) {
+    key = Index[i];
+    AssignVectorEntry_to_Structure(Table , key, Data[k][i]);
+  }     
+}
+
+void Uploading_Model_Parameters_into_Parameter_Table(Parameter_Table * Table, double ** Data,
+						     int k)
+{
+  int i, key;
+  int No_of_PARAMETERS; 
+  
+
+  No_of_PARAMETERS = Table->S->No_of_PARAMETERS;
+  
+  for(i=0; i < No_of_PARAMETERS; i++) {
+    key = Table->S->Parameter_Index[i];
+    AssignVectorEntry_to_Structure(Table , key, Data[k][i]);
+  }
+      
+}
+
+void upload_extra_vec_to_ParameterTable(char * File_Name,
+                              double * vec,
+                              int No_of_Row,
+                              Parameter_Table * Table)
+{
+  int No_of_ages;
+  int i;
+
+  Reading_vector_from_File(File_Name,vec,No_of_Row);
+  
+  No_of_ages = No_of_Ages_PROP;
+  for(i=0; i< No_of_ages;i++){
+    Table->prop_vec[i] = vec[i];
+  }
+
+ 
+
 }

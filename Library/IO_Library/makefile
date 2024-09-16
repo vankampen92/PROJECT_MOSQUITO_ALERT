@@ -22,7 +22,7 @@ CFLAGS=-g -Wall -DHAVE_INLINE ${EXTRA_INCLUDE_PATH}
 
 COMPILER=gcc -fPIC -DSHARED_OBJECT
 
-OBJECTS=IO_Procedures_Standard.o Uploading_Parameters_into_Parameter_Table.o #Build_File_of_Time_Parameters_2000_2016.o
+OBJECTS=IO_Procedures_Standard.o #Build_File_of_Time_Parameters_2000_2016.o
 
 .SUFIXES:       .o .c
 

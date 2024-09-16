@@ -17,11 +17,10 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
 	File_Name);
   if((fp=fopen(File_Name,"r")) == NULL) {
     printf("File non-existent! Cannot open file.\n");
-    printf("Program aborted!!!"); exit(1);
+    printf("Program aborted!!!");
+    exit(1);
   }
-
   if(TIMES == 1) {
-
     if(NAMES == 1) { 
       fscanf(fp, "%s\t", Name_Dummy );
       for(j=0; j < No_of_Columns; j++) {
@@ -38,7 +37,6 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
       }
     }
   }
-
   if(TIMES == 2) {
 
     if(NAMES == 1) { 
@@ -57,7 +55,6 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
       }
     }
   }
-  
   if (NAMES == 1) {
     n=0;
     while ( fscanf(fp, "%s\t", Name_Dummy) != EOF ){
@@ -92,11 +89,10 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
       
       n++;
     }
-    
     fclose(fp);
     (*No_of_Rows) = n;
   }
-  
+
   printf("\tFile %s has been read successfully\n", File_Name);
 
   free(Name_Dummy);
@@ -175,3 +171,25 @@ void Writing_Standard_Data_Matrix_to_File(char * File_Name,
   
   fclose(FP);
 }
+
+void Reading_vector_from_File(char * File_Name,
+                              double * vec,
+                              int No_of_Row)
+{
+    int i;
+    double y;
+    FILE * fp;
+
+    printf("\n [Entering function Reading_vector_from_File(...)]:\t\n\tReading File %s...\n", File_Name);
+    if((fp=fopen(File_Name,"r")) == NULL) {
+        printf("File non-existent! Cannot open file.\n");
+        printf("Program aborted!!!");
+        exit(345);
+    }
+
+    for(i=0; i<No_of_Row;i++){
+        fscanf(fp, "%lf\n", &y);
+        vec[i] = y;
+    } 
+}
+

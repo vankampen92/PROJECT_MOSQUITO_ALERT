@@ -37,7 +37,8 @@ double GSL_neglog_Error_Probability_Model_Gaussian( double Data, double Theory,
 
   if (ILL_DEFINED_CALL == 0) {
 
-    sigma = Table->Error_Parameter_0 * Theory;
+    sigma = 200;
+    //sigma = Table->Error_Parameter_0 * Theory;
 
     x       = Data - Theory;
 

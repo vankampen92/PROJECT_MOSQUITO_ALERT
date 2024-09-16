@@ -10,6 +10,7 @@ extern double CPG_RANGE_X_1;
 extern double CPG_RANGE_Y_0;
 extern double CPG_RANGE_Y_1;
 extern double A_Rate;       /* Participate in the defintion Y Axis Range */
+extern double rho;
 #endif
 
 int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
@@ -25,8 +26,8 @@ int Gaussian_Pseudo_Data_Creation( Parameter_Table * Table )
   double Sigma_Factor     = 0.05;
   
   if(Time->TYPE_of_TIME_DEPENDENCE == 1) {
-    assert( Table->TDC->TYPE_1_PARAMETERS == 1); 
-    assert( Table->TDC->Index_Dependent_Parameters[0] == 16 ); 
+    //assert( Table->TDC->TYPE_1_PARAMETERS == 1); 
+    //assert( Table->TDC->Index_Dependent_Parameters[0] == 16 ); 
     Sigma_Heuristics = Sigma_Factor *  Average_double_Vector(Table->TDC->Dependent_Parameter[0],
 							     Table->TDC->No_of_EMPIRICAL_TIMES);
   }

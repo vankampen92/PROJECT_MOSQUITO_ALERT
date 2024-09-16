@@ -36,6 +36,7 @@ EXTRA_INCLUDE_PATH+=-I${GSL_DA}####################
 EXTRA_INCLUDE_PATH+=-I${IO_DIR}
 EXTRA_INCLUDE_PATH+=-I${OPT_DIR}
 EXTRA_INCLUDE_PATH+=-I${ERROR_DIR}
+EXTRA_INCLUDE_PATH+=-L/usr/lib/x86_64-linux-gnu/
 ##############################################################################################################
 ## C O M P I L A T I O N   O P T I O N   C O N T R O L I N G   N U M E R I C A L   R E C I P E S
 NR=NUMERICAL_RECIPES###############################
